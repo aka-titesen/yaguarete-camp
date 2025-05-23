@@ -15,6 +15,7 @@ $routes->post('/enviar-form', 'Usuario_controller::formValidation');
 $routes->get('/dashboard', 'Home::a_dashboard', ['filter' => 'auth']);
 $routes->get('login', 'login_controller::index');
 $routes->post('login/auth', 'login_controller::auth');
+$routes->get('logout', 'login_controller::logout');
 
 /*
 $routes->get('dashboard', function() {

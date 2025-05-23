@@ -1,13 +1,13 @@
 <?php
 // Script para generar el hash de una contraseña
-$pass = 'INGRESA_TU_PASS'; // Cambia aquí por la contraseña que quieras
+$pass = 'pepe123'; // Cambia aquí por la contraseña que quieras
 $hash = password_hash($pass, PASSWORD_DEFAULT);
 echo "Hash para '$pass':\n$hash\n";
 
 /*
 Creación de hash para contraseñas de tipo Administrador, paso a paso:
 
-1. Abre la temrinal de Windows (PowerShell)
+1. Abre la terminal de Windows (PowerShell)
 2. Navega a la carpeta de tu proyecto;
     cd C:\xampp\htdocs\tu_proyecto
 3. Ejecuta el script usando la ruta completa al ejecutable de PHP de XAMPP:
