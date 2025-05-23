@@ -31,23 +31,33 @@ class Usuario_controller extends Controller
             echo view('front/nav_view');
         } else {
 
+            $perfil_id = $this->request->getVar('perfil_id') ?? 2; // 1=admin, 2=usuario normal
             $formModel->save([
                 'nombre' => $this->request->getVar('nombre'),
                 'apellido' => $this->request->getVar('apellido'),
                 'usuario' => $this->request->getVar('usuario'),
                 'email' => $this->request->getVar('email'),
-                'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT)
-                // password_hash() crea un nuevo hash de contraseña usando un algoritmo de hash de único sentido.
+                'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
+                'perfil_id' => $perfil_id
             ]);
-            // Flashdata funciona para mostrar mensajes de éxito o error en la vista
-            // session()->setFlashdata('success', 'Usuario registrado con exito');
-            // return $this->response->redirect(site_url('login'));
-            // session()->setFlashdata('error', 'El usuario ya existe');
-            // return $this->response->redirect(site_url('registro'));
-            // session()->setFlashdata('error', 'El email ya existe');
-            // return $this->response->redirect(site_url('registro'));
             session()->setFlashdata('success', 'Usuario registrado con exito');
-            return $this->response->redirect(site_url('/'));
+            if ($perfil_id == 1) {
+                // Si es administrador, iniciar sesión y redirigir al dashboard
+                $session = session();
+                $usuario = $formModel->where('email', $this->request->getVar('email'))->first();
+                $session->set([
+                    'id' => $usuario['id'],
+                    'nombre' => $usuario['nombre'],
+                    'apellido' => $usuario['apellido'],
+                    'email' => $usuario['email'],
+                    'usuario' => $usuario['usuario'],
+                    'perfil_id' => $usuario['perfil_id'],
+                    'isLoggedIn' => TRUE
+                ]);
+                return $this->response->redirect(site_url('dashboard'));
+            } else {
+                return $this->response->redirect(site_url('/'));
+            }
 
         }
     }

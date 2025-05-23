@@ -12,3 +12,11 @@ $routes->get('comercializacion','Home::a_comercializacion');
 $routes->get('contacto','Home::a_contacto');
 $routes->get('producto','Home::a_producto');
 $routes->post('/enviar-form', 'Usuario_controller::formValidation');
+$routes->get('/dashboard', 'Home::a_dashboard', ['filter' => 'auth']);
+$routes->get('login', 'login_controller::index');
+
+/*
+$routes->get('dashboard', function() {
+    echo view('front/dashboard');
+}, ['filter' => 'auth']);
+*/

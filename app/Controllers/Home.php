@@ -51,4 +51,14 @@ class Home extends BaseController
         echo view("front/producto");
         echo view("front/layouts/footer");
     }
+
+    
+    public function a_dashboard(): void
+    {
+        echo view("front/layouts/header");
+        echo view("front/layouts/navbar");
+        echo view("front/dashboard");
+        echo view("front/layouts/footer");
+    }
+
 }

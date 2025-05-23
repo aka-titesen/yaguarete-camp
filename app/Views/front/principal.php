@@ -364,6 +364,22 @@
   </div>
 </section>
 
+<?php if (session()->getFlashdata('showLogin')): ?>
+<script>
+  window.onload = function() {
+    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+    loginModal.show();
+  }
+</script>
+<?php endif; ?>
+<?php if (session()->getFlashdata('msg')): ?>
+  <?php $msg = session()->getFlashdata('msg'); ?>
+  <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+    <?= is_array($msg) ? $msg['body'] : $msg ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+<?php endif; ?>
+
 
 
 
