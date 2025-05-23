@@ -58,19 +58,38 @@
             <i class="fas fa-user-circle"></i> <span class="d-lg-none">Mi Cuenta</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-            <li>
-              <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
-                <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal">
-                <i class="fas fa-user-plus me-2"></i> Registrarse
-              </a>
-            </li>
+            <?php if (session()->get('isLoggedIn')): ?>
+              <li>
+                <span class="dropdown-item-text fw-bold">
+                  <i class="fas fa-user me-2"></i>
+                  <?= esc(session()->get('nombre')) ?> <?= esc(session()->get('apellido')) ?>
+                </span>
+              </li>
+              <!-- DEBUG: Mostrar perfil_id en sesión -->
+              <li>
+                <span class="dropdown-item-text text-muted small">
+                  perfil_id: <?= esc(session()->get('perfil_id')) ?>
+                </span>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="<?= base_url('logout') ?>">
+                  <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
+                </a>
+              </li>
+            <?php else: ?>
+              <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                  <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal">
+                  <i class="fas fa-user-plus me-2"></i> Registrarse
+                </a>
+              </li>
+            <?php endif; ?>
           </ul>
         </li>
 
@@ -169,18 +188,25 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <?php if (session()->getFlashdata('msg')): ?>
+          <?php $msg = session()->getFlashdata('msg'); ?>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <?= is_array($msg) ? $msg['body'] : $msg ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
+        <?php endif; ?>
+        <form method="post" action="<?= base_url('login/auth') ?>">
           <!-- Validación del correo electrónico -->
           <div class="mb-3">
             <label for="loginEmail" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="loginEmail" placeholder="Ingresa tu correo electrónico"
+            <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Ingresa tu correo electrónico"
               pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" title="Por favor, ingresa un correo válido" required>
           </div>
 
           <!-- Validación de la contraseña -->
           <div class="mb-3">
             <label for="loginPassword" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="loginPassword" placeholder="Ingresa tu contraseña"
+            <input type="password" class="form-control" id="loginPassword" name="pass" placeholder="Ingresa tu contraseña"
               pattern=".{8,}" title="La contraseña debe tener al menos 8 caracteres" required>
           </div>
 

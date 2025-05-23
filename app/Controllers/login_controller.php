@@ -5,7 +5,8 @@ use App\Models\Usuarios_model;
 
 class login_controller extends Controller{
     public function index(){
-        helper(['form', 'url']);
+        // Redirigir siempre a la página principal para mantener el layout y estilos
+        return redirect()->to('/');
     }
     public function auth(){
         $session = session();
@@ -18,7 +19,8 @@ class login_controller extends Controller{
         if($data){
             if(isset($data['baja']) && $data['baja'] == 'SI'){
                 $session->setFlashdata('msg', 'Usuario dado de baja');
-                return redirect()->to('/login');
+                $session->setFlashdata('showLogin', true);
+                return redirect()->to('/');
             }
             if(password_verify($pass, $data['pass'])){
                 $ses_data = [
@@ -38,11 +40,13 @@ class login_controller extends Controller{
                 }
             } else {
                 $session->setFlashdata('msg', 'Contraseña incorrecta');
-                return redirect()->to('/login');
+                $session->setFlashdata('showLogin', true);
+                return redirect()->to('/');
             }
         } else {
             $session->setFlashdata('msg', 'Email incorrecto');
-            return redirect()->to('/login');
+            $session->setFlashdata('showLogin', true);
+            return redirect()->to('/');
         }
     }
 
