@@ -93,6 +93,5 @@
             <a href="<?= base_url('/') ?>" class="btn btn-secondary"><i class="fas fa-home"></i> Volver al inicio</a>
         </div>
     </div>
-    <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
 </body>
 </html>

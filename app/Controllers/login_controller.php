@@ -46,12 +46,9 @@ class login_controller extends Controller{
             return redirect()->to('/');
         }
     }
-
     public function logout(){
         $session = session(); //Iniciamos el objeto session()
         $session->destroy(); //Destruimos la sesión
         return redirect()->to('/'); //Redirigimos al login
     }
-
-
 }
