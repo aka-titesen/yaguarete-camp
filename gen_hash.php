@@ -1,6 +1,6 @@
 <?php
 // Script para generar el hash de una contraseña
-$pass = 'pepe123'; // Cambia aquí por la contraseña que quieras
+$pass = ''; // Cambia aquí por la contraseña que quieras
 $hash = password_hash($pass, PASSWORD_DEFAULT);
 echo "Hash para '$pass':\n$hash\n";
 

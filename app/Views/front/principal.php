@@ -1,3 +1,12 @@
+<?php
+// Mostrar mensajes flash de acceso o advertencia (Auth)
+$msg = session()->getFlashdata('msg');
+if ($msg): ?>
+  <div class="alert alert-<?= isset($msg['type']) ? esc($msg['type']) : 'info' ?> alert-dismissible fade show mt-3" role="alert">
+    <?= is_array($msg) ? esc($msg['body']) : esc($msg) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+<?php endif; ?>
 <!-- Sección Carrusel ajustada a pantalla completa -->
 <section class="carousel-section">
   <div
