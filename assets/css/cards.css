@@ -138,3 +138,34 @@
   font-family: var(--font-destacado);
   letter-spacing: 0.5px;
 }
+
+/* Estilos para las cards del dashboard de administración */
+.card-dashboard {
+  transition: box-shadow 0.2s;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
+  border: 2px solid var(--verde-selva, #1b5e20);
+  background: var(--gradiente-cards, #fff);
+  border-radius: 12px;
+}
+.card-dashboard:hover, .card-dashboard:focus {
+  /* Sin cambio de fondo ni color en hover */
+  box-shadow: 0 8px 15px rgba(27,94,32,0.15);
+}
+.card-dashboard .card-title {
+  color: var(--verde-selva, #1b5e20);
+  font-weight: bold;
+}
+.card-dashboard .card-body i {
+  color: var(--verde-selva, #1b5e20);
+}
+
+/* Hover solo en los links de acceso del dashboard */
+.card-dashboard .dashboard-link {
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.card-dashboard .dashboard-link:hover, .card-dashboard .dashboard-link:focus {
+  background: var(--naranja-ardiente, #ff9800);
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(255,152,0,0.15);
+  text-decoration: none;
+}
