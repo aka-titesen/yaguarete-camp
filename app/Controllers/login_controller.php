@@ -19,7 +19,6 @@ class login_controller extends Controller{
         if($data){
             if(isset($data['baja']) && $data['baja'] == 'SI'){
                 $session->setFlashdata('msg', 'Usuario dado de baja');
-                $session->setFlashdata('showLogin', true);
                 return redirect()->to('/');
             }
             if(password_verify($pass, $data['pass'])){
@@ -40,12 +39,10 @@ class login_controller extends Controller{
                 }
             } else {
                 $session->setFlashdata('msg', 'Contraseña incorrecta');
-                $session->setFlashdata('showLogin', true);
                 return redirect()->to('/');
             }
         } else {
             $session->setFlashdata('msg', 'Email incorrecto');
-            $session->setFlashdata('showLogin', true);
             return redirect()->to('/');
         }
     }

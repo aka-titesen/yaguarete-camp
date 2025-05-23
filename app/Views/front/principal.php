@@ -373,15 +373,6 @@ if ($msg): ?>
   </div>
 </section>
 
-<?php if (session()->getFlashdata('showLogin')): ?>
-<script>
-  window.onload = function() {
-    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-    loginModal.show();
-  }
-</script>
-<?php endif; ?>
-
 
 
 

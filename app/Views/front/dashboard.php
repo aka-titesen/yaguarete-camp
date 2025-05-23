@@ -93,7 +93,6 @@
             <a href="<?= base_url('/') ?>" class="btn btn-secondary"><i class="fas fa-home"></i> Volver al inicio</a>
         </div>
     </div>
-    <?php include(APPPATH.'Views/front/layouts/footer.php'); ?>
     <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
 </body>
 </html>
