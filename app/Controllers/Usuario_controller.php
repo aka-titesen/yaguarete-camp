@@ -28,10 +28,9 @@ class Usuario_controller extends Controller
             echo view('front/head_view', $data);
             echo view('back/usuario/registro', ['validation' => $this->validator]);
             echo view('front/footer_view');
-            echo view('front/nav_view');
-        } else {
+            echo view('front/nav_view');        } else {
 
-            $perfil_id = $this->request->getVar('perfil_id') ?? 2; // 1=admin, 2=usuario normal
+            $perfil_id = $this->request->getVar('perfil_id') ?? 1; // Por defecto: 1=Cliente según BD
             $formModel->save([
                 'nombre' => $this->request->getVar('nombre'),
                 'apellido' => $this->request->getVar('apellido'),
@@ -39,14 +38,12 @@ class Usuario_controller extends Controller
                 'email' => $this->request->getVar('email'),
                 'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
                 'perfil_id' => $perfil_id
-            ]);
-            session()->setFlashdata('success', 'Usuario registrado con exito');
-            if ($perfil_id == 1) {
+            ]);            session()->setFlashdata('success', 'Usuario registrado con exito');
+            if ($perfil_id == 2) { // Si es administrador según BD
                 // Si es administrador, iniciar sesión y redirigir al dashboard
                 $session = session();
-                $usuario = $formModel->where('email', $this->request->getVar('email'))->first();
-                $session->set([
-                    'id' => $usuario['id'],
+                $usuario = $formModel->where('email', $this->request->getVar('email'))->first();                $session->set([
+                    'id' => $usuario['id'], // Usar clave primaria estándar
                     'nombre' => $usuario['nombre'],
                     'apellido' => $usuario['apellido'],
                     'email' => $usuario['email'],

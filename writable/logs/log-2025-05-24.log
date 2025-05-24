@@ -1,0 +1,20 @@
+CRITICAL - 2025-05-24 18:52:48 --> ErrorException: Undefined array key "id"
+[Method: POST, Route: login/auth]
+in APPPATH\Controllers\login_controller.php on line 26.
+ 1 APPPATH\Controllers\login_controller.php(26): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id"', 'C:\\xampp\\htdocs\\proyecto_Martinez_Gonzalez\\app\\Controllers\\login_controller.php', 26)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\login_controller->auth()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login_controller))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-24 18:55:34 --> ErrorException: Undefined array key "id"
+[Method: POST, Route: login/auth]
+in APPPATH\Controllers\login_controller.php on line 26.
+ 1 APPPATH\Controllers\login_controller.php(26): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id"', 'C:\\xampp\\htdocs\\proyecto_Martinez_Gonzalez\\app\\Controllers\\login_controller.php', 26)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\login_controller->auth()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login_controller))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

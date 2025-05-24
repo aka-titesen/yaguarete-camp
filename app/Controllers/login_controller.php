@@ -3,11 +3,11 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Usuarios_model;
 
-class login_controller extends Controller{
-    public function index(){
+class login_controller extends Controller{    public function index(){
         // Redirigir siempre a la página principal para mantener el layout y estilos
         return redirect()->to('/');
     }
+    
     public function auth(){
         $session = session();
         $model = new Usuarios_model();
@@ -21,20 +21,19 @@ class login_controller extends Controller{
                 $session->setFlashdata('msg', 'Usuario dado de baja');
                 return redirect()->to('/');
             }
-            if(password_verify($pass, $data['pass'])){
-                $ses_data = [
-                    'id' => $data['id'],
+            if(password_verify($pass, $data['pass'])){                $ses_data = [
+                    'id' => $data['id'], // Usar clave primaria estándar
                     'nombre' => $data['nombre'],
                     'apellido' => $data['apellido'],
                     'email' => $data['email'],
                     'usuario' => $data['usuario'],
                     'perfil_id' => $data['perfil_id'],
-                    'isLoggedIn' => TRUE
-                ];
+                    'isLoggedIn' => TRUE];
                 $session->set($ses_data);
-                if($data['perfil_id'] == 1){
+                // Según la BD: 1=Cliente, 2=Administrador, 3=Vendedor
+                if($data['perfil_id'] == 2){ // Solo administradores van al dashboard
                     return redirect()->to('/dashboard');
-                } else {
+                } else { // Clientes (1) y Vendedores (3) van al sitio principal
                     return redirect()->to('/');
                 }
             } else {

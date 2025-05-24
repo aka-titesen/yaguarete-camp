@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class Usuarios_model extends Model
 {
     protected $table = 'usuarios';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id'; // Estandarizado con el resto de tablas
     protected $allowedFields = ['nombre', 'apellido', 'usuario', 'email', 'pass', 'perfil_id', 'baja'];
 }
 ?>
