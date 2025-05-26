@@ -24,11 +24,10 @@ class Usuario_controller extends Controller
         );
         $formModel = new Usuarios_model();
         if (!$input) {
-            $data['titulo'] = 'Registro';
-            echo view('front/head_view', $data);
-            echo view('back/usuario/registro', ['validation' => $this->validator]);
-            echo view('front/footer_view');
-            echo view('front/nav_view');        } else {
+            // Si la validación falla, redirige a la página principal y muestra los errores en la sesión
+            session()->setFlashdata('validation', $this->validator);
+            return redirect()->to('/');
+        } else {
 
             $perfil_id = $this->request->getVar('perfil_id') ?? 1; // Por defecto: 1=Cliente según BD
             $formModel->save([

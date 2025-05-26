@@ -74,7 +74,7 @@
 
     <!-- Listado de productos -->
     <div class="card mt-4">
-        <div class="card-header bg-verde-selva text-white">
+        <div class="card-header bg-verde-selva text-negro">
             <i class="fas fa-list"></i> Productos registrados
         </div>
         <div class="table-responsive">
