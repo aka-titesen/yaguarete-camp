@@ -65,7 +65,6 @@
             </div>
         </div>
     </div>
-    <div class="text-center mt-5">
-        <a href="<?= base_url('/') ?>" class="btn btn-secondary"><i class="fas fa-home"></i> Volver al inicio</a>
-    </div>
+    <br>
+    <br>
 </div>
