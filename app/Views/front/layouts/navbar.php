@@ -71,7 +71,7 @@
           <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
             <i class="fas fa-user-circle"></i> <span class="d-lg-none">Mi Cuenta</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" style="min-width: 250px;">
             <?php if (session()->get('isLoggedIn')): ?>
               <li>
                 <span class="dropdown-item-text fw-bold">
@@ -81,8 +81,22 @@
               </li>
               <!-- DEBUG: Mostrar perfil_id en sesión -->
               <li>
-                <span class="dropdown-item-text text-muted small">
-                  perfil_id: <?= esc(session()->get('perfil_id')) ?>
+                <span class="dropdown-item-text text-white small">
+                  <?php if (session()->get('perfil_id')): ?>
+                    Usuario: 
+                    <?php 
+                      $perfil = session()->get('perfil_id');
+                      if ($perfil == 1) {
+                        echo 'Cliente';
+                      } elseif ($perfil == 2) {
+                        echo 'Administrador';
+                      } elseif ($perfil == 3) {
+                        echo 'Vendedor';
+                      } else {
+                        echo 'Desconocido';
+                      }
+                    ?>
+                  <?php endif; ?>
                 </span>
               </li>
               <li><hr class="dropdown-divider"></li>
