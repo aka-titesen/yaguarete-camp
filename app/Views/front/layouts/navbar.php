@@ -29,7 +29,17 @@
     <div class="collapse navbar-collapse mt-2" id="navbarNav">
       <ul class="navbar-nav ms-auto nav-spacing">
         
-         <!-- Menú +info -->
+        <!-- Acceso para administradores -->
+        <?php if (session()->get('perfil_id') == 2 && session()->get('isLoggedIn')): ?>
+        <li class="nav-item mx-1">
+          <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('dashboard') ?>">
+            <div class="position-relative me-1"></div>
+            <span class="ms-1">ADMIN</span>
+          </a>
+        </li>
+        <?php endif; ?>
+        
+        <!-- Menú +info -->
         <li class="nav-item dropdown mx-1">
           <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
             + Info

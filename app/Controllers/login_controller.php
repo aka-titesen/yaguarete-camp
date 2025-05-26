@@ -31,11 +31,8 @@ class login_controller extends Controller{    public function index(){
                     'isLoggedIn' => TRUE];
                 $session->set($ses_data);
                 // Según la BD: 1=Cliente, 2=Administrador, 3=Vendedor
-                if($data['perfil_id'] == 2){ // Solo administradores van al dashboard
-                    return redirect()->to('/dashboard');
-                } else { // Clientes (1) y Vendedores (3) van al sitio principal
-                    return redirect()->to('/');
-                }
+                // Ya no redirigimos a dashboard, todos van al sitio principal
+                return redirect()->to('/');
             } else {
                 $session->setFlashdata('msg', 'Contraseña incorrecta');
                 return redirect()->to('/');
