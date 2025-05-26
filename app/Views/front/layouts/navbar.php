@@ -28,6 +28,20 @@
     <!-- Menú colapsable -->
     <div class="collapse navbar-collapse mt-2" id="navbarNav">
       <ul class="navbar-nav ms-auto nav-spacing">
+        
+         <!-- Menú +info -->
+        <li class="nav-item dropdown mx-1">
+          <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+            + Info
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="<?= base_url('sobreNosotros') ?>">Sobre nosotros</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('termYCondiciones') ?>">Términos y condiciones</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('comercializacion') ?>">Comercialización</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('contacto') ?>">Contacto</a></li>
+          </ul>
+        </li>
+        
         <!-- Menú Productos -->
         <li class="nav-item dropdown mx-1">
           <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
