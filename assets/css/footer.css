@@ -12,6 +12,7 @@ main {
 
 footer {
   position: relative;
+  margin-top: auto;
   bottom: 0;
   width: 100%; 
   background-color: var(--azul-profundo); 

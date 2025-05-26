@@ -89,34 +89,6 @@
                         <th scope="col" class="text-center">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Ejemplo de producto, reemplazar por foreach de productos -->
-                    <?php foreach ($productos as $producto): ?>
-                    <tr>
-                        <td>
-                            <img src="<?= base_url('uploads/' . esc($producto['imagen'])) ?>" alt="Miniatura" width="60" height="60" style="object-fit:cover; border-radius:8px;">
-                        </td>
-                        <td><?= esc($producto['nombre']) ?></td>
-                        <td><?= esc($producto['categoria_nombre']) ?></td>
-                        <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
-                        <td><?= esc($producto['stock']) ?></td>
-                        <td class="text-center">
-                            <a href="<?= base_url('admin/productos/editar/' . $producto['id']) ?>" class="btn btn-sm btn-outline-primary me-1" title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="<?= base_url('admin/productos/eliminar/' . $producto['id']) ?>" class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este producto?')">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                    <!-- Si no hay productos -->
-                    <?php if (empty($productos)): ?>
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">No hay productos registrados.</td>
-                    </tr>
-                    <?php endif; ?>
-                </tbody>
             </table>
         </div>
     </div>
