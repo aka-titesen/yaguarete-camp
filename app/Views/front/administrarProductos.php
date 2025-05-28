@@ -10,14 +10,16 @@
     </div>
 
     <!-- Modal para añadir producto -->
-    <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="modalAgregarProductoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="modalAgregarProductoLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-verde-selva text-white">
-                    <h5 class="modal-title" id="modalAgregarProductoLabel"><i class="fas fa-box"></i> Añadir producto</h5>
+                    <h5 class="modal-title" id="modalAgregarProductoLabel"><i class="fas fa-box"></i> Añadir producto
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <form method="post" action="<?= base_url('admin/productos/crear') ?>" enctype="multipart/form-data">
+                <form method="post" action="<?= base_url('/crear-producto') ?>" enctype="multipart/form-data">
                     <?= csrf_field(); ?>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -40,11 +42,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="costo" class="form-label">Costo</label>
-                            <input type="number" class="form-control" id="costo" name="costo" min="0" step="0.01" required>
+                            <input type="number" class="form-control" id="costo" name="costo" min="0" step="0.01"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="precio" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="precio" name="precio" min="0" step="0.01" required>
+                            <input type="number" class="form-control" id="precio" name="precio" min="0" step="0.01"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="stock" class="form-label">Stock</label>
@@ -89,6 +93,41 @@
                         <th scope="col" class="text-center">Acciones</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <?php if (!empty($productos)): ?>
+                        <?php foreach ($productos as $producto): ?>
+                            <tr>
+                                <td>
+                                    <?php if (!empty($producto['imagen'])): ?>
+                                        <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" alt="Miniatura"
+                                            width="60" height="60" style="object-fit:cover; border-radius:8px;">
+                                    <?php else: ?>
+                                        <span class="text-muted">Sin imagen</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?= esc($producto['nombre']) ?></td>
+                                <td><?= esc($producto['categoria_nombre'] ?? $producto['categoria_id']) ?></td>
+                                <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
+                                <td><?= esc($producto['stock']) ?></td>
+                                <td class="text-center">
+                                    <a href="<?= base_url('admin/productos/editar/' . $producto['id']) ?>"
+                                        class="btn btn-sm btn-outline-primary me-1" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="<?= base_url('admin/productos/eliminar/' . $producto['id']) ?>"
+                                        class="btn btn-sm btn-outline-danger" title="Eliminar"
+                                        onclick="return confirm('¿Seguro que deseas eliminar este producto?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No hay productos registrados.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
             </table>
         </div>
     </div>
