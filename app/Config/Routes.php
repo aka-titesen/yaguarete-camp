@@ -17,16 +17,7 @@ $routes->get('login', 'login_controller::index');
 $routes->post('login/auth', 'login_controller::auth');
 $routes->get('logout', 'login_controller::logout');
 $routes->post('/crear-producto', 'Producto_controller::formValidation', ['filter' => 'auth']);
-//$routes->get(from:'administrarProductos', 'Home::a_administrarProductos', ['filter' => 'auth']);
-
-
-
-$routes->get('administrarProductos', function(){
-    echo view("front/layouts/header");
-    echo view("front/layouts/navbar");
-    echo view("front/administrarProductos");
-    echo view("front/layouts/footer");
-}, ['filter' => 'auth']);
+$routes->get('administrarProductos', 'Home::a_administrarProductos', ['filter' => 'auth']);
 
 /*
 $routes->get('dashboard', function() {
