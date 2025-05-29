@@ -24,7 +24,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre_prod" maxlength="100" required>
                         </div>
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>
@@ -41,14 +41,12 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="costo" class="form-label">Costo</label>
-                            <input type="number" class="form-control" id="costo" name="costo" min="0" step="0.01"
-                                required>
+                            <label for="precio" class="form-label">Precio de compra</label>
+                            <input type="number" class="form-control" id="precio" name="precio" min="0" step="0.01" required>
                         </div>
                         <div class="mb-3">
-                            <label for="precio" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="precio" name="precio" min="0" step="0.01"
-                                required>
+                            <label for="precio_vta" class="form-label">Precio de venta</label>
+                            <input type="number" class="form-control" id="precio_vta" name="precio_vta" min="0" step="0.01" required>
                         </div>
                         <div class="mb-3">
                             <label for="stock" class="form-label">Stock</label>
@@ -57,13 +55,6 @@
                         <div class="mb-3">
                             <label for="stock_min" class="form-label">Stock mínimo</label>
                             <input type="number" class="form-control" id="stock_min" name="stock_min" min="0" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eliminado" class="form-label">Estado</label>
-                            <select class="form-select" id="eliminado" name="eliminado" required>
-                                <option value="NO" selected>Activo</option>
-                                <option value="SI">Eliminado</option>
-                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
