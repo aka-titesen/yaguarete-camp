@@ -23,7 +23,10 @@ class ProductoController extends Controller
             'titulo' => 'Gestión de Productos',
             'productos' => $productos
         ];
-        echo view('front/administrarProductos', $data);
+            echo view('front/layouts/header');
+            echo view('front/layouts/navbar');
+            echo view('front/administrarProductos', $data);
+            echo view('front/layouts/footer');
     }
 
     public function creaproducto()
@@ -83,7 +86,6 @@ class ProductoController extends Controller
 
         $productoModel = new Producto_model();
         $productoModel->insert($data);
-        session()->setFlashdata('success', 'Alta Exitosa...');
         return $this->response->redirect(site_url('administrarProductos'));
     }
 }

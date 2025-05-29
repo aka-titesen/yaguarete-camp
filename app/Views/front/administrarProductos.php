@@ -1,4 +1,14 @@
 <?php // Vista de gestión de productos para el administrador ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <!-- Estilos personalizados -->
+    <link href="<?= base_url('assets/css/miestilo.css') ?>" rel="stylesheet">
+</head>
+<body>
 <div class="container mt-5 pt-4">
     <h2 class="mb-4 text-center"><i class="fas fa-box"></i> Gestión de Productos</h2>
 
@@ -96,7 +106,7 @@
                                         <span class="text-muted">Sin imagen</span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= esc($producto['nombre']) ?></td>
+                                <td><?= esc($producto['nombre_prod']) ?></td>
                                 <td><?= esc($producto['categoria_nombre'] ?? $producto['categoria_id']) ?></td>
                                 <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
                                 <td><?= esc($producto['stock']) ?></td>
@@ -123,3 +133,7 @@
         </div>
     </div>
 </div>
+<br>
+<br>
+</body>
+</html>
