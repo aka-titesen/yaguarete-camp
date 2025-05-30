@@ -77,7 +77,66 @@
         </div>
     </div>
 
+    <!-- Modal para editar producto -->
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalEditarProductoLabel"><i class="fas fa-edit"></i> Editar producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <form id="formEditarProducto" method="post" enctype="multipart/form-data">
+                    <?= csrf_field(); ?>
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_id" name="id">
+                        <div class="mb-3">
+                            <label for="edit_nombre_prod" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="edit_nombre_prod" name="nombre_prod" maxlength="100" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_imagen" class="form-label">Imagen (opcional)</label>
+                            <input type="file" class="form-control" id="edit_imagen" name="imagen" accept="image/*">
+                            <div id="edit_imagen_actual" class="mt-2"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_categoria_id" class="form-label">Categoría</label>
+                            <select class="form-select" id="edit_categoria_id" name="categoria" required>
+                                <option value="">Selecciona una categoría</option>
+                                <option value="1">Camping</option>
+                                <option value="2">Montañismo</option>
+                                <option value="3">Pesca</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_precio" class="form-label">Precio de compra</label>
+                            <input type="number" class="form-control" id="edit_precio" name="precio" min="0" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_precio_vta" class="form-label">Precio de venta</label>
+                            <input type="number" class="form-control" id="edit_precio_vta" name="precio_vta" min="0" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_stock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="edit_stock" name="stock" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_stock_min" class="form-label">Stock mínimo</label>
+                            <input type="number" class="form-control" id="edit_stock_min" name="stock_min" min="0" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-save"></i> Guardar cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Listado de productos -->
+    <!-- añadir estado de de productos (eliminado si no) -->
+
     <div class="card mt-4">
         <div class="card-header bg-verde-selva text-negro">
             <i class="fas fa-list"></i> Productos registrados
@@ -111,10 +170,12 @@
                                 <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
                                 <td><?= esc($producto['stock']) ?></td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('admin/productos/editar/' . $producto['id']) ?>"
-                                        class="btn btn-sm btn-outline-primary me-1" title="Editar">
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-primary me-1 btn-editar-producto"
+                                        title="Editar"
+                                        data-id="<?= $producto['id'] ?>">
                                         <i class="fas fa-edit"></i>
-                                    </a>
+                                    </button>
                                     <a href="<?= base_url('admin/productos/eliminar/' . $producto['id']) ?>"
                                         class="btn btn-sm btn-outline-danger" title="Eliminar"
                                         onclick="return confirm('¿Seguro que deseas eliminar este producto?')">
@@ -133,7 +194,43 @@
         </div>
     </div>
 </div>
+
 <br>
 <br>
+
+<script>
+    // Pasar datos del producto al modal de edición
+    const productos = <?php echo json_encode($productos); ?>;
+    document.querySelectorAll('.btn-editar-producto').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const producto = productos.find(p => p.id == id);
+            if (producto) {
+                document.getElementById('edit_id').value = producto.id;
+                document.getElementById('edit_nombre_prod').value = producto.nombre_prod;
+                document.getElementById('edit_categoria_id').value = producto.categoria_id;
+                document.getElementById('edit_precio').value = producto.precio;
+                document.getElementById('edit_precio_vta').value = producto.precio_vta;
+                document.getElementById('edit_stock').value = producto.stock;
+                document.getElementById('edit_stock_min').value = producto.stock_min;
+                // Imagen actual
+                let imagenHtml = '';
+                if (producto.imagen) {
+                    imagenHtml = `<img src='<?= base_url('assets/uploads/') ?>/${producto.imagen}' alt='Imagen actual' width='60' class='rounded mb-2'><br><span class='text-muted'>Imagen actual</span>`;
+                } else {
+                    imagenHtml = `<span class='text-muted'>Sin imagen</span>`;
+                }
+                document.getElementById('edit_imagen_actual').innerHTML = imagenHtml;
+                // Set form action
+                // Cambia la ruta para que apunte al método correcto en tu controlador
+                // document.getElementById('formEditarProducto').action = `<?= base_url('admin/productos/editar/') ?>${producto.id}`;
+                document.getElementById('formEditarProducto').action = `<?= base_url('ProductoController/modifica/') ?>${producto.id}`;
+                // Mostrar modal
+                var modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
+                modal.show();
+            }
+        });
+    });
+</script>
 </body>
 </html>

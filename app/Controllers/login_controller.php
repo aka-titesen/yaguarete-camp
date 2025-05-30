@@ -3,7 +3,9 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Usuarios_model;
 
-class login_controller extends Controller{    public function index(){
+class login_controller extends Controller{    
+    
+    public function index(){
         // Redirigir siempre a la página principal para mantener el layout y estilos
         return redirect()->to('/');
     }
@@ -21,7 +23,8 @@ class login_controller extends Controller{    public function index(){
                 $session->setFlashdata('msg', 'Usuario dado de baja');
                 return redirect()->to('/');
             }
-            if(password_verify($pass, $data['pass'])){                $ses_data = [
+            if(password_verify($pass, $data['pass'])){                
+                $ses_data = [
                     'id' => $data['id'], // Usar clave primaria estándar
                     'nombre' => $data['nombre'],
                     'apellido' => $data['apellido'],

@@ -18,6 +18,7 @@ $routes->post('login/auth', 'login_controller::auth');
 $routes->get('logout', 'login_controller::logout');
 $routes->post('/crear-producto', 'ProductoController::store', ['filter' => 'auth']);
 $routes->get('administrarProductos', 'ProductoController::index', ['filter' => 'auth']);
+$routes->post('ProductoController/modifica/(:num)', 'ProductoController::modifica/$1', ['filter' => 'auth']);
 
 /*
 $routes->get('dashboard', function() {

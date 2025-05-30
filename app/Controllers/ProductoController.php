@@ -88,4 +88,42 @@ class ProductoController extends Controller
         $productoModel->insert($data);
         return $this->response->redirect(site_url('administrarProductos'));
     }
+
+    public function modifica($id)
+    {
+        $productoModel = new Producto_model();
+        $producto = $productoModel->where('id', $id)->first();
+        $img = $this->request->getFile('imagen');
+
+        if ($img && $img->isValid()) {
+            // Se cargó una imagen válida correctamente
+            $nombre_aleatorio = $img->getRandomName();
+            $img->move(ROOTPATH . 'assets/uploads/', $nombre_aleatorio);
+            $data = [
+                'nombre_prod'  => $this->request->getVar('nombre_prod'),
+                'imagen'       => $img->getName(),
+                'categoria_id' => $this->request->getVar('categoria'),
+                'precio'       => $this->request->getVar('precio'),
+                'precio_vta'   => $this->request->getVar('precio_vta'),
+                'stock'        => $this->request->getVar('stock'),
+                'stock_min'    => $this->request->getVar('stock_min'),
+                // 'eliminado' => 'NO',
+            ];
+        } else {
+            // No se cargó una nueva imagen, solo actualiza los datos del producto sin sobrescribir la imagen
+            $data = [
+                'nombre_prod'  => $this->request->getVar('nombre_prod'),
+                'categoria_id' => $this->request->getVar('categoria'),
+                'precio'       => $this->request->getVar('precio'),
+                'precio_vta'   => $this->request->getVar('precio_vta'),
+                'stock'        => $this->request->getVar('stock'),
+                'stock_min'    => $this->request->getVar('stock_min'),
+                // 'eliminado' => 'NO',
+            ];
+        }
+
+        $productoModel->update($id, $data);
+        session()->setFlashdata('success', 'Modificación Exitosa...');
+        return $this->response->redirect(site_url('administrarProductos'));
+    }
 }
