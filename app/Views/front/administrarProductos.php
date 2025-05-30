@@ -176,7 +176,7 @@
                                         data-id="<?= $producto['id'] ?>">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <a href="<?= base_url('admin/productos/eliminar/' . $producto['id']) ?>"
+                                    <a href="<?= base_url('ProductoController/deleteproducto/' . $producto['id']) ?>"
                                         class="btn btn-sm btn-outline-danger" title="Eliminar"
                                         onclick="return confirm('¿Seguro que deseas eliminar este producto?')">
                                         <i class="fas fa-trash-alt"></i>

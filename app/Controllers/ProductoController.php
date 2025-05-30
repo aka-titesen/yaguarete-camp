@@ -17,8 +17,8 @@ class ProductoController extends Controller
     public function index()
     {
         $productoModel = new Producto_model();
-        $productos = $productoModel->getProductoAll(); // función en el modelo
-
+        // Solo productos no eliminados
+        $productos = $productoModel->where('eliminado !=', 'SI')->orWhere('eliminado', null)->findAll();
         $data = [
             'titulo' => 'Gestión de Productos',
             'productos' => $productos
@@ -124,6 +124,15 @@ class ProductoController extends Controller
 
         $productoModel->update($id, $data);
         session()->setFlashdata('success', 'Modificación Exitosa...');
+        return $this->response->redirect(site_url('administrarProductos'));
+    }
+
+    public function deleteproducto($id)
+    {
+        $productoModel = new Producto_model();
+        $data = $productoModel->where('id', $id)->first();
+        $data['eliminado'] = 'SI';
+        $productoModel->update($id, $data);
         return $this->response->redirect(site_url('administrarProductos'));
     }
 }
