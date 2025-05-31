@@ -343,35 +343,6 @@ if ($msg): ?>
 
 <?= view('front/layouts/ubicacionHorarios'); ?>
 
-<!-- Newsletter -->
-<section class="seccion-newsletter text-white">
-  <div class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <h3>
-          <i class="fas fa-envelope-open-text me-2"></i>Mantente informado
-        </h3>
-        <p class="texto-destacado">
-          Recibe novedades, ofertas exclusivas y consejos para tus aventuras
-        </p>
-      </div>
-      <div class="col-md-6">
-        <form class="d-flex gap-2">
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            placeholder="Ingresa tu correo electrónico"
-            pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" 
-            title="Por favor, ingresa un correo válido"
-            required
-          >
-          <button class="btn btn-cta">Suscribirse</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 
