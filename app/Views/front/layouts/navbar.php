@@ -33,8 +33,8 @@
         <?php if (session()->get('perfil_id') == 2 && session()->get('isLoggedIn')): ?>
         <li class="nav-item mx-1">
           <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('dashboard') ?>">
-            <div class="position-relative me-1"></div>
-            <span class="ms-1">ADMIN</span>
+            <i class="fas fa-tools me-1"></i>
+            <span class="ms-1">Dashboard</span>
           </a>
         </li>
         <?php endif; ?>
