@@ -1,8 +1,8 @@
 <footer class="bg-dark text-white py-4">
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center align-items-stretch text-center text-md-start">
             <!-- Sección Newsletter -->
-            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center newsletter-footer">
+            <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-start justify-content-center mb-4 mb-md-0">
                 <div class="w-100 mb-2 text-center text-md-start">
                     <h4 class="fw-bold mb-1" style="color:#2e5d3b;"><i class="fas fa-briefcase me-2"></i> Mantente
                         informado</h4>
@@ -17,36 +17,42 @@
                 </form>
             </div>
             <!-- Sección Métodos de Pago -->
-            <div class="col-md-4">
-                <h5 class="text-center">Métodos de Pago</h5>
-                <ul class="list-unstyled text-center">
-                    <li class="mb-2">
+            <div class="col-12 col-md-4 d-flex flex-column align-items-center justify-content-center mb-4 mb-md-0">
+                <h5 class="text-center mb-3">Métodos de Pago</h5>
+                <ul class="list-unstyled d-flex flex-wrap justify-content-center align-items-center gap-3 mb-0">
+                    <li>
                         <a href="https://www.visa.com.ar" target="_blank">
-                            <img src="assets/img/metodos_pago/visa.png" alt="Visa" class="img-fluid me-2 logo-hover"
+                            <img src="assets/img/metodos_pago/visa.png" alt="Visa" class="img-fluid logo-hover"
                                 style="width: 70px;">
                         </a>
+                    </li>
+                    <li>
                         <a href="https://www.mastercard.com.ar" target="_blank">
                             <img src="assets/img/metodos_pago/mastercard.png" alt="MasterCard"
-                                class="img-fluid me-2 logo-hover" style="width: 70px;">
+                                class="img-fluid logo-hover" style="width: 70px;">
                         </a>
+                    </li>
+                    <li>
                         <a href="https://www.mercadopago.com.ar" target="_blank">
                             <img src="assets/img/metodos_pago/mercadopago.png" alt="Mercado Pago"
-                                class="img-fluid me-2 logo-hover" style="width: 120px;">
+                                class="img-fluid logo-hover" style="width: 120px;">
                         </a>
+                    </li>
+                    <li>
                         <a href="https://www.pagofacil.com.ar" target="_blank">
                             <img src="assets/img/metodos_pago/pagoFacil.png" alt="Pago Facil"
-                                class="img-fluid me-2 logo-hover" style="width: 50px;">
+                                class="img-fluid logo-hover" style="width: 50px;">
                         </a>
+                    </li>
                 </ul>
             </div>
-
             <!-- Sección Formulario de Contacto y Redes Sociales -->
-            <div class="col-md-4 text-center text-md-end">
-                <button class="btn btn-cta rounded-pill shadow mb-3" data-bs-toggle="modal"
+            <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-end justify-content-center">
+                <button class="btn btn-cta shadow mb-3" style="border-radius:2rem; min-width:170px;" data-bs-toggle="modal"
                     data-bs-target="#contactoModal">
                     <i class="fas fa-envelope me-2"></i>Contacto
                 </button>
-                <p class="mt-2 text-white small">Comunícate con nosotros</p>
+                <p class="mt-2 text-white small mb-2">Comunícate con nosotros</p>
                 <div class="d-flex gap-3 justify-content-center justify-content-md-end mb-3">
                     <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
                         <i class="fab fa-facebook fs-4 text-white"></i>
