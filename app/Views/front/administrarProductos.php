@@ -136,6 +136,28 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación de eliminación de producto -->
+    <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-labelledby="modalConfirmarEliminarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="modalConfirmarEliminarLabel"><i class="fas fa-trash-alt"></i> Confirmar eliminación</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                </div>
+                <div class="modal-footer">
+                    <form id="formEliminarProducto" method="post">
+                        <?= csrf_field(); ?>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Listado de productos -->
     <!-- añadir estado de de productos (eliminado si no) -->
 
@@ -178,11 +200,13 @@
                                         data-id="<?= $producto['id'] ?>">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <a href="<?= base_url('ProductoController/deleteproducto/' . $producto['id']) ?>"
-                                        class="btn btn-sm btn-outline-danger" title="Eliminar"
-                                        onclick="return confirm('¿Seguro que deseas eliminar este producto?')">
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-danger me-1 btn-eliminar-producto"
+                                        title="Eliminar"
+                                        data-id="<?= $producto['id'] ?>"
+                                        data-action="<?= base_url('ProductoController/deleteproducto/' . $producto['id']) ?>">
                                         <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -207,5 +231,17 @@
     window.baseEditUrl = "<?= base_url('ProductoController/modifica/') ?>";
 </script>
 <script src="<?= base_url('assets/js/editarProducto.js') ?>"></script>
+<script>
+    // Modal de confirmación de eliminación
+    document.querySelectorAll('.btn-eliminar-producto').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const action = this.getAttribute('data-action');
+            document.getElementById('formEliminarProducto').action = action;
+            var modal = new bootstrap.Modal(document.getElementById('modalConfirmarEliminar'));
+            modal.show();
+        });
+    });
+</script>
 </body>
 </html>

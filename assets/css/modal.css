@@ -1,1 +1,38 @@
-/* No hay estilos en uso actualmente para el modal de edición de producto. Archivo reservado para futuros estilos de modales personalizados. */
+/* Mejoras visuales para el modal de confirmación de eliminación */
+#modalConfirmarEliminar .modal-header {
+    background: #fff !important;
+    color: #222 !important;
+    border-bottom: 2px solid #e74c3c;
+    justify-content: center;
+}
+#modalConfirmarEliminar .modal-title {
+    color: #222 !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+#modalConfirmarEliminar .modal-title i {
+    color: #e74c3c !important;
+    font-size: 1.5em;
+}
+#modalConfirmarEliminar .modal-footer {
+    border-top: none;
+    justify-content: center;
+}
+#modalConfirmarEliminar .btn-danger {
+    background: #e74c3c;
+    border: none;
+    transition: background 0.2s, transform 0.2s;
+}
+#modalConfirmarEliminar .btn-danger:hover, #modalConfirmarEliminar .btn-danger:focus {
+    background: #b71c1c;
+    transform: scale(1.07);
+}
+#modalConfirmarEliminar .btn-secondary {
+    background: #222;
+    border: none;
+}
+#modalConfirmarEliminar .btn-secondary:hover {
+    background: #444;
+}
