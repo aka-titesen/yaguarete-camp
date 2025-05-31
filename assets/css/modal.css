@@ -36,3 +36,42 @@
 #modalConfirmarEliminar .btn-secondary:hover {
     background: #444;
 }
+
+/* Mejoras visuales para el modal de confirmación de reactivación */
+#modalConfirmarReactivar .modal-header {
+    background: #fff !important;
+    color: #222 !important;
+    border-bottom: 2px solid #27ae60;
+    justify-content: center;
+}
+#modalConfirmarReactivar .modal-title {
+    color: #222 !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+#modalConfirmarReactivar .modal-title i {
+    color: #27ae60 !important;
+    font-size: 1.5em;
+}
+#modalConfirmarReactivar .modal-footer {
+    border-top: none;
+    justify-content: center;
+}
+#modalConfirmarReactivar .btn-success {
+    background: #27ae60;
+    border: none;
+    transition: background 0.2s, transform 0.2s;
+}
+#modalConfirmarReactivar .btn-success:hover, #modalConfirmarReactivar .btn-success:focus {
+    background: #145a32;
+    transform: scale(1.07);
+}
+#modalConfirmarReactivar .btn-secondary {
+    background: #222;
+    border: none;
+}
+#modalConfirmarReactivar .btn-secondary:hover {
+    background: #444;
+}

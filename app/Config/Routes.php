@@ -21,6 +21,7 @@ $routes->get('administrarProductos', 'ProductoController::index', ['filter' => '
 $routes->post('ProductoController/modifica/(:num)', 'ProductoController::modifica/$1', ['filter' => 'auth']);
 $routes->get('ProductoController/deleteproducto/(:num)', 'ProductoController::deleteproducto/$1', ['filter' => 'auth']);
 $routes->post('ProductoController/deleteproducto/(:num)', 'ProductoController::deleteproducto/$1', ['filter' => 'auth']);
+$routes->post('ProductoController/activarproducto/(:num)', 'ProductoController::activarproducto/$1', ['filter' => 'auth']);
 
 /*
 $routes->get('dashboard', function() {
