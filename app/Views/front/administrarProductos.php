@@ -7,6 +7,8 @@
     <title>Gestión de Productos</title>
     <!-- Estilos personalizados -->
     <link href="<?= base_url('assets/css/miestilo.css') ?>" rel="stylesheet">
+    <!-- Importa los estilos del modal de edición de producto -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/modal.css') ?>">
 </head>
 <body>
 <div class="container mt-5 pt-4">
@@ -81,9 +83,9 @@
     <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="modalEditarProductoLabel"><i class="fas fa-edit"></i> Editar producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <div class="modal-header bg-verde-selva text-white">
+                    <h5 class="modal-title text-amarillo-sistema" id="modalEditarProductoLabel"><i class="fas fa-edit"></i> Editar producto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <form id="formEditarProducto" method="post" enctype="multipart/form-data">
                     <?= csrf_field(); ?>
@@ -125,7 +127,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-cta w-100">
                             <i class="fas fa-save"></i> Guardar cambios
                         </button>
                     </div>
@@ -199,38 +201,11 @@
 <br>
 
 <script>
-    // Pasar datos del producto al modal de edición
-    const productos = <?php echo json_encode($productos); ?>;
-    document.querySelectorAll('.btn-editar-producto').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            const producto = productos.find(p => p.id == id);
-            if (producto) {
-                document.getElementById('edit_id').value = producto.id;
-                document.getElementById('edit_nombre_prod').value = producto.nombre_prod;
-                document.getElementById('edit_categoria_id').value = producto.categoria_id;
-                document.getElementById('edit_precio').value = producto.precio;
-                document.getElementById('edit_precio_vta').value = producto.precio_vta;
-                document.getElementById('edit_stock').value = producto.stock;
-                document.getElementById('edit_stock_min').value = producto.stock_min;
-                // Imagen actual
-                let imagenHtml = '';
-                if (producto.imagen) {
-                    imagenHtml = `<img src='<?= base_url('assets/uploads/') ?>/${producto.imagen}' alt='Imagen actual' width='60' class='rounded mb-2'><br><span class='text-muted'>Imagen actual</span>`;
-                } else {
-                    imagenHtml = `<span class='text-muted'>Sin imagen</span>`;
-                }
-                document.getElementById('edit_imagen_actual').innerHTML = imagenHtml;
-                // Set form action
-                // Cambia la ruta para que apunte al método correcto en tu controlador
-                // document.getElementById('formEditarProducto').action = `<?= base_url('admin/productos/editar/') ?>${producto.id}`;
-                document.getElementById('formEditarProducto').action = `<?= base_url('ProductoController/modifica/') ?>${producto.id}`;
-                // Mostrar modal
-                var modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
-                modal.show();
-            }
-        });
-    });
+    // Variables globales para JS externo
+    window.productosData = <?php echo json_encode($productos); ?>;
+    window.baseUploadsUrl = "<?= base_url('assets/uploads/') ?>";
+    window.baseEditUrl = "<?= base_url('ProductoController/modifica/') ?>";
 </script>
+<script src="<?= base_url('assets/js/editarProducto.js') ?>"></script>
 </body>
 </html>
