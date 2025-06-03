@@ -227,7 +227,8 @@
                             <th scope="col">Miniatura</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Categoría</th>
-                            <th scope="col">Precio</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col">Precio venta</th>
                             <th scope="col">Stock</th>
                             <th scope="col" class="text-center">Acciones</th>
                         </tr>
@@ -246,8 +247,16 @@
                                             <?php endif; ?>
                                         </td>
                                         <td><?= esc($producto['nombre_prod']) ?></td>
-                                        <td><?= esc($producto['categoria_nombre'] ?? $producto['categoria_id']) ?></td>
+                                        <td><?= esc([
+    '1' => 'Camping',
+    '2' => 'Pesca',
+    '3' => 'Ropa',
+    '4' => 'Calzado',
+    '5' => 'Mochilas',
+    '6' => 'Accesorios',
+][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
                                         <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
+                                        <td>$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></td>
                                         <td><?= esc($producto['stock']) ?></td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-editar-producto"
@@ -272,8 +281,16 @@
                                             <?php endif; ?>
                                         </td>
                                         <td><?= esc($producto['nombre_prod']) ?></td>
-                                        <td><?= esc($producto['categoria_nombre'] ?? $producto['categoria_id']) ?></td>
+                                        <td><?= esc([
+    '1' => 'Camping',
+    '2' => 'Pesca',
+    '3' => 'Ropa',
+    '4' => 'Calzado',
+    '5' => 'Mochilas',
+    '6' => 'Accesorios',
+][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
                                         <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
+                                        <td>$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></td>
                                         <td><?= esc($producto['stock']) ?></td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-sm btn-outline-success me-1 btn-activar-producto"

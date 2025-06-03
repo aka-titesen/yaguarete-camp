@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\Producto_model;
 
 class Home extends BaseController
 {
@@ -71,10 +72,13 @@ class Home extends BaseController
 
     public function a_catalogoProductos(): void
     {
-        echo view("front/layouts/header");
-        echo view("front/layouts/navbar");
-        echo view("front/catalogoProductos");
-        echo view("front/layouts/footer");
+        $productoModel = new Producto_model();
+        $productos = $productoModel->getProductoAll();
+        $data = ['productos' => $productos];
+        echo view('front/layouts/header');
+        echo view('front/layouts/navbar');
+        echo view('front/catalogoProductos', $data);
+        echo view('front/layouts/footer');
     }
 
 }
