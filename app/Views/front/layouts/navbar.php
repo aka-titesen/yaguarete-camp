@@ -58,7 +58,7 @@
             Productos
           </a>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="#">PROXIMAMENTE</a></li>
+            <li><a class="dropdown-item" href="#">Ver todos</a></li>
           </ul>
         </li>
 

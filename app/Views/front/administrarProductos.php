@@ -53,8 +53,11 @@
                                     <option value="">Selecciona una categoría</option>
                                     <!-- Aquí deberías cargar dinámicamente las categorías -->
                                     <option value="1">Camping</option>
-                                    <option value="2">Montañismo</option>
-                                    <option value="3">Pesca</option>
+                                    <option value="2">Pesca</option>
+                                    <option value="3">Ropa</option>
+                                    <option value="4">Calzado</option>
+                                    <option value="5">Mochilas</option>
+                                    <option value="6">Accesorios</option>
                                 </select>
                             </div>
                             <div class="mb-3">
