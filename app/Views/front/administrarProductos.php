@@ -292,6 +292,9 @@
             </div>
         </div>
     </div>
+    <!-- NO QUITAR SALTOS DE LINEA -->
+     <br>
+     <br>
     <script>
         // Variables globales para JS externo
         window.productosData = <?php echo json_encode($productos); ?>;
