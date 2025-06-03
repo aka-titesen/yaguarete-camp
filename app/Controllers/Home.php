@@ -69,4 +69,12 @@ class Home extends BaseController
         echo view("front/layouts/footer");
     }
 
+    public function a_catalogoProductos(): void
+    {
+        echo view("front/layouts/header");
+        echo view("front/layouts/navbar");
+        echo view("front/catalogoProductos");
+        echo view("front/layouts/footer");
+    }
+
 }

@@ -11,6 +11,7 @@ $routes->get('termYCondiciones','Home::term_Y_Condiciones');
 $routes->get('comercializacion','Home::a_comercializacion');
 $routes->get('contacto','Home::a_contacto');
 $routes->get('producto','Home::a_producto');
+$routes->get('catalogoProductos','Home::a_catalogoProductos');
 $routes->post('/enviar-form', 'Usuario_controller::formValidation');
 $routes->get('/dashboard', 'Home::a_dashboard', ['filter' => 'auth']);
 $routes->get('login', 'login_controller::index');
