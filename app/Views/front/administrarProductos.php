@@ -214,8 +214,6 @@
         </div>
 
         <!-- Listado de productos -->
-        <!-- añadir estado de de productos (eliminado si no) -->
-
         <div class="card mt-4">
             <div class="card-header bg-verde-selva text-negro">
                 <i class="fas fa-list"></i> Productos registrados
