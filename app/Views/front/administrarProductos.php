@@ -117,11 +117,14 @@
                             </div>
                             <div class="mb-3">
                                 <label for="edit_categoria_id" class="form-label">Categoría</label>
-                                <select class="form-select" id="edit_categoria_id" name="categoria" required>
+                                <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
                                     <option value="">Selecciona una categoría</option>
                                     <option value="1">Camping</option>
-                                    <option value="2">Montañismo</option>
-                                    <option value="3">Pesca</option>
+                                    <option value="2">Pesca</option>
+                                    <option value="3">Ropa</option>
+                                    <option value="4">Calzado</option>
+                                    <option value="5">Mochilas</option>
+                                    <option value="6">Accesorios</option>
                                 </select>
                             </div>
                             <div class="mb-3">

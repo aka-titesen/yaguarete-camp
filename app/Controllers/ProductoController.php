@@ -102,7 +102,7 @@ class ProductoController extends Controller
             $data = [
                 'nombre_prod' => $this->request->getVar('nombre_prod'),
                 'imagen' => $img->getName(),
-                'categoria_id' => $this->request->getVar('categoria'),
+                'categoria_id' => $this->request->getVar('categoria_id'),
                 'precio' => $this->request->getVar('precio'),
                 'precio_vta' => $this->request->getVar('precio_vta'),
                 'stock' => $this->request->getVar('stock'),
@@ -113,7 +113,7 @@ class ProductoController extends Controller
             // No se cargó una nueva imagen, solo actualiza los datos del producto sin sobrescribir la imagen
             $data = [
                 'nombre_prod' => $this->request->getVar('nombre_prod'),
-                'categoria_id' => $this->request->getVar('categoria'),
+                'categoria_id' => $this->request->getVar('categoria_id'),
                 'precio' => $this->request->getVar('precio'),
                 'precio_vta' => $this->request->getVar('precio_vta'),
                 'stock' => $this->request->getVar('stock'),
