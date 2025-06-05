@@ -44,7 +44,7 @@ if ($msg): ?>
           <p class="lead">
             Tiendas y sacos de dormir con 25% OFF
           </p>
-          <button class="btn btn-cta btn-lg" onclick="location.href='#productos-destacados'">Ver Colección</button>
+          <a class="btn btn-cta btn-lg" href="<?= base_url( 'catalogoProductos') ?>">Ver Colección</a>
         </div>
       </div>
 
@@ -60,7 +60,7 @@ if ($msg): ?>
           <p class="lead">
             Equipamiento especializado para la flora y fauna de Corrientes
           </p>
-          <button class="btn btn-cta btn-lg" onclick="location.href='#ofertas-relampago'">Descubrir</button>
+          <a class="btn btn-cta btn-lg" href="<?= base_url( 'catalogoProductos') ?>">Descubrir</a>
         </div>
       </div>
     </div>
