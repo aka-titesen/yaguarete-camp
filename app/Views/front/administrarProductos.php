@@ -216,6 +216,11 @@
             </select>
         </div>
 
+        <!-- Buscador por nombre de producto -->
+        <div class="mb-3 d-flex justify-content-end align-items-center">
+            <input type="text" id="buscadorNombreProducto" class="form-control w-auto me-2" placeholder="Buscar por nombre..." style="min-width:220px;">
+        </div>
+
         <!-- Listado de productos -->
         <div class="card mt-4">
             <div class="card-header bg-verde-selva text-negro">
@@ -327,6 +332,24 @@
     <script src="<?= base_url('assets/js/filtroProductos.js') ?>"></script>
     <script src="<?= base_url('assets/js/reactivarProducto.js') ?>"></script>
     <script src="<?= base_url('assets/js/modalReactivarProducto.js') ?>"></script>
+    <script>
+        // Buscador por nombre de producto
+        document.addEventListener('DOMContentLoaded', function() {
+            const buscador = document.getElementById('buscadorNombreProducto');
+            const filas = document.querySelectorAll('#tablaProductosBody tr');
+            buscador.addEventListener('input', function() {
+                const texto = this.value.toLowerCase();
+                filas.forEach(fila => {
+                    const nombre = fila.querySelector('td:nth-child(2)');
+                    if (nombre && nombre.textContent.toLowerCase().includes(texto)) {
+                        fila.style.display = '';
+                    } else {
+                        fila.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
