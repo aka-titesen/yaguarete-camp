@@ -213,7 +213,6 @@ if ($msg): ?>
   <div class="contenido-paralaje">
     <h3>Experiencias únicas en la naturaleza</h3>
     <p>Descubre nuestros productos de alta calidad para tus aventuras al aire libre</p>
-    <a class="btn btn-transparente" onclick="location.href='#productos-destacados'">Explorar equipamiento</a>
   </div>
 </section>
 
@@ -318,7 +317,6 @@ if ($msg): ?>
   <div class="contenido-paralaje">
     <h3>Conecta con la naturaleza</h3>
     <p>El mejor equipamiento para tus expediciones de pesca y aventura</p>
-    <a onclick="location.href='#productos-destacados'" class="btn btn-transparente">Ver colección</a>
   </div>
 </section>
 
