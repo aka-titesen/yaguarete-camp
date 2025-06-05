@@ -10,7 +10,7 @@
                         exclusivas y consejos para tus aventuras</p>
                 </div>
                 <form class="d-flex w-100 justify-content-center justify-content-md-start gap-2"
-                    style="max-width:600px;">
+                    style="max-width:600px;" id="newsletterForm">
                     <input type="email" class="form-control" placeholder="Tu email" required
                         style="min-width:220px;">
                     <button type="submit" class="btn btn-cta fw-bold" style="border-radius:0;">Suscribirse</button>
@@ -110,6 +110,13 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/carouselError.js"></script>
     <script src="assets/js/timer.js"></script>
+    <script>
+    // Mensaje "próximamente" al enviar newsletter
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('¡Próximamente te podrás suscribir!');
+    });
+    </script>
 </footer>
 </body>
 
