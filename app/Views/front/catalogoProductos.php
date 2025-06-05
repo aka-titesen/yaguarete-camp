@@ -19,6 +19,12 @@
             </div>
         </div>
     </form>
+    <!-- Buscador por nombre de producto -->
+    <div class="row mb-3 justify-content-end">
+        <div class="col-auto">
+            <input type="text" id="buscadorNombreCatalogo" class="form-control" placeholder="Buscar por nombre..." style="min-width:220px;">
+        </div>
+    </div>
     <div class="row g-4" id="productosCatalogo">
         <?php if (!empty($productos)): ?>
             <?php foreach ($productos as $producto): ?>
@@ -55,16 +61,25 @@
     </div>
 </div>
 <script>
-// Filtro de productos por categoría solo en la vista
+// Filtro y buscador de productos por categoría y nombre en la vista
 const filtro = document.getElementById('filtroCategoria');
-filtro.addEventListener('change', function() {
-    const cat = this.value;
+const buscador = document.getElementById('buscadorNombreCatalogo');
+
+function filtrarCatalogo() {
+    const cat = filtro.value;
+    const texto = buscador.value.toLowerCase();
     document.querySelectorAll('.producto-card').forEach(card => {
-        if (!cat || card.getAttribute('data-categoria') === cat) {
+        const nombre = card.querySelector('.card-title');
+        const coincideNombre = nombre && nombre.textContent.toLowerCase().includes(texto);
+        const coincideCategoria = !cat || card.getAttribute('data-categoria') === cat;
+        if (coincideNombre && coincideCategoria) {
             card.style.display = '';
         } else {
             card.style.display = 'none';
         }
     });
-});
+}
+
+filtro.addEventListener('change', filtrarCatalogo);
+buscador.addEventListener('input', filtrarCatalogo);
 </script>
