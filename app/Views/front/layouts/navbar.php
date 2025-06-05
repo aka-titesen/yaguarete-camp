@@ -39,6 +39,13 @@
         </li>
         <?php endif; ?>
         
+        <!-- Menú Productos -->
+        <li class="nav-item mx-1">
+          <a class="nav-link text-white" href="<?= base_url('catalogoProductos') ?>">
+            Productos
+          </a>
+        </li>
+
         <!-- Menú +info -->
         <li class="nav-item dropdown mx-1">
           <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
@@ -52,28 +59,15 @@
           </ul>
         </li>
         
-        <!-- Menú Productos -->
-        <li class="nav-item dropdown mx-1">
-          <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
-            Productos
+        <!-- Menú Carrito -->
+        <li class="nav-item mx-1">
+          <a class="nav-link text-white d-flex align-items-center" href="#">
+            <div class="position-relative me-1">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-pill">3</span>
+            </div>
+            <span class="ms-1">Carrito</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="<?= base_url( 'catalogoProductos') ?>">Ver todos</a></li>
-          </ul>
-        </li>
-
-        <!-- Menú Guías -->
-        <li class="nav-item dropdown mx-1">
-          <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
-            Guías
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li>
-              <a class="dropdown-item"
-                href="https://tpwd.texas.gov/publications/pwdpubs/media/pwd_bk_k0700_0639e.pdf">Tus primeros pasos</a>
-            </li>
-            <li><a class="dropdown-item" href="https://www.guiadecamping.com/manual_camping.htm">Camping</a></li>
-          </ul>
         </li>
 
         <!-- Menú Usuario -->
@@ -130,20 +124,12 @@
             <?php endif; ?>
           </ul>
         </li>
-
-        <li class="nav-item mx-1">
-          <a class="nav-link text-white d-flex align-items-center" href="#">
-            <div class="position-relative me-1">
-              <i class="fas fa-shopping-cart"></i>
-              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-pill">3</span>
-            </div>
-            <span class="ms-1">Carrito</span>
-          </a>
-        </li>
       </ul>
     </div>
   </div>
 </nav>
+
+
 <!-- Espaciador para compensar el navbar fijo -->
 <div class="navbar-spacer"></div>
 </header>
