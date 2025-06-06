@@ -57,20 +57,26 @@
 <!-- Productos relacionados -->
 <div class="container mt-5">
     <h3 class="mb-4"><i class="fas fa-link me-2"></i>Productos relacionados</h3>
-    <div class="row" id="relacionadosRow">
+    <div class="row g-4" id="relacionadosRow">
         <?php if (!empty($relacionados)): ?>
             <?php foreach ($relacionados as $rel): ?>
-                <div class="col-6 col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <a href="<?= base_url('detalle-producto/' . $rel['id']) ?>" class="text-decoration-none">
+                <div class="col-6 col-md-6 col-lg-4 producto-card" data-categoria="<?= esc($rel['categoria_id']) ?>">
+                    <div class="card card-producto h-100">
+                        <a href="<?= base_url('producto/' . $rel['id']) ?>" class="text-decoration-none">
                             <?php if (!empty($rel['imagen'])): ?>
                                 <img src="<?= base_url('assets/uploads/' . esc($rel['imagen'])) ?>" class="card-img-top" alt="<?= esc($rel['nombre_prod']) ?>">
                             <?php else: ?>
                                 <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h6 class="card-title text-dark mb-2"><?= esc($rel['nombre_prod']) ?></h6>
-                                <div class="text-success fw-bold mb-1">$<?= number_format($rel['precio_vta'], 2, ',', '.') ?></div>
+                                <h5 class="card-title mb-2"><?= esc($rel['nombre_prod']) ?></h5>
+                                <p class="card-text mb-1">Categoría: <?php
+                                    $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
+                                    echo esc($cats[$rel['categoria_id']] ?? $rel['categoria_id']);
+                                ?></p>
+                                <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($rel['stock']) ?></small></p>
+                                <h4 class="text-success mb-2">$<?= number_format($rel['precio_vta'], 2, ',', '.') ?></h4>
+                                <p class="cuotas-info mb-3">3 cuotas sin interés</p>
                             </div>
                         </a>
                     </div>
@@ -81,6 +87,7 @@
         <?php endif; ?>
     </div>
 </div>
+<br>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
