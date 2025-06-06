@@ -1,4 +1,3 @@
-
 <div class="container detalle-producto">
     <div class="row">
         <!-- Imagen del producto -->        <div class="col-md-6">
@@ -50,109 +49,36 @@
                         <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
                     </button>
                 </div>
-                
-                <button class="btn btn-volver" onclick="history.back()">
-                    <i class="fas fa-arrow-left me-2"></i>Volver al Catálogo
-                </button>
             </div>
         </div>
     </div>
-    
-    <!-- Medios de pago aceptados -->
-    <div class="row">
-        <div class="col-12">
-            <div class="medios-pago">
-                <h5><i class="fas fa-credit-card me-2"></i>Medios de Pago Aceptados</h5>
-                
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="pago-card">
-                            <i class="fab fa-cc-visa pago-icon visa"></i>
-                            <div>
-                                <strong>Visa</strong>
-                                <br><small class="text-muted">Crédito y débito</small>
+</div>
+
+<!-- Productos relacionados -->
+<div class="container mt-5">
+    <h3 class="mb-4"><i class="fas fa-link me-2"></i>Productos relacionados</h3>
+    <div class="row" id="relacionadosRow">
+        <?php if (!empty($relacionados)): ?>
+            <?php foreach ($relacionados as $rel): ?>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <a href="<?= base_url('detalle-producto/' . $rel['id']) ?>" class="text-decoration-none">
+                            <?php if (!empty($rel['imagen'])): ?>
+                                <img src="<?= base_url('assets/uploads/' . esc($rel['imagen'])) ?>" class="card-img-top" alt="<?= esc($rel['nombre_prod']) ?>">
+                            <?php else: ?>
+                                <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h6 class="card-title text-dark mb-2"><?= esc($rel['nombre_prod']) ?></h6>
+                                <div class="text-success fw-bold mb-1">$<?= number_format($rel['precio_vta'], 2, ',', '.') ?></div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="pago-card">
-                            <i class="fab fa-cc-mastercard pago-icon mastercard"></i>
-                            <div>
-                                <strong>Mastercard</strong>
-                                <br><small class="text-muted">Crédito y débito</small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="pago-card">
-                            <i class="fab fa-cc-amex pago-icon amex"></i>
-                            <div>
-                                <strong>American Express</strong>
-                                <br><small class="text-muted">Crédito</small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="pago-card">
-                            <i class="fas fa-mobile-alt pago-icon mercadopago"></i>
-                            <div>
-                                <strong>MercadoPago</strong>
-                                <br><small class="text-muted">Transferencia inmediata</small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="pago-card">
-                            <i class="fas fa-money-bill-wave pago-icon efectivo"></i>
-                            <div>
-                                <strong>Efectivo</strong>
-                                <br><small class="text-muted">En sucursal</small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="pago-card">
-                            <i class="fas fa-university pago-icon transferencia"></i>
-                            <div>
-                                <strong>Transferencia Bancaria</strong>
-                                <br><small class="text-muted">CBU disponible</small>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-      <!-- Información adicional -->
-    <div class="row info-adicional">
-        <div class="col-12">
-            <div class="card info-card">
-                <div class="card-header info-header bg-verde-selva text-white">
-                    <h5 class="mb-0 text-center"><i class="fas fa-info-circle me-2"></i>Información Adicional</h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="row g-0">
-                        <div class="col-md-4 info-item">
-                            <h6><i class="fas fa-truck me-2 text-primary"></i>Envío</h6>
-                            <p class="text-muted">Envío gratis en compras superiores a $50.000</p>
-                        </div>
-                        <div class="col-md-4 info-item">
-                            <h6><i class="fas fa-shield-alt me-2 text-success"></i>Garantía</h6>
-                            <p class="text-muted">6 meses de garantía del fabricante</p>
-                        </div>
-                        <div class="col-md-4 info-item">
-                            <h6><i class="fas fa-undo me-2 text-warning"></i>Devolución</h6>
-                            <p class="text-muted">15 días para devolución sin uso</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-12 text-center text-muted">No hay productos relacionados.</div>
+        <?php endif; ?>
     </div>
 </div>
 

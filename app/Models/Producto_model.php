@@ -13,5 +13,16 @@ class Producto_model extends Model
     {
         return $this->findAll();
     }
+    
+    // Obtener productos relacionados
+    public function getRelacionados($categoria_id, $actual_id, $limit = 4)
+    {
+        return $this->where('categoria_id', $categoria_id)
+            ->where('id !=', $actual_id)
+            ->where('eliminado !=', 'SI')
+            ->orderBy('RAND()')
+            ->limit($limit)
+            ->findAll();
+    }
 }
 ?>

@@ -60,7 +60,12 @@ class Home extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         
-        $data = ['producto' => $producto];
+        // Obtener productos relacionados (misma categoría, excluyendo el actual)
+        $relacionados = $productoModel->getRelacionados($producto['categoria_id'], $producto['id']);
+        $data = [
+            'producto' => $producto,
+            'relacionados' => $relacionados
+        ];
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
         echo view("front/detalleProducto", $data);
