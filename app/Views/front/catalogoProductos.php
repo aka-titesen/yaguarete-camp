@@ -53,7 +53,7 @@
                             <h4 class="text-success mb-2">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
                             <p class="cuotas-info mb-3">3 cuotas sin interés</p>
                             <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 mt-2">
-                                <a href="<?= base_url('producto/' . $producto['id']) ?>" class="btn btn-ver-producto flex-fill mb-2 mb-md-0 order-1 order-md-0">
+                                <a href="<?= base_url('producto/' . $producto['id']) ?>" class="btn btn-ver-producto flex-fill mb-2 mb-md-0 order-1 order-md-0" data-id="<?= $producto['id'] ?>">
                                     <i class="fas fa-eye me-1"></i> Ver
                                 </a>
                                 <div class="agregar-carrito-group flex-shrink-0 order-0 order-md-1">
@@ -75,6 +75,37 @@
         <?php endif; ?>
     </div>
 </div>
+
+<!-- Modal para ver producto -->
+<div class="modal fade" id="modalVerProducto" tabindex="-1" aria-labelledby="modalVerProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-verde-selva text-white">
+                <h5 class="modal-title text-amarillo-sistema" id="modalVerProductoLabel">
+                    <i class="fas fa-eye"></i> Detalle del producto
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img id="verProductoImagen" src="" alt="Imagen del producto" class="img-fluid rounded" style="max-height:180px;object-fit:contain;">
+                </div>
+                <h4 id="verProductoNombre" class="mb-2"></h4>
+                <p class="mb-1"><strong>Categoría:</strong> <span id="verProductoCategoria"></span></p>
+                <p class="mb-1"><strong>Stock:</strong> <span id="verProductoStock"></span></p>
+                <h5 class="text-success mb-2">$<span id="verProductoPrecio"></span></h5>
+                <p class="cuotas-info mb-3">3 cuotas sin interés</p>
+                <p class="mb-0" id="verProductoDescripcion"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Filtro y buscador de productos por categoría y nombre en la vista
 const filtro = document.getElementById('filtroCategoria');
@@ -97,4 +128,35 @@ function filtrarCatalogo() {
 
 filtro.addEventListener('change', filtrarCatalogo);
 buscador.addEventListener('input', filtrarCatalogo);
+
+// MODAL VER PRODUCTO
+const productosCatalogo = <?php echo json_encode($productos); ?>;
+const modalVer = document.getElementById('modalVerProducto');
+const verProductoNombre = document.getElementById('verProductoNombre');
+const verProductoImagen = document.getElementById('verProductoImagen');
+const verProductoCategoria = document.getElementById('verProductoCategoria');
+const verProductoStock = document.getElementById('verProductoStock');
+const verProductoPrecio = document.getElementById('verProductoPrecio');
+const verProductoDescripcion = document.getElementById('verProductoDescripcion');
+
+// Mapeo de categorías
+const categorias = {1:'Camping',2:'Pesca',3:'Ropa',4:'Calzado',5:'Mochilas',6:'Accesorios'};
+
+document.querySelectorAll('.btn-ver-producto').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.getAttribute('data-id');
+        const prod = productosCatalogo.find(p => p.id == id);
+        if (prod) {
+            verProductoNombre.textContent = prod.nombre_prod;
+            verProductoImagen.src = prod.imagen ? '<?= base_url('assets/uploads/') ?>' + prod.imagen : '<?= base_url('assets/img/imagenes_pagina/sin-imagen.png') ?>';
+            verProductoCategoria.textContent = categorias[prod.categoria_id] || prod.categoria_id;
+            verProductoStock.textContent = prod.stock;
+            verProductoPrecio.textContent = parseFloat(prod.precio_vta).toLocaleString('es-AR', {minimumFractionDigits:2});
+            verProductoDescripcion.textContent = prod.descripcion || '';
+            const modal = new bootstrap.Modal(modalVer);
+            modal.show();
+        }
+    });
+});
 </script>
