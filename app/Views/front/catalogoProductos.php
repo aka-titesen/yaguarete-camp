@@ -2,7 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dyZtM6zQ+1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div class="container my-5">
-    <h2 class="text-center mb-4">Catálogo de Productos</h2>
+    <h2 class="text-center mb-4">
+        <i class="fas fa-th-large me-2"></i>Catálogo de Productos
+    </h2>
     <!-- Filtro por categoría solo en la vista -->
     <form class="mb-4">
         <div class="row g-2 align-items-center">
