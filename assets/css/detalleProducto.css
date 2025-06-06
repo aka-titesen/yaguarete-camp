@@ -1,0 +1,331 @@
+/* Estilos específicos para la página de detalle de producto */
+
+.detalle-producto {
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 80vh;
+}
+
+.producto-imagen {
+    max-height: 500px;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: white;
+    padding: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.producto-imagen:hover {
+    transform: scale(1.02);
+}
+
+.producto-info {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    margin-top: 2rem;
+}
+
+.producto-titulo {
+    color: var(--verde-selva);
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.categoria-badge {
+    background: linear-gradient(135deg, #1a365d, #2a4a63);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    box-shadow: 0 3px 8px rgba(45, 92, 71, 0.2);
+}
+
+.precio-principal {
+    font-size: 3rem;
+    color: var(--verde-selva);
+    font-weight: bold;
+    margin: 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cuotas-info-detalle {
+    background: linear-gradient(135deg, #dc3545, #e74c3c);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.cuotas-info-detalle::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.stock-info {
+    background: linear-gradient(135deg, #e8f5e8, #d1f2d1);
+    border: 2px solid #c3e6c3;
+    color: var(--verde-selva);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 3px 8px rgba(195, 230, 195, 0.3);
+}
+
+.medios-pago {
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 3rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.medios-pago h5 {
+    color: var(--verde-selva);
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.pago-card {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.pago-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--verde-selva);
+}
+
+.pago-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+    width: 50px;
+    text-align: center;
+}
+
+.visa { color: #1a1f71; }
+.mastercard { color: #eb001b; }
+.amex { color: #006fcf; }
+.mercadopago { color: #009ee3; }
+.efectivo { color: #28a745; }
+.transferencia { color: #6c757d; }
+
+.btn-acciones {
+    margin-top: 2rem;
+}
+
+.btn-agregar-carrito-detalle {
+    background: linear-gradient(135deg, var(--verde-selva), #1e4a36);
+    color: white;
+    border: none;
+    padding: 1.2rem 2.5rem;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+    box-shadow: 0 4px 15px rgba(45, 92, 71, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-agregar-carrito-detalle:hover {
+    background: linear-gradient(135deg, #1e4a36, var(--verde-selva));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(45, 92, 71, 0.4);
+    color: white;
+}
+
+.btn-agregar-carrito-detalle:active {
+    transform: translateY(-1px);
+}
+
+.btn-volver {
+    background: linear-gradient(135deg, #6c757d, #545b62);
+    color: white;
+    border: none;
+    padding: 1.2rem 2.5rem;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.btn-volver:hover {
+    background: linear-gradient(135deg, #545b62, #495057);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+    text-decoration: none;
+}
+
+.cantidad-selector {
+    width: 90px;
+    padding: 1rem;
+    border: 3px solid var(--verde-selva);
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    margin-right: 1rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.cantidad-selector:focus {
+    outline: none;
+    border-color: #1a365d;
+    box-shadow: 0 0 0 3px rgba(45, 92, 71, 0.2);
+}
+
+.info-adicional {
+    margin-top: 3rem;
+}
+
+.info-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.info-header {
+    background: linear-gradient(135deg, var(--verde-selva), #1e4a36);
+}
+
+.info-item {
+    padding: 1.5rem;
+    border-right: 1px solid #e9ecef;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.info-item:last-child {
+    border-right: none;
+}
+
+.info-item:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+.info-item h6 {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--verde-selva);
+}
+
+.info-item p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .detalle-producto {
+        padding: 1.5rem 0;
+    }
+    
+    .producto-info {
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
+    
+    .producto-titulo {
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .precio-principal {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+    
+    .btn-acciones {
+        text-align: center;
+    }
+    
+    .btn-agregar-carrito-detalle,
+    .btn-volver {
+        width: 100%;
+        margin-bottom: 1rem;
+        margin-right: 0;
+    }
+    
+    .medios-pago {
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .pago-card {
+        margin-bottom: 0.8rem;
+    }
+    
+    .info-item {
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .detalle-producto {
+        padding: 1rem 0;
+    }
+    
+    .producto-titulo {
+        font-size: 1.8rem;
+    }
+    
+    .precio-principal {
+        font-size: 2.2rem;
+    }
+    
+    .btn-agregar-carrito-detalle,
+    .btn-volver {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+      .cantidad-selector {
+        width: 70px;
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+}

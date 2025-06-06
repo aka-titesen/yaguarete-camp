@@ -43,13 +43,27 @@ class Home extends BaseController
         echo view("front/layouts/navbar");
         echo view("front/contacto");
         echo view("front/layouts/footer");
-    }
-
-    public function a_producto(): void
+    }    public function a_producto(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
         echo view("front/producto");
+        echo view("front/layouts/footer");
+    }
+
+    public function a_detalleProducto($id): void
+    {
+        $productoModel = new Producto_model();
+        $producto = $productoModel->where('id', $id)->first();
+        
+        if (!$producto || $producto['eliminado'] === 'SI') {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        
+        $data = ['producto' => $producto];
+        echo view("front/layouts/header");
+        echo view("front/layouts/navbar");
+        echo view("front/detalleProducto", $data);
         echo view("front/layouts/footer");
     }
 

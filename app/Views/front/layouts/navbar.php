@@ -3,9 +3,8 @@
     <div class="d-flex justify-content-between align-items-center w-100">
       <!-- Wrapper para logo y promoción -->
       <div class="navbar-brand-wrapper">
-        <div class="d-flex align-items-center flex-md-row flex-column">
-          <a class="navbar-brand d-flex align-items-center" href="<?= base_url('#') ?>">
-            <img src="assets/img/imagenes_pagina/logo.png" alt="Logo" width="50" height="50" />
+        <div class="d-flex align-items-center flex-md-row flex-column">          <a class="navbar-brand d-flex align-items-center" href="<?= base_url('#') ?>">
+            <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" alt="Logo" width="50" height="50" />
             <span class="logo-text text-white ms-2 handwriting-font">Yaguareté Camp</span>
           </a>
 
@@ -38,13 +37,12 @@
           </a>
         </li>
         <?php endif; ?>
-        
-        <!-- Menú +info -->
+          <!-- Menú +info -->
         <li class="nav-item dropdown mx-1">
-          <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownInfo" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             + Info
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownInfo">
             <li><a class="dropdown-item" href="<?= base_url('sobreNosotros') ?>">Sobre nosotros</a></li>
             <li><a class="dropdown-item" href="<?= base_url('termYCondiciones') ?>">Términos y condiciones</a></li>
             <li><a class="dropdown-item" href="<?= base_url('comercializacion') ?>">Comercialización</a></li>
@@ -57,28 +55,24 @@
           <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('catalogo') ?>">
             <i class="fas fa-th-large me-1"></i> Catálogo
           </a>
-        </li>
-
-        <!-- Menú Guías -->
+        </li>        <!-- Menú Guías -->
         <li class="nav-item dropdown mx-1">
-          <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownGuias" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Guías
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownGuias">
             <li>
               <a class="dropdown-item"
-                href="https://tpwd.texas.gov/publications/pwdpubs/media/pwd_bk_k0700_0639e.pdf">Tus primeros pasos</a>
+                href="https://tpwd.texas.gov/publications/pwdpubs/media/pwd_bk_k0700_0639e.pdf" target="_blank">Tus primeros pasos</a>
             </li>
-            <li><a class="dropdown-item" href="https://www.guiadecamping.com/manual_camping.htm">Camping</a></li>
+            <li><a class="dropdown-item" href="https://www.guiadecamping.com/manual_camping.htm" target="_blank">Camping</a></li>
           </ul>
-        </li>
-
-        <!-- Menú Usuario -->
+        </li>        <!-- Menú Usuario -->
         <li class="nav-item dropdown mx-1">
-          <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle"></i> <span class="d-lg-none">Mi Cuenta</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" style="min-width: 250px;">
+          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" style="min-width: 250px;" aria-labelledby="navbarDropdownUser">
             <?php if (session()->get('isLoggedIn')): ?>
               <li>
                 <span class="dropdown-item-text fw-bold">

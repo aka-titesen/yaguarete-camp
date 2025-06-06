@@ -19,28 +19,26 @@
             <!-- Sección Métodos de Pago -->
             <div class="col-12 col-md-4 d-flex flex-column align-items-center justify-content-center mb-4 mb-md-0">
                 <h5 class="text-center mb-3">Métodos de Pago</h5>
-                <ul class="list-unstyled d-flex flex-wrap justify-content-center align-items-center gap-3 mb-0">
-                    <li>
+                <ul class="list-unstyled d-flex flex-wrap justify-content-center align-items-center gap-3 mb-0">                    <li>
                         <a href="https://www.visa.com.ar" target="_blank">
-                            <img src="assets/img/metodos_pago/visa.png" alt="Visa" class="img-fluid logo-hover"
+                            <img src="<?= base_url('assets/img/metodos_pago/visa.png') ?>" alt="Visa" class="img-fluid logo-hover"
                                 style="width: 70px;">
                         </a>
-                    </li>
-                    <li>
+                    </li>                    <li>
                         <a href="https://www.mastercard.com.ar" target="_blank">
-                            <img src="assets/img/metodos_pago/mastercard.png" alt="MasterCard"
+                            <img src="<?= base_url('assets/img/metodos_pago/masterCard.png') ?>" alt="MasterCard"
                                 class="img-fluid logo-hover" style="width: 70px;">
                         </a>
                     </li>
                     <li>
                         <a href="https://www.mercadopago.com.ar" target="_blank">
-                            <img src="assets/img/metodos_pago/mercadopago.png" alt="Mercado Pago"
+                            <img src="<?= base_url('assets/img/metodos_pago/mercadoPago.png') ?>" alt="Mercado Pago"
                                 class="img-fluid logo-hover" style="width: 120px;">
                         </a>
                     </li>
                     <li>
                         <a href="https://www.pagofacil.com.ar" target="_blank">
-                            <img src="assets/img/metodos_pago/pagoFacil.png" alt="Pago Facil"
+                            <img src="<?= base_url('assets/img/metodos_pago/pagoFacil.png') ?>" alt="Pago Facil"
                                 class="img-fluid logo-hover" style="width: 50px;">
                         </a>
                     </li>
@@ -106,10 +104,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/carouselError.js"></script>
-    <script src="assets/js/timer.js"></script>
+    </div>    <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/carouselError.js') ?>"></script>
+    <script src="<?= base_url('assets/js/timer.js') ?>"></script>
     <script>
     // Mensaje "próximamente" al enviar newsletter
     document.getElementById('newsletterForm').addEventListener('submit', function(e) {

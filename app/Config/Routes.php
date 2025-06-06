@@ -11,6 +11,7 @@ $routes->get('termYCondiciones','Home::term_Y_Condiciones');
 $routes->get('comercializacion','Home::a_comercializacion');
 $routes->get('contacto','Home::a_contacto');
 $routes->get('producto','Home::a_producto');
+$routes->get('producto/(:num)', 'Home::a_detalleProducto/$1');
 $routes->get('catalogo', 'Home::a_catalogoProductos');
 $routes->get('catalogoProductos','Home::a_catalogoProductos');
 $routes->post('/enviar-form', 'Usuario_controller::formValidation');
