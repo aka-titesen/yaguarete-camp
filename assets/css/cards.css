@@ -88,6 +88,16 @@
   font-style: italic;
 }
 
+/* Nueva clase para mostrar el texto de cuotas sin interés */
+.cuotas-info {
+  color: #c62828;
+  font-style: italic;
+  font-size: 1.02rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin-top: -0.2rem;
+}
+
 /* Posicionamiento de botones y precios */
 .card-producto .d-flex.justify-content-between.align-items-center {
   position: absolute;
@@ -106,6 +116,11 @@
 
 /* Botón específico de productos */
 .btn-productos {
+  background-color: #2d5c47;
+  color: #fff;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  transition: background 0.2s, color 0.2s;
   font-family: var(--font-cuerpo);
   font-size: 0.95rem !important;
   padding: 0.5rem 1.2rem !important;
@@ -123,10 +138,8 @@
 }
 
 .btn-productos:hover {
-  background-color: var(--naranja-ardiente) !important;
-  border-color: var(--naranja-ardiente) !important;
-  color: white !important;
-  transform: translateY(-3px) !important;
+  background-color: #1b3a29;
+  color: #fff;
 }
 
 /* Estilizado para ofertas */
@@ -168,4 +181,82 @@
   color: #fff !important;
   box-shadow: 0 4px 16px rgba(255,152,0,0.15);
   text-decoration: none;
+}
+
+/* Estilos para el grupo de agregar al carrito */
+.agregar-carrito-group {
+  background: #e8f5e9;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.7rem;
+  gap: 0.5rem;
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.07);
+}
+
+.cantidad-carrito {
+  background: #fff;
+  border: 1px solid #b2dfdb;
+  border-radius: 6px;
+  color: #2d5c47;
+  font-weight: 600;
+  width: 60px;
+  text-align: center;
+}
+
+.btn-agregar-carrito {
+  background: #388e3c;
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-agregar-carrito:hover {
+  background: #256029;
+  color: #fff;
+}
+
+/* Botón 'Ver' producto */
+.btn-ver-producto {
+  background-color: var(--amarillo-terroso);
+  color: var(--azul-profundo);
+  border: 2px solid white;
+  border-radius: 2rem;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.35rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  min-width: unset;
+}
+
+.btn-ver-producto:hover, .btn-ver-producto:focus {
+  background-color: var(--naranja-ardiente);
+  color: #fff;
+  transform: translateY(-3px);
+  border-color: white;
+  text-decoration: none;
+}
+
+/* Nueva clase para el buscador */
+.input-search-icon {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 1.15rem;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 1;
+}
+
+#buscadorNombreCatalogo {
+  padding-left: 2.1rem !important;
 }

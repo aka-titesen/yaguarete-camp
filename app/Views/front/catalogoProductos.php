@@ -1,3 +1,6 @@
+<!-- Inclusión de FontAwesome para íconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dyZtM6zQ+1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <div class="container my-5">
     <h2 class="text-center mb-4">Catálogo de Productos</h2>
     <!-- Filtro por categoría solo en la vista -->
@@ -21,8 +24,9 @@
     </form>
     <!-- Buscador por nombre de producto -->
     <div class="row mb-3 justify-content-end">
-        <div class="col-auto">
-            <input type="text" id="buscadorNombreCatalogo" class="form-control" placeholder="Buscar por nombre..." style="min-width:220px;">
+        <div class="col-auto buscador-con-icono">
+            <i class="fas fa-search input-search-icon"></i>
+            <input type="text" id="buscadorNombreCatalogo" class="form-control buscador-input w-100" placeholder="Buscar por nombre...">
         </div>
     </div>
     <div class="row g-4" id="productosCatalogo">
@@ -44,9 +48,18 @@
                                 echo esc($cats[$producto['categoria_id']] ?? $producto['categoria_id']);
                             ?></p>
                             <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($producto['stock']) ?></small></p>
-                            <h4 class="text-success mb-3">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
-                            <div class="d-grid">
-                                <a href="<?= base_url('producto/' . $producto['id']) ?>" class="btn btn-productos">Ver más</a>
+                            <h4 class="text-success mb-2">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
+                            <p class="cuotas-info mb-3">3 cuotas sin interés</p>
+                            <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 mt-2">
+                                <a href="<?= base_url('producto/' . $producto['id']) ?>" class="btn btn-ver-producto flex-fill mb-2 mb-md-0 order-1 order-md-0">
+                                    <i class="fas fa-eye me-1"></i> Ver
+                                </a>
+                                <div class="agregar-carrito-group flex-shrink-0 order-0 order-md-1">
+                                    <input type="number" min="1" value="1" class="form-control cantidad-carrito me-2" style="width: 60px;" title="Cantidad" aria-label="Cantidad">
+                                    <button class="btn btn-agregar-carrito d-flex align-items-center px-3" type="button">
+                                        <i class="fas fa-cart-plus me-1"></i> <span>Agregar</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -25,3 +25,33 @@
 
 /* Importar estilos responsivos */
 @import url('responsive.css');
+
+.input-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 1.25rem;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 1;
+  height: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.buscador-con-icono {
+  position: relative;
+  min-width: 240px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.buscador-input {
+  padding-left: 2.1rem !important;
+  width: 100%;
+  height: 42px;
+  line-height: 42px;
+  box-sizing: border-box;
+}

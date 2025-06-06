@@ -10,6 +10,10 @@
     <link href="<?= base_url('assets/css/miestilo.css') ?>" rel="stylesheet">
     <!-- Importa los estilos del modal de edición de producto -->
     <link rel="stylesheet" href="<?= base_url('assets/css/modal.css') ?>">
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-dyZtM6zQ+1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q6Q1Qb1Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -217,8 +221,11 @@
         </div>
 
         <!-- Buscador por nombre de producto -->
-        <div class="mb-3 d-flex justify-content-end align-items-center">
-            <input type="text" id="buscadorNombreProducto" class="form-control w-auto me-2" placeholder="Buscar por nombre..." style="min-width:220px;">
+        <div class="row mb-3 justify-content-end">
+            <div class="col-auto buscador-con-icono">
+                <i class="fas fa-search input-search-icon"></i>
+                <input type="text" id="buscadorNombreProducto" class="form-control buscador-input" placeholder="Buscar por nombre...">
+            </div>
         </div>
 
         <!-- Listado de productos -->
