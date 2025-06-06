@@ -268,3 +268,32 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
 <?php endif; ?>
+
+<!-- Off-canvas carrito lateral -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="sideCart" aria-labelledby="sideCartLabel">
+  <div class="offcanvas-header bg-verde-selva text-white">
+    <h5 class="offcanvas-title" id="sideCartLabel"><i class="fas fa-shopping-cart me-2"></i>Tu Carrito</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="cartItems">
+      <p class="text-center text-muted">El carrito está vacío.</p>
+    </div>
+    <div class="mt-4">
+      <h6 class="fw-bold">Total: <span id="cartTotal">$0.00</span></h6>
+      <button class="btn btn-cta w-100 mt-2" id="checkoutBtn" disabled>Finalizar compra</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Abrir el carrito lateral al hacer click en el icono del carrito
+const cartBtn = document.querySelector('.fa-shopping-cart').closest('a');
+if(cartBtn) {
+  cartBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var sideCart = new bootstrap.Offcanvas(document.getElementById('sideCart'));
+    sideCart.show();
+  });
+}
+</script>
