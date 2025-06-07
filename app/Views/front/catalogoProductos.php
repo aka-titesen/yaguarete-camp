@@ -44,13 +44,19 @@
                         <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title mb-2"><?= esc($producto['nombre_prod']) ?></h5>
-                            <p class="card-text mb-1">Categoría: <?php
-                                $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
-                                echo esc($cats[$producto['categoria_id']] ?? $producto['categoria_id']);
-                            ?></p>
+                            <p class="card-text mb-1">
+                                <span class="categoria-badge">
+                                    <i class="fas fa-tag me-2"></i>
+                                    <?php
+                                    $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
+                                    echo esc($cats[$producto['categoria_id']] ?? $producto['categoria_id']);
+                                    ?>
+                                </span>
+                            </p>
                             <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($producto['stock']) ?></small></p>
                             <h4 class="text-success mb-2">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
-                            <p class="cuotas-info mb-3">3 cuotas sin interés</p>                            <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 mt-2">
+                            <p class="cuotas-info mb-3">3 cuotas sin interés</p>
+                            <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 mt-2">
                                 <a href="<?= base_url('producto/' . $producto['id']) ?>" target="_blank" class="btn btn-ver-producto flex-fill mb-2 mb-md-0">
                                     <i class="fas fa-eye me-1"></i> Ver
                                 </a>

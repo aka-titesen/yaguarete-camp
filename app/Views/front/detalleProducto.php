@@ -71,10 +71,15 @@
                         <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title mb-2"><?= esc($rel['nombre_prod']) ?></h5>
-                            <p class="card-text mb-1">Categoría: <?php
-                                $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
-                                echo esc($cats[$rel['categoria_id']] ?? $rel['categoria_id']);
-                            ?></p>
+                            <p class="card-text mb-1">
+                                <span class="categoria-badge">
+                                    <i class="fas fa-tag me-2"></i>
+                                    <?php
+                                    $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
+                                    echo esc($cats[$rel['categoria_id']] ?? $rel['categoria_id']);
+                                    ?>
+                                </span>
+                            </p>
                             <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($rel['stock']) ?></small></p>
                             <h4 class="text-success mb-2">$<?= number_format($rel['precio_vta'], 2, ',', '.') ?></h4>
                             <p class="cuotas-info mb-3">3 cuotas sin interés</p>
@@ -98,6 +103,46 @@
 /* Espacio extra debajo de la sección de productos relacionados */
 #relacionadosRow {
     margin-bottom: 2.5rem;
+}
+
+/* Reducir tamaño de la información al lado de la imagen en detalle producto */
+.detalle-producto .producto-info {
+    font-size: 0.97rem;
+    line-height: 1.4;
+}
+.detalle-producto .producto-titulo {
+    font-size: 1.6rem;
+}
+.detalle-producto .precio-principal {
+    font-size: 1.3rem;
+}
+.detalle-producto .cuotas-info-detalle {
+    font-size: 1rem;
+}
+.detalle-producto .stock-info {
+    font-size: 0.95rem;
+}
+.detalle-producto .btn-acciones .btn {
+    font-size: 0.97rem;
+    padding: 0.45rem 1.1rem;
+}
+
+/* Badge de categoría igual en cards y detalle */
+.categoria-badge, .card-producto .categoria-badge {
+    display: inline-block;
+    background: var(--beige, #f5f5dc);
+    color: #6c757d;
+    border-radius: 1rem;
+    padding: 0.18em 0.85em 0.18em 0.7em;
+    font-size: 0.97em;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+    margin-right: 0.2em;
+    vertical-align: middle;
+    border: 1px solid #e0e0c0;
+}
+.categoria-badge i, .card-producto .categoria-badge i {
+    margin-right: 0.4em;
 }
 </style>
 
