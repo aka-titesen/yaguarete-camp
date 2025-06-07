@@ -51,15 +51,9 @@
                             <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($producto['stock']) ?></small></p>
                             <h4 class="text-success mb-2">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
                             <p class="cuotas-info mb-3">3 cuotas sin interés</p>                            <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 mt-2">
-                                <a href="<?= base_url('producto/' . $producto['id']) ?>" target="_blank" class="btn btn-ver-producto flex-fill mb-2 mb-md-0 order-1 order-md-0">
+                                <a href="<?= base_url('producto/' . $producto['id']) ?>" target="_blank" class="btn btn-ver-producto flex-fill mb-2 mb-md-0">
                                     <i class="fas fa-eye me-1"></i> Ver
                                 </a>
-                                <div class="agregar-carrito-group flex-shrink-0 order-0 order-md-1">
-                                    <input type="number" min="1" value="1" class="form-control cantidad-carrito me-2" style="width: 60px;" title="Cantidad" aria-label="Cantidad">
-                                    <button class="btn btn-agregar-carrito d-flex align-items-center px-3" type="button">
-                                        <i class="fas fa-cart-plus me-1"></i> <span>Agregar</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>

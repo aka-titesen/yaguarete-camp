@@ -60,27 +60,33 @@
     <div class="row g-4" id="relacionadosRow">
         <?php if (!empty($relacionados)): ?>
             <?php foreach ($relacionados as $rel): ?>
+                <?php if (!isset($rel['eliminado']) || $rel['eliminado'] !== 'SI'): ?>
                 <div class="col-6 col-md-6 col-lg-4 producto-card" data-categoria="<?= esc($rel['categoria_id']) ?>">
                     <div class="card card-producto h-100">
-                        <a href="<?= base_url('producto/' . $rel['id']) ?>" class="text-decoration-none">
-                            <?php if (!empty($rel['imagen'])): ?>
-                                <img src="<?= base_url('assets/uploads/' . esc($rel['imagen'])) ?>" class="card-img-top" alt="<?= esc($rel['nombre_prod']) ?>">
-                            <?php else: ?>
-                                <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen">
-                            <?php endif; ?>
-                            <div class="card-body">
-                                <h5 class="card-title mb-2"><?= esc($rel['nombre_prod']) ?></h5>
-                                <p class="card-text mb-1">Categoría: <?php
-                                    $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
-                                    echo esc($cats[$rel['categoria_id']] ?? $rel['categoria_id']);
-                                ?></p>
-                                <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($rel['stock']) ?></small></p>
-                                <h4 class="text-success mb-2">$<?= number_format($rel['precio_vta'], 2, ',', '.') ?></h4>
-                                <p class="cuotas-info mb-3">3 cuotas sin interés</p>
+                        <!-- Imagen del producto -->
+                        <?php if (!empty($rel['imagen'])): ?>
+                            <img src="<?= base_url('assets/uploads/' . esc($rel['imagen'])) ?>" class="card-img-top" alt="<?= esc($rel['nombre_prod']) ?>">
+                        <?php else: ?>
+                            <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title mb-2"><?= esc($rel['nombre_prod']) ?></h5>
+                            <p class="card-text mb-1">Categoría: <?php
+                                $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
+                                echo esc($cats[$rel['categoria_id']] ?? $rel['categoria_id']);
+                            ?></p>
+                            <p class="card-text mb-2"><small class="text-muted">Stock: <?= esc($rel['stock']) ?></small></p>
+                            <h4 class="text-success mb-2">$<?= number_format($rel['precio_vta'], 2, ',', '.') ?></h4>
+                            <p class="cuotas-info mb-3">3 cuotas sin interés</p>
+                            <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 mt-2">
+                                <a href="<?= base_url('producto/' . $rel['id']) ?>" target="_blank" class="btn btn-ver-producto flex-fill mb-2 mb-md-0">
+                                    <i class="fas fa-eye me-1"></i> Ver
+                                </a>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php else: ?>
             <div class="col-12 text-center text-muted">No hay productos relacionados.</div>
@@ -88,6 +94,12 @@
     </div>
 </div>
 <br>
+<style>
+/* Espacio extra debajo de la sección de productos relacionados */
+#relacionadosRow {
+    margin-bottom: 2.5rem;
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
