@@ -277,23 +277,70 @@
   </div>
   <div class="offcanvas-body">
     <div id="cartItems">
-      <p class="text-center text-muted">El carrito está vacío.</p>
-    </div>
-    <div class="mt-4">
-      <h6 class="fw-bold">Total: <span id="cartTotal">$0.00</span></h6>
-      <button class="btn btn-cta w-100 mt-2" id="checkoutBtn" disabled>Finalizar compra</button>
+      <!-- El contenido del carrito se carga aquí por AJAX -->
     </div>
   </div>
 </div>
 
 <script>
-// Abrir el carrito lateral al hacer click en el icono del carrito
+async function cargarCarritoLateral() {
+    const response = await fetch('<?= base_url('carrito/ajax') ?>');
+    const html = await response.text();
+    document.getElementById('cartItems').innerHTML = html;
+    // Actualizar total y botón
+    const total = document.getElementById('cartTotalHidden');
+    if (total) {
+        document.getElementById('cartTotal').textContent = total.value;
+        document.getElementById('checkoutBtn').disabled = (parseFloat(total.value.replace(/[^0-9,\.]/g, '').replace(',', '.')) <= 0);
+    }
+}
+
+// Cargar el carrito cada vez que se abre el offcanvas
 const cartBtn = document.querySelector('.fa-shopping-cart').closest('a');
 if(cartBtn) {
   cartBtn.addEventListener('click', function(e) {
     e.preventDefault();
+    cargarCarritoLateral();
     var sideCart = new bootstrap.Offcanvas(document.getElementById('sideCart'));
     sideCart.show();
   });
 }
+</script>
+<script>
+// Carrito lateral: event delegation global para AJAX
+(function() {
+    document.addEventListener('click', function(e) {
+        // Eliminar producto
+        if (e.target.closest('.btn-eliminar-item')) {
+            const rowid = e.target.closest('.btn-eliminar-item').dataset.rowid;
+            fetch('<?= base_url('carrito_elimina/') ?>' + rowid, { method: 'GET' })
+                .then(() => cargarCarritoLateral());
+            e.preventDefault();
+            return;
+        }
+        // Restar unidad
+        if (e.target.closest('.btn-resta-item')) {
+            const rowid = e.target.closest('.btn-resta-item').dataset.rowid;
+            fetch('<?= base_url('carrito_resta/') ?>' + rowid, { method: 'GET' })
+                .then(() => cargarCarritoLateral());
+            e.preventDefault();
+            return;
+        }
+        // Sumar unidad
+        if (e.target.closest('.btn-suma-item')) {
+            const rowid = e.target.closest('.btn-suma-item').dataset.rowid;
+            fetch('<?= base_url('carrito_suma/') ?>' + rowid, { method: 'GET' })
+                .then(() => cargarCarritoLateral());
+            e.preventDefault();
+            return;
+        }
+        // Limpiar carrito
+        if (e.target.closest('#btnLimpiarCarrito')) {
+            fetch('<?= base_url('/borrar') ?>', { method: 'GET' })
+                .then(() => cargarCarritoLateral());
+            e.preventDefault();
+            return;
+        }
+    });
+})();
 </script>

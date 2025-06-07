@@ -647,6 +647,47 @@
             "install-path": "../friendsofphp/php-cs-fixer"
         },
         {
+            "name": "jason-napolitano/codeigniter4-cart-module",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jason-napolitano/CodeIgniter4-Cart-Module.git",
+                "reference": "0c2fb51dbd200df753de944571e2ad26a53ba6bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jason-napolitano/CodeIgniter4-Cart-Module/zipball/0c2fb51dbd200df753de944571e2ad26a53ba6bf",
+                "reference": "0c2fb51dbd200df753de944571e2ad26a53ba6bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "codeigniter4/framework": "^4.0.3"
+            },
+            "time": "2020-05-28T01:52:40+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "CodeIgniterCart\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A basic port of the codeigniter 3 cart module for CodeIgniter 4.",
+            "homepage": "https://github.com/jason-napolitano/CodeIgniter4-Cart-Module",
+            "support": {
+                "issues": "https://github.com/jason-napolitano/CodeIgniter4-Cart-Module/issues",
+                "source": "https://github.com/jason-napolitano/CodeIgniter4-Cart-Module/tree/master"
+            },
+            "install-path": "../jason-napolitano/codeigniter4-cart-module"
+        },
+        {
             "name": "kint-php/kint",
             "version": "6.0.1",
             "version_normalized": "6.0.1.0",

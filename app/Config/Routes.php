@@ -27,10 +27,11 @@ $routes->post('ProductoController/deleteproducto/(:num)', 'ProductoController::d
 $routes->post('ProductoController/activarproducto/(:num)', 'ProductoController::activarproducto/$1', ['filter' => 'auth']);
 
 /*CARRITO RUTAS*/
-$routes->get('/carrito_actualiza','CarritoController::actualiza_carrito',['filter' => 'auth']);
-$routes->post('carrito/add', 'Carrito_controller::add',['filter' => 'auth']);
-$routes->get('carrito_elimina/(:any)', 'carrito_controller::remove/$1',['filter' => 'auth']);
-$routes->get('/borrar','carrito_controller::borrar_carrito',['filter' => 'auth']);
+$routes->post('carrito/add', 'CarritoController::add');
+$routes->get('carrito_elimina/(:any)', 'CarritoController::remove/$1');
+$routes->get('/borrar','CarritoController::borrar_carrito');
+$routes->get('/carrito_actualiza','CarritoController::actualiza_carrito');
 $routes->get('/carrito-comprar', 'Ventascontroller::registrar_venta',['filter' => 'auth']);
-$routes->get('carrito_suma/(:any)', 'carrito_controller::suma/$1');
-$routes->get('carrito_resta/(:any)', 'carrito_controller::resta/$1'); 
+$routes->get('carrito_suma/(:any)', 'CarritoController::suma/$1');
+$routes->get('carrito_resta/(:any)', 'CarritoController::resta/$1');
+$routes->get('carrito/ajax', 'CarritoController::ajax');

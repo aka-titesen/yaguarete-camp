@@ -10,6 +10,8 @@ return array(
     'CURLStringFile' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
     'Clue\\React\\NDJson\\Decoder' => $vendorDir . '/clue/ndjson-react/src/Decoder.php',
     'Clue\\React\\NDJson\\Encoder' => $vendorDir . '/clue/ndjson-react/src/Encoder.php',
+    'CodeIgniterCart\\Cart' => $vendorDir . '/jason-napolitano/codeigniter4-cart-module/src/Cart.php',
+    'CodeIgniterCart\\Config\\Services' => $vendorDir . '/jason-napolitano/codeigniter4-cart-module/src/Config/Services.php',
     'CodeIgniter\\API\\ResponseTrait' => $baseDir . '/system/API/ResponseTrait.php',
     'CodeIgniter\\Autoloader\\Autoloader' => $baseDir . '/system/Autoloader/Autoloader.php',
     'CodeIgniter\\Autoloader\\FileLocator' => $baseDir . '/system/Autoloader/FileLocator.php',

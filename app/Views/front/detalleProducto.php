@@ -1,54 +1,76 @@
 <div class="container detalle-producto">
     <div class="row">
-        <!-- Imagen del producto -->        <div class="col-md-6">
-            <?php if (!empty($producto['imagen'])): ?>
-                <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" class="producto-imagen" alt="<?= esc($producto['nombre_prod']) ?>">
-            <?php else: ?>
-                <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="producto-imagen" alt="Sin imagen">
+        <div class="col-12">
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><?= esc(session()->getFlashdata('success')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            <?php endif; ?>
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i><?= esc(session()->getFlashdata('error')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    
+    <!-- Imagen del producto -->
+    <div class="col-md-6">
+        <?php if (!empty($producto['imagen'])): ?>
+            <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" class="producto-imagen" alt="<?= esc($producto['nombre_prod']) ?>">
+        <?php else: ?>
+            <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="producto-imagen" alt="Sin imagen">
+        <?php endif; ?>
+    </div>
+    
+    <!-- Información del producto -->
+    <div class="col-md-6 producto-info">
+        <h1 class="producto-titulo"><?= esc($producto['nombre_prod']) ?></h1>
+        
+        <span class="categoria-badge">
+            <i class="fas fa-tag me-2"></i>
+            <?php
+            $categorias = [
+                1 => 'Camping',
+                2 => 'Pesca', 
+                3 => 'Ropa',
+                4 => 'Calzado',
+                5 => 'Mochilas',
+                6 => 'Accesorios'
+            ];
+            echo esc($categorias[$producto['categoria_id']] ?? 'Sin categoría');
+            ?>
+        </span>
+        
+        <div class="precio-principal">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></div>
+        
+        <div class="cuotas-info-detalle">
+            <i class="fas fa-credit-card me-2"></i>
+            3 cuotas sin interés de $<?= number_format($producto['precio_vta'] / 3, 2, ',', '.') ?>
+        </div>
+        
+        <div class="stock-info">
+            <i class="fas fa-box me-2"></i>
+            <strong>Stock disponible:</strong> <?= esc($producto['stock']) ?> unidades
+            <?php if ($producto['stock'] <= $producto['stock_min']): ?>
+                <br><small class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>¡Últimas unidades!</small>
             <?php endif; ?>
         </div>
         
-        <!-- Información del producto -->
-        <div class="col-md-6 producto-info">
-            <h1 class="producto-titulo"><?= esc($producto['nombre_prod']) ?></h1>
-            
-            <span class="categoria-badge">
-                <i class="fas fa-tag me-2"></i>
-                <?php
-                $categorias = [
-                    1 => 'Camping',
-                    2 => 'Pesca', 
-                    3 => 'Ropa',
-                    4 => 'Calzado',
-                    5 => 'Mochilas',
-                    6 => 'Accesorios'
-                ];
-                echo esc($categorias[$producto['categoria_id']] ?? 'Sin categoría');
-                ?>
-            </span>
-            
-            <div class="precio-principal">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></div>
-            
-            <div class="cuotas-info-detalle">
-                <i class="fas fa-credit-card me-2"></i>
-                3 cuotas sin interés de $<?= number_format($producto['precio_vta'] / 3, 2, ',', '.') ?>
-            </div>
-            
-            <div class="stock-info">
-                <i class="fas fa-box me-2"></i>
-                <strong>Stock disponible:</strong> <?= esc($producto['stock']) ?> unidades
-                <?php if ($producto['stock'] <= $producto['stock_min']): ?>
-                    <br><small class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>¡Últimas unidades!</small>
-                <?php endif; ?>
-            </div>
-            
-            <div class="btn-acciones">
-                <div class="d-flex align-items-center mb-3">
-                    <input type="number" min="1" max="<?= $producto['stock'] ?>" value="1" class="cantidad-selector" title="Cantidad" aria-label="Cantidad">
-                    <button class="btn btn-agregar-carrito-detalle">
+        <div class="btn-acciones">
+            <div class="d-flex align-items-center mb-3">
+                <form id="formAgregarCarrito" method="post" action="<?= base_url('carrito/add') ?>" class="d-flex align-items-center w-100 gap-2">
+                    <input type="hidden" name="id" value="<?= esc($producto['id']) ?>">
+                    <input type="hidden" name="nombre_prod" value="<?= esc($producto['nombre_prod']) ?>">
+                    <input type="hidden" name="precio_vta" value="<?= esc($producto['precio_vta']) ?>">
+                    <input type="hidden" name="imagen" value="<?= esc($producto['imagen']) ?>">
+                    <input type="number" name="qty" class="cantidad-selector" min="1" max="<?= esc($producto['stock']) ?>" value="1" style="margin-right: 10px;">
+                    <button type="submit" class="btn btn-agregar-carrito-detalle">
                         <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -176,5 +198,28 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.background = 'linear-gradient(135deg, var(--verde-selva), #1e4a36)';
         }, 2000);
     });
+});
+</script>
+<script>
+document.getElementById('formAgregarCarrito').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData
+    });
+    if (response.ok) {
+        // Recargar el carrito lateral
+        if (typeof cargarCarritoLateral === 'function') cargarCarritoLateral();
+        // Mostrar mensaje de éxito
+        let msg = document.createElement('div');
+        msg.className = 'alert alert-success mt-2';
+        msg.innerHTML = '<i class="fas fa-check-circle me-2"></i>Producto agregado al carrito';
+        form.parentNode.insertBefore(msg, form.nextSibling);
+        setTimeout(() => msg.remove(), 2000);
+    } else {
+        alert('Error al agregar al carrito');
+    }
 });
 </script>

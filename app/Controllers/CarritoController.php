@@ -16,15 +16,51 @@ class CarritoController extends BaseController{
         $cart = \Config\Services::Cart();
         $request = \Config\Services::request();
 
-        $cart->insert(array(
-            'id'      => $request->getPost('id'),
-            'qty'     => 1,
-            'name'    => $request->getPost('nombre_prod'),
-            'price'   => $request->getPost('precio_vta'),
-            'imagen'  => $request->getPost('imagen'),
-        ));
+        $producto_id = $request->getPost('id');
+        $cantidad = (int) $request->getPost('qty');
+        $nombre = $request->getPost('nombre_prod');
+        $precio = $request->getPost('precio_vta');
+        $imagen = $request->getPost('imagen');
 
-        return redirect()->back()->withInput();
+        // Obtener stock actual del producto
+        $productoModel = new \App\Models\Producto_model();
+        $producto = $productoModel->asArray()->find($producto_id); // CORRECTO: devuelve array
+        if (!$producto || (isset($producto['eliminado']) && $producto['eliminado'] === 'SI')) {
+            return redirect()->back()->with('error', 'Producto no disponible.');
+        }
+        if ($cantidad < 1) $cantidad = 1;
+        if ($cantidad > (int)$producto['stock']) {
+            return redirect()->back()->with('error', 'No puedes agregar más unidades que el stock disponible.');
+        }
+
+        // Revisar si ya está en el carrito y sumar cantidades
+        $yaEnCarrito = false;
+        foreach ($cart->contents() as $item) {
+            if ($item['id'] == $producto_id) {
+                $nuevaCantidad = $item['qty'] + $cantidad;
+                if ($nuevaCantidad > (int)$producto['stock']) {
+                    return redirect()->back()->with('error', 'No puedes agregar más unidades que el stock disponible.');
+                }
+                $cart->update([
+                    'rowid' => $item['rowid'],
+                    'qty' => $nuevaCantidad,
+                    'stock' => $producto['stock'], // Actualizar stock
+                ]);
+                $yaEnCarrito = true;
+                break;
+            }
+        }
+        if (!$yaEnCarrito) {
+            $cart->insert([
+                'id'      => $producto_id,
+                'qty'     => $cantidad,
+                'name'    => $nombre,
+                'price'   => $precio,
+                'imagen'  => $imagen,
+                'stock'   => $producto['stock'], // Agregar stock
+            ]);
+        }
+        return redirect()->back()->with('success', 'Producto agregado al carrito.');
     }
 //Actualiza el carrito que se muestra
     public function actualiza_carrito()
@@ -51,17 +87,13 @@ class CarritoController extends BaseController{
     {
         $cart = \Config\Services::Cart();
         $cart->destroy();
-        return redirect()->to(base_url('muestro'));
+        return $this->response->setStatusCode(200)->setBody('ok');
     }
     public function remove($rowid)
     {
         $cart = \Config\Services::cart();
-        if ($rowid === "all") {
-            $cart->destroy(); //vacia el carrito
-        } else {
-            $cart->remove($rowid);
-        }
-        return redirect()->back()->withInput();
+        $cart->remove($rowid);
+        return $this->response->setStatusCode(200)->setBody('ok');
     }
     public function devolver_carrito()
     {
@@ -71,16 +103,22 @@ class CarritoController extends BaseController{
 
     public function suma($rowid)
     {
-        // suma 1 a la cantidad del producto
         $cart = \Config\Services::cart();
         $item = $cart->getItem($rowid);
         if ($item) {
-            $cart->update([
-                'rowid' => $rowid,
-                'qty' => $item['qty'] + 1
-            ]);
+            // Obtener stock actual del producto
+            $productoModel = new \App\Models\Producto_model();
+            $producto = $productoModel->asArray()->find($item['id']);
+            $nuevoStock = $producto ? $producto['stock'] : ($item['stock'] ?? 0);
+            if ($item['qty'] < $nuevoStock) {
+                $cart->update([
+                    'rowid' => $rowid,
+                    'qty' => $item['qty'] + 1,
+                    'stock' => $nuevoStock, // Actualizar stock
+                ]);
+            }
         }
-        return redirect()->to('muestro');
+        return $this->response->setStatusCode(200)->setBody('ok');
     }
 
     public function resta($rowid)
@@ -98,7 +136,17 @@ class CarritoController extends BaseController{
                 $cart->remove($rowid);
             }
         }
-        return redirect()->to('muestro');
+        return $this->response->setStatusCode(200)->setBody('ok');
+    }
+    public function ajax()
+    {
+        $cart = \Config\Services::cart();
+        $items = $cart->contents();
+        $total = $cart->total();
+        ob_start();
+        include(APPPATH.'Views/front/carritoVista.php');
+        $html = ob_get_clean();
+        return $this->response->setBody($html);
     }
     
 }

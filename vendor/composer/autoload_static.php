@@ -92,6 +92,7 @@ class ComposerStaticInit58024d93bcd7cb560cea7daaab0aee79
             'Composer\\Pcre\\' => 14,
             'CodeIgniter\\CodingStandard\\' => 27,
             'CodeIgniter\\' => 12,
+            'CodeIgniterCart\\' => 16,
             'Clue\\React\\NDJson\\' => 18,
         ),
     );
@@ -261,6 +262,10 @@ class ComposerStaticInit58024d93bcd7cb560cea7daaab0aee79
         array (
             0 => __DIR__ . '/../..' . '/system',
         ),
+        'CodeIgniterCart\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jason-napolitano/codeigniter4-cart-module/src',
+        ),
         'Clue\\React\\NDJson\\' => 
         array (
             0 => __DIR__ . '/..' . '/clue/ndjson-react/src',
@@ -282,6 +287,8 @@ class ComposerStaticInit58024d93bcd7cb560cea7daaab0aee79
         'CURLStringFile' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
         'Clue\\React\\NDJson\\Decoder' => __DIR__ . '/..' . '/clue/ndjson-react/src/Decoder.php',
         'Clue\\React\\NDJson\\Encoder' => __DIR__ . '/..' . '/clue/ndjson-react/src/Encoder.php',
+        'CodeIgniterCart\\Cart' => __DIR__ . '/..' . '/jason-napolitano/codeigniter4-cart-module/src/Cart.php',
+        'CodeIgniterCart\\Config\\Services' => __DIR__ . '/..' . '/jason-napolitano/codeigniter4-cart-module/src/Config/Services.php',
         'CodeIgniter\\API\\ResponseTrait' => __DIR__ . '/../..' . '/system/API/ResponseTrait.php',
         'CodeIgniter\\Autoloader\\Autoloader' => __DIR__ . '/../..' . '/system/Autoloader/Autoloader.php',
         'CodeIgniter\\Autoloader\\FileLocator' => __DIR__ . '/../..' . '/system/Autoloader/FileLocator.php',
