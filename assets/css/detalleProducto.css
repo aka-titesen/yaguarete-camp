@@ -2,8 +2,12 @@
 
 .detalle-producto {
     padding: 2rem 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: var(--beige) !important;
     min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .producto-imagen {
@@ -12,8 +16,14 @@
     object-fit: contain;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    background: white;
-    padding: 1rem;
+    background: var(--beige) !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     transition: transform 0.3s ease;
 }
 
@@ -22,12 +32,15 @@
 }
 
 .producto-info {
-    background: white;
+    background: var(--beige) !important;
     border-radius: 12px;
-    padding: 2rem;
+    padding-top: 0.5rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     height: fit-content;
-    margin-top: 2rem;
+    margin-top: 0;
 }
 
 .producto-titulo {
@@ -254,10 +267,53 @@
     font-size: 0.9rem;
 }
 
+/* Centrado vertical y horizontal de imagen e info en la fila */
+.detalle-producto .row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 2rem;
+}
+
+.detalle-producto .col-md-6 {
+    display: block;
+    flex: 1 1 0;
+    min-width: 320px;
+    max-width: 520px;
+    /* Elimina centrado vertical y horizontal */
+}
+
+.producto-imagen {
+    margin: 0;
+}
+
+@media (max-width: 991px) {
+    .detalle-producto .row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        flex-wrap: wrap;
+    }
+    .detalle-producto .col-md-6 {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+    }
+    .producto-info {
+        margin-top: 2rem;
+    }
+    .producto-imagen {
+        margin: 0 auto;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .detalle-producto {
         padding: 1.5rem 0;
+        flex-direction: column;
+        align-items: stretch;
     }
     
     .producto-info {
