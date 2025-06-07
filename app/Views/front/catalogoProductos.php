@@ -73,6 +73,26 @@
         <?php endif; ?>    </div>
 </div>
 
+<style>
+/* Homogeneizar el banner de categoría con el de detalle y relacionados */
+.categoria-badge, .card-producto .categoria-badge {
+    display: inline-block;
+    background: var(--beige, #f5f5dc);
+    color: #6c757d;
+    border-radius: 1rem;
+    padding: 0.18em 0.85em 0.18em 0.7em;
+    font-size: 0.97em;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+    margin-right: 0.2em;
+    vertical-align: middle;
+    border: 1px solid #e0e0c0;
+}
+.categoria-badge i, .card-producto .categoria-badge i {
+    margin-right: 0.4em;
+}
+</style>
+
 <script>
 // Filtro y buscador de productos por categoría y nombre en la vista
 const filtro = document.getElementById('filtroCategoria');
