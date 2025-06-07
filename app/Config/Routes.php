@@ -26,8 +26,11 @@ $routes->get('ProductoController/deleteproducto/(:num)', 'ProductoController::de
 $routes->post('ProductoController/deleteproducto/(:num)', 'ProductoController::deleteproducto/$1', ['filter' => 'auth']);
 $routes->post('ProductoController/activarproducto/(:num)', 'ProductoController::activarproducto/$1', ['filter' => 'auth']);
 
-/*
-$routes->get('dashboard', function() {
-    echo view('front/dashboard');
-}, ['filter' => 'auth']);
-*/
+/*CARRITO RUTAS*/
+$routes->get('/carrito_actualiza','CarritoController::actualiza_carrito',['filter' => 'auth']);
+$routes->post('carrito/add', 'Carrito_controller::add',['filter' => 'auth']);
+$routes->get('carrito_elimina/(:any)', 'carrito_controller::remove/$1',['filter' => 'auth']);
+$routes->get('/borrar','carrito_controller::borrar_carrito',['filter' => 'auth']);
+$routes->get('/carrito-comprar', 'Ventascontroller::registrar_venta',['filter' => 'auth']);
+$routes->get('carrito_suma/(:any)', 'carrito_controller::suma/$1');
+$routes->get('carrito_resta/(:any)', 'carrito_controller::resta/$1'); 

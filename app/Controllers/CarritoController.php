@@ -40,5 +40,66 @@ class CarritoController extends BaseController{
         ));
         return redirect()->back()->withInput();
     }
+    public function eliminar_item($rowid)
+    {
+        $cart = \Config\Services::Cart();
+        $cart->remove($rowid);
+        return redirect()->to(base_url('muestro'));
+    }
+
+    public function borrar_carrito()
+    {
+        $cart = \Config\Services::Cart();
+        $cart->destroy();
+        return redirect()->to(base_url('muestro'));
+    }
+    public function remove($rowid)
+    {
+        $cart = \Config\Services::cart();
+        if ($rowid === "all") {
+            $cart->destroy(); //vacia el carrito
+        } else {
+            $cart->remove($rowid);
+        }
+        return redirect()->back()->withInput();
+    }
+    public function devolver_carrito()
+    {
+        $cart = \Config\Services::cart();
+        return $cart->contents();
+    }
+
+    public function suma($rowid)
+    {
+        // suma 1 a la cantidad del producto
+        $cart = \Config\Services::cart();
+        $item = $cart->getItem($rowid);
+        if ($item) {
+            $cart->update([
+                'rowid' => $rowid,
+                'qty' => $item['qty'] + 1
+            ]);
+        }
+        return redirect()->to('muestro');
+    }
+
+    public function resta($rowid)
+    {
+        // resta 1 a la cantidad al producto
+        $cart = \Config\Services::cart();
+        $item = $cart->getItem($rowid);
+        if ($item) {
+            if ($item['qty'] > 1) {
+                $cart->update([
+                    'rowid' => $rowid,
+                    'qty' => $item['qty'] - 1
+                ]);
+            } else {
+                $cart->remove($rowid);
+            }
+        }
+        return redirect()->to('muestro');
+    }
+    
 }
 
