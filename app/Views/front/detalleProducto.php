@@ -209,15 +209,28 @@ document.getElementById('formAgregarCarrito').addEventListener('submit', async f
         method: 'POST',
         body: formData
     });
-    if (response.ok) {
-        // Recargar el carrito lateral
+    let msg = document.createElement('div');
+    let data = null;
+    try {
+        data = await response.json();
+    } catch (err) {}
+    if (data && data.status) {
         if (typeof cargarCarritoLateral === 'function') cargarCarritoLateral();
-        // Mostrar mensaje de éxito
-        let msg = document.createElement('div');
-        msg.className = 'alert alert-success mt-2';
-        msg.innerHTML = '<i class="fas fa-check-circle me-2"></i>Producto agregado al carrito';
+        if (data.status === 'success') {
+            msg.className = 'alert alert-success mt-2';
+            msg.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.msg;
+        } else if (data.status === 'warning') {
+            msg.className = 'alert alert-warning mt-2';
+            msg.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' + data.msg;
+        } else if (data.status === 'info') {
+            msg.className = 'alert alert-info mt-2';
+            msg.innerHTML = '<i class="fas fa-info-circle me-2"></i>' + data.msg;
+        } else {
+            msg.className = 'alert alert-danger mt-2';
+            msg.innerHTML = '<i class="fas fa-times-circle me-2"></i>' + (data.msg || 'Error al agregar al carrito');
+        }
         form.parentNode.insertBefore(msg, form.nextSibling);
-        setTimeout(() => msg.remove(), 2000);
+        setTimeout(() => msg.remove(), 3500);
     } else {
         alert('Error al agregar al carrito');
     }

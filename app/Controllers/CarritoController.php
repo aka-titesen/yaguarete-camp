@@ -24,43 +24,73 @@ class CarritoController extends BaseController{
 
         // Obtener stock actual del producto
         $productoModel = new \App\Models\Producto_model();
-        $producto = $productoModel->asArray()->find($producto_id); // CORRECTO: devuelve array
+        $producto = $productoModel->find($producto_id);
+        if (is_object($producto)) {
+            $producto = (array)$producto;
+        }
         if (!$producto || (isset($producto['eliminado']) && $producto['eliminado'] === 'SI')) {
-            return redirect()->back()->with('error', 'Producto no disponible.');
+            return $this->response->setJSON(['status'=>'error','msg'=>'Producto no disponible.']);
         }
         if ($cantidad < 1) $cantidad = 1;
-        if ($cantidad > (int)$producto['stock']) {
-            return redirect()->back()->with('error', 'No puedes agregar más unidades que el stock disponible.');
-        }
+        $stock = (int)$producto['stock'];
 
         // Revisar si ya está en el carrito y sumar cantidades
         $yaEnCarrito = false;
+        $cantidadEnCarrito = 0;
+        $rowid = null;
         foreach ($cart->contents() as $item) {
             if ($item['id'] == $producto_id) {
-                $nuevaCantidad = $item['qty'] + $cantidad;
-                if ($nuevaCantidad > (int)$producto['stock']) {
-                    return redirect()->back()->with('error', 'No puedes agregar más unidades que el stock disponible.');
-                }
-                $cart->update([
-                    'rowid' => $item['rowid'],
-                    'qty' => $nuevaCantidad,
-                    'stock' => $producto['stock'], // Actualizar stock
-                ]);
+                $cantidadEnCarrito = (int)$item['qty'];
+                $rowid = $item['rowid'];
                 $yaEnCarrito = true;
                 break;
             }
         }
-        if (!$yaEnCarrito) {
-            $cart->insert([
-                'id'      => $producto_id,
-                'qty'     => $cantidad,
-                'name'    => $nombre,
-                'price'   => $precio,
-                'imagen'  => $imagen,
-                'stock'   => $producto['stock'], // Agregar stock
-            ]);
+        $puedeAgregar = $stock - $cantidadEnCarrito;
+        if ($puedeAgregar <= 0) {
+            // Ya está el máximo en el carrito
+            return $this->response->setJSON(['status'=>'info','msg'=>'Ya tienes la máxima cantidad permitida de este producto en el carrito.']);
         }
-        return redirect()->back()->with('success', 'Producto agregado al carrito.');
+        if ($cantidad > $puedeAgregar) {
+            // Solo se pueden agregar las unidades que faltan
+            if ($yaEnCarrito) {
+                $cart->update([
+                    'rowid' => $rowid,
+                    'qty' => $stock,
+                    'stock' => $stock,
+                ]);
+            } else {
+                $cart->insert([
+                    'id'      => $producto_id,
+                    'qty'     => $puedeAgregar,
+                    'name'    => $nombre,
+                    'price'   => $precio,
+                    'imagen'  => $imagen,
+                    'stock'   => $stock,
+                ]);
+            }
+            $fuera = $cantidad - $puedeAgregar;
+            return $this->response->setJSON(['status'=>'warning','msg'=>'Solo se agregaron '.$puedeAgregar.' unidades. '.$fuera.' unidad(es) quedaron fuera por falta de stock.']);
+        } else {
+            // Se pueden agregar todas las unidades solicitadas
+            if ($yaEnCarrito) {
+                $cart->update([
+                    'rowid' => $rowid,
+                    'qty' => $cantidadEnCarrito + $cantidad,
+                    'stock' => $stock,
+                ]);
+            } else {
+                $cart->insert([
+                    'id'      => $producto_id,
+                    'qty'     => $cantidad,
+                    'name'    => $nombre,
+                    'price'   => $precio,
+                    'imagen'  => $imagen,
+                    'stock'   => $stock,
+                ]);
+            }
+            return $this->response->setJSON(['status'=>'success','msg'=>'Producto agregado al carrito.']);
+        }
     }
 //Actualiza el carrito que se muestra
     public function actualiza_carrito()
