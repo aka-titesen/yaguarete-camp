@@ -35,3 +35,4 @@ $routes->get('/carrito-comprar', 'Ventascontroller::registrar_venta',['filter' =
 $routes->get('carrito_suma/(:any)', 'CarritoController::suma/$1');
 $routes->get('carrito_resta/(:any)', 'CarritoController::resta/$1');
 $routes->get('carrito/ajax', 'CarritoController::ajax');
+$routes->get('carrito/devolver_carrito', 'CarritoController::devolver_carrito');

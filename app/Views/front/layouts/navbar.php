@@ -123,10 +123,10 @@
         </li>
 
         <li class="nav-item mx-1">
-          <a class="nav-link text-white d-flex align-items-center" href="#">
+          <a class="nav-link text-white d-flex align-items-center" href="#" id="btnAbrirCarrito">
             <div class="position-relative me-1">
               <i class="fas fa-shopping-cart"></i>
-              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-pill">3</span>
+              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-pill" id="cartCount">0</span>
             </div>
             <span class="ms-1">Carrito</span>
           </a>
@@ -287,26 +287,65 @@ async function cargarCarritoLateral() {
     const response = await fetch('<?= base_url('carrito/ajax') ?>');
     const html = await response.text();
     document.getElementById('cartItems').innerHTML = html;
-    // Actualizar total y botón
+    // Actualizar total y botón SOLO si existen en el HTML cargado
     const total = document.getElementById('cartTotalHidden');
     if (total) {
-        document.getElementById('cartTotal').textContent = total.value;
-        document.getElementById('checkoutBtn').disabled = (parseFloat(total.value.replace(/[^0-9,\.]/g, '').replace(',', '.')) <= 0);
+        if(document.getElementById('cartTotal'))
+            document.getElementById('cartTotal').textContent = total.value;
+        if(document.getElementById('checkoutBtn'))
+            document.getElementById('checkoutBtn').disabled = (parseFloat(total.value.replace(/[^0-9,\.]/g, '').replace(',', '.')) <= 0);
     }
+    // SIEMPRE actualizar contador después de cargar el carrito
+    actualizarContadorCarrito();
 }
 
-// Cargar el carrito cada vez que se abre el offcanvas
-const cartBtn = document.querySelector('.fa-shopping-cart').closest('a');
+async function actualizarContadorCarrito() {
+    let count = 0;
+    try {
+        const response = await fetch('<?= base_url('carrito/devolver_carrito') ?>');
+        if (!response.ok) throw new Error('No response');
+        const data = await response.json();
+        if (data && typeof data === 'object') {
+            if ('total_items' in data) {
+                count = parseInt(data['total_items']);
+                if (isNaN(count) || count < 0) count = 0;
+            } else {
+                for (const key in data) {
+                    if (
+                        data.hasOwnProperty(key) &&
+                        typeof data[key] === 'object' &&
+                        data[key] !== null &&
+                        'qty' in data[key] &&
+                        'id' in data[key]
+                    ) {
+                        let qty = data[key].qty;
+                        if (typeof qty === 'string') qty = parseInt(qty);
+                        if (!isNaN(qty) && qty > 0) count += qty;
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        count = 0;
+    }
+    // Log temporal para depuración
+    console.log('Carrito total_items:', count);
+    document.getElementById('cartCount').textContent = count;
+}
+// Inicializar contador al cargar la página
+actualizarContadorCarrito();
+
+// Corregir apertura del carrito lateral
+const cartBtn = document.getElementById('btnAbrirCarrito');
 if(cartBtn) {
   cartBtn.addEventListener('click', function(e) {
     e.preventDefault();
     cargarCarritoLateral();
+    actualizarContadorCarrito(); // <-- Asegura actualización al abrir
     var sideCart = new bootstrap.Offcanvas(document.getElementById('sideCart'));
     sideCart.show();
   });
 }
-</script>
-<script>
 // Carrito lateral: event delegation global para AJAX
 (function() {
     document.addEventListener('click', function(e) {
@@ -314,7 +353,7 @@ if(cartBtn) {
         if (e.target.closest('.btn-eliminar-item')) {
             const rowid = e.target.closest('.btn-eliminar-item').dataset.rowid;
             fetch('<?= base_url('carrito_elimina/') ?>' + rowid, { method: 'GET' })
-                .then(() => cargarCarritoLateral());
+                .then(() => { cargarCarritoLateral(); actualizarContadorCarrito(); });
             e.preventDefault();
             return;
         }
@@ -322,7 +361,7 @@ if(cartBtn) {
         if (e.target.closest('.btn-resta-item')) {
             const rowid = e.target.closest('.btn-resta-item').dataset.rowid;
             fetch('<?= base_url('carrito_resta/') ?>' + rowid, { method: 'GET' })
-                .then(() => cargarCarritoLateral());
+                .then(() => { cargarCarritoLateral(); actualizarContadorCarrito(); });
             e.preventDefault();
             return;
         }
@@ -330,14 +369,14 @@ if(cartBtn) {
         if (e.target.closest('.btn-suma-item')) {
             const rowid = e.target.closest('.btn-suma-item').dataset.rowid;
             fetch('<?= base_url('carrito_suma/') ?>' + rowid, { method: 'GET' })
-                .then(() => cargarCarritoLateral());
+                .then(() => { cargarCarritoLateral(); actualizarContadorCarrito(); });
             e.preventDefault();
             return;
         }
         // Limpiar carrito
         if (e.target.closest('#btnLimpiarCarrito')) {
             fetch('<?= base_url('/borrar') ?>', { method: 'GET' })
-                .then(() => cargarCarritoLateral());
+                .then(() => { cargarCarritoLateral(); actualizarContadorCarrito(); });
             e.preventDefault();
             return;
         }

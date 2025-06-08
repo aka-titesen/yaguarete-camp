@@ -128,7 +128,17 @@ class CarritoController extends BaseController{
     public function devolver_carrito()
     {
         $cart = \Config\Services::cart();
-        return $cart->contents();
+        $contents = $cart->contents();
+        $total_items = 0;
+        foreach ($contents as $item) {
+            if (isset($item['qty'])) {
+                $total_items += (int)$item['qty'];
+            }
+        }
+        return $this->response->setJSON([
+            'total_items' => $total_items,
+            'items' => $contents
+        ]);
     }
 
     public function suma($rowid)
