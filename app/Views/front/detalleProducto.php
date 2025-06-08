@@ -182,22 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.value = 1;
         }
     });
-    
-    // Funcionalidad del botón agregar al carrito
-    document.querySelector('.btn-agregar-carrito-detalle').addEventListener('click', function() {
-        const cantidad = cantidadInput.value;
-        
-        // Aquí puedes agregar la lógica para agregar al carrito
-        alert(`Producto agregado al carrito. Cantidad: ${cantidad}`);
-        
-        // Ejemplo de animación del botón
-        this.innerHTML = '<i class="fas fa-check me-2"></i>¡Agregado!';
-        this.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
-          setTimeout(() => {
-            this.innerHTML = '<i class="fas fa-cart-plus me-2"></i>Agregar al Carrito';
-            this.style.background = 'linear-gradient(135deg, var(--verde-selva), #1e4a36)';
-        }, 2000);
-    });
+    // Se elimina el handler del botón agregar al carrito porque el submit AJAX ya lo cubre
 });
 </script>
 <script>
@@ -232,7 +217,7 @@ document.getElementById('formAgregarCarrito').addEventListener('submit', async f
         form.parentNode.insertBefore(msg, form.nextSibling);
         setTimeout(() => msg.remove(), 3500);
     } else {
-        alert('Error al agregar al carrito');
+        // Se elimina el alert nativo aquí también
     }
 });
 </script>
