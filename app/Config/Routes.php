@@ -36,3 +36,9 @@ $routes->get('carrito_suma/(:any)', 'CarritoController::suma/$1');
 $routes->get('carrito_resta/(:any)', 'CarritoController::resta/$1');
 $routes->get('carrito/ajax', 'CarritoController::ajax');
 $routes->get('carrito/devolver_carrito', 'CarritoController::devolver_carrito');
+
+// Rutas del cliente para ver sus compras y detalle
+$routes->get('vista_compras/(:num)', 'Ventascontroller::ver_factura/$1', ['filter' => 'auth']);
+$routes->get('ver_factura_usuario/(:num)', 'Ventascontroller::ver_facturas_usuario/$1', ['filter' => 'auth']);
+
+$routes->get('/ventas', 'Ventas_controller::ventas');

@@ -99,4 +99,17 @@ class Ventascontroller extends Controller{
         echo view('back/compras/ver_factura_usuario', $data);
         echo view('front/footer_view');
     }
+    public function ventas () {
+        $venta_id = $this->request->getGet('id');
+        $detalle_ventas = new VentasDetalleModel();
+        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
+        $ventascabecera = new VentasCabeceraModel();
+        $data['usuarios']=$ventascabecera->getBuilderVentas_cabecera();
+
+        $dato['titulo'] = "ventas";
+        echo view("front/layouts/header");
+        echo view("front/layouts/navbar");
+        echo view("");
+        echo view("front/layouts/footer");
+    }
 }
