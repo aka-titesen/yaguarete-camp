@@ -38,14 +38,7 @@ $session = session();
                                 </div>
                                 <div class="col-md-3">
                                     <label for="cliente" class="form-label">Cliente</label>
-                                    <select class="form-select" id="cliente" name="cliente">
-                                        <option value="">Todos los clientes</option>
-                                        <?php foreach($clientes as $cliente): ?>
-                                            <option value="<?= $cliente['id'] ?>" <?= (isset($filtros['cliente']) && $filtros['cliente'] == $cliente['id']) ? 'selected' : '' ?>>
-                                                <?= $cliente['nombre'] . ' ' . $cliente['apellido'] ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Buscar por nombre o apellido" value="<?= isset($filtros['cliente']) ? esc($filtros['cliente']) : '' ?>">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="monto_min" class="form-label">Monto mínimo</label>
@@ -161,6 +154,23 @@ document.addEventListener('DOMContentLoaded', function() {
             if(fechaDesde.value && fechaHasta.value && fechaHasta.value < fechaDesde.value) {
                 fechaHasta.value = fechaDesde.value;
             }
+        });
+    }
+
+    // Búsqueda en vivo por cliente
+    const clienteInput = document.getElementById('cliente');
+    if (clienteInput) {
+        clienteInput.addEventListener('input', function() {
+            const filtro = this.value.toLowerCase();
+            const filas = document.querySelectorAll('table tbody tr');
+            filas.forEach(function(fila) {
+                const nombre = fila.children[1].textContent.toLowerCase();
+                if (nombre.includes(filtro)) {
+                    fila.style.display = '';
+                } else {
+                    fila.style.display = 'none';
+                }
+            });
         });
     }
 });
