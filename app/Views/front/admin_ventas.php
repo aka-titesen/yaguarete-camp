@@ -6,7 +6,7 @@ $session = session();
     <div class="row">
         <div class="col-12">
             <div class="card shadow">
-                <div class="card-header bg-dark text-white">
+                <div class="card-header text-white">
                     <h2 class="text-center">Detalle de ventas del Administrador</h2>
                 </div>
                 <div class="card-body">
@@ -21,7 +21,7 @@ $session = session();
                     
                     <!-- Formulario de filtros -->
                     <div class="card mb-4">
-                        <div class="card-header bg-secondary text-white">
+                        <div class="card-header text-white">
                             <h5 class="mb-0">Filtrar Ventas</h5>
                         </div>
                         <div class="card-body">
@@ -118,16 +118,6 @@ $session = session();
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                        
-                        <!-- Botón para exportar a PDF/Excel (placeholder) -->
-                        <div class="text-end mt-3">
-                            <button type="button" class="btn btn-info me-2" disabled>
-                                <i class="fas fa-file-pdf"></i> Exportar a PDF
-                            </button>
-                            <button type="button" class="btn btn-success" disabled>
-                                <i class="fas fa-file-excel"></i> Exportar a Excel
-                            </button>
                         </div>
                     <?php endif; ?>
                 </div>
