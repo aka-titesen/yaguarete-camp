@@ -29,14 +29,14 @@
       <ul class="navbar-nav ms-auto nav-spacing">
         
         <!-- Acceso para administradores -->
-        <?php if (session()->get('perfil_id') == 2 && session()->get('isLoggedIn')): ?>
-        <li class="nav-item mx-1">
+        <?php if (session()->get('perfil_id') == 2 && session()->get('isLoggedIn')): ?>        <li class="nav-item mx-1">
           <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('dashboard') ?>">
             <i class="fas fa-tools me-1"></i>
             <span class="ms-1">Dashboard</span>
           </a>
         </li>
         <?php endif; ?>
+  
           <!-- Menú +info -->
         <li class="nav-item dropdown mx-1">
           <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownInfo" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -94,13 +94,19 @@
                       } elseif ($perfil == 3) {
                         echo 'Vendedor';
                       } else {
-                        echo 'Desconocido';
+                        echo 'Otro';
                       }
                     ?>
                   <?php endif; ?>
                 </span>
               </li>
               <li><hr class="dropdown-divider"></li>
+              <!-- Enlace a Mis Compras -->
+              <li>
+                <a class="dropdown-item" href="<?= base_url('mis-compras') ?>">
+                  <i class="fas fa-shopping-bag me-2"></i> Mis Compras
+                </a>
+              </li>
               <li>
                 <a class="dropdown-item" href="<?= base_url('logout') ?>">
                   <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión

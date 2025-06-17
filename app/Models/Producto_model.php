@@ -24,5 +24,17 @@ class Producto_model extends Model
             ->limit($limit)
             ->findAll();
     }
+
+    // Obtener un producto por ID
+    public function getProducto($id)
+    {
+        return $this->find($id);
+    }
+    
+    // Actualizar el stock de un producto
+    public function updateStock($id, $newStock)
+    {
+        return $this->update($id, ['stock' => $newStock]);
+    }
 }
 ?>

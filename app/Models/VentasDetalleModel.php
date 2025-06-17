@@ -7,9 +7,7 @@ class VentasDetalleModel extends Model
 {
     protected $table = 'ventas_detalle';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['venta_id', 'producto_id', 'cantidad', 'precio'];
-
-    public function getDetalles($id = null) {
+    protected $allowedFields = ['venta_id', 'producto_id', 'cantidad', 'precio'];    public function getDetalles($id = null) {
         $db = \Config\Database::connect();
         $builder = $db->table('ventas_detalle');
         $builder->select('*');
@@ -20,6 +18,13 @@ class VentasDetalleModel extends Model
             $builder->where('ventas_cabecera.id', $id);
         }
         $query = $builder->get();
+        
+        // Manejo de errores para evitar Call to a member function getResultArray() on bool
+        if ($query === false) {
+            log_message('error', 'Error en consulta getDetalles: ' . $db->error()['message'] . ' - ID Venta: ' . $id);
+            return [];
+        }
+        
         return $query->getResultArray();
     }
 }

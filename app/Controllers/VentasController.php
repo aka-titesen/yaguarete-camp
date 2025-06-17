@@ -6,18 +6,19 @@ use App\Models\Usuarios_model;
 use App\Models\VentasCabeceraModel;
 use App\Models\VentasDetalleModel;
 
-class Ventascontroller extends Controller{
-    public function registrar_venta()
-    {
+class Ventascontroller extends Controller{    public function registrar_venta()    {
         $session = session();
-        require(APPPATH . 'Controllers/carrito_controller.php');
         // Instanciar correctamente los controladores y modelos
-        $cartController = new CarritoController();
+        $cartController = new \App\Controllers\CarritoController();
         $productoModel = new Producto_model();
         $ventasModel = new VentasCabeceraModel();
-        $detalleModel = new VentasDetalleModel();
-
-        $carrito_contents = $cartController->devolver_carrito();
+        $detalleModel = new VentasDetalleModel();        $carrito_contents = $cartController->devolver_carrito(true); // Pasar true para obtener el array directamente
+        
+        // Verificar si obtenemos correctamente los contenidos del carrito
+        if (empty($carrito_contents)) {
+            $session->setFlashdata('mensaje', 'Su carrito está vacío. Por favor agregue productos antes de completar la compra.');
+            return redirect()->to(base_url('muestro'));
+        }
 
         $productos_validos = [];
         $productos_sin_stock = [];
@@ -47,11 +48,19 @@ class Ventascontroller extends Controller{
         if (empty($productos_validos)) {
             $session->setFlashdata('mensaje', 'No hay productos válidos para registrar la venta.');
             return redirect()->to(base_url('muestro'));
+        }        // Registrar cabecera de la venta
+        $usuario_id = $session->get('id');
+        if (!$usuario_id) {
+            $usuario_id = $session->get('id_usuario');
         }
-
-        // Registrar cabecera de la venta
+        
+        if (!$usuario_id) {
+            $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
+            return redirect()->to(base_url('muestro'));
+        }
+        
         $nueva_venta = [
-            'usuario_id' => $session->get('id_usuario'),
+            'usuario_id' => $usuario_id,
             'total_venta' => $total
         ];
         $venta_id = $ventasModel->insert($nueva_venta);
@@ -68,48 +77,130 @@ class Ventascontroller extends Controller{
 
             $producto = $productoModel->getProducto($item['id']);
             $productoModel->updateStock($item['id'], $producto['stock'] - $item['qty']);
-        }
-
-        // Vaciar carrito y mostrar confirmación
+        }        // Vaciar carrito y mostrar confirmación
         $cartController->borrar_carrito();
-        $session->setFlashdata('mensaje', 'Venta registrada exitosamente.');
-        return redirect()->to(base_url('vista_compras/' . $venta_id));
-    }
-
-    // Función del usuario cliente para ver sus compras
+        $session->setFlashdata('mensaje', 'Compra registrada exitosamente.');
+        return redirect()->to(base_url('detalle-compra/' . $venta_id));
+    }    // Función del usuario cliente para ver sus compras
     public function ver_factura($venta_id)
     {
         $detalle_ventas = new VentasDetalleModel();
         $data['venta'] = $detalle_ventas->getDetalles($venta_id);
         $dato['titulo'] = "Mi compra";
-        echo view('front/head_view_crud', $dato);
-        echo view('front/nav_view');
-        echo view('back/compras/vista_compras', $data);
-        echo view('front/footer_view');
-    }
-
-    // Función del cliente para ver el detalle de sus facturas de compras
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/vista_compras', $data);
+        echo view('front/layouts/footer');
+    }    // Función del cliente para ver el detalle de sus facturas de compras
     public function ver_facturas_usuario($id_usuario)
     {
         $ventas = new VentasCabeceraModel();
         $data['ventas'] = $ventas->getVentas($id_usuario);
         $dato['titulo'] = "Todos mis compras";
-        echo view('front/head_view_crud', $dato);
-        echo view('front/nav_view');
-        echo view('back/compras/ver_factura_usuario', $data);
-        echo view('front/footer_view');
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/mis_compras', $data); // Usar la vista de cliente
+        echo view('front/layouts/footer');
     }
     public function ventas () {
         $venta_id = $this->request->getGet('id');
         $detalle_ventas = new VentasDetalleModel();
         $data['venta'] = $detalle_ventas->getDetalles($venta_id);
         $ventascabecera = new VentasCabeceraModel();
-        $data['usuarios']=$ventascabecera->getBuilderVentas_cabecera();
-
-        $dato['titulo'] = "ventas";
-        echo view("front/layouts/header");
+        $data['usuarios']=$ventascabecera->getBuilderVentas_cabecera();        $dato['titulo'] = "ventas";
+        echo view("front/layouts/header", $dato);
         echo view("front/layouts/navbar");
-        echo view("");
+        echo view("front/vista_compras", $data);
         echo view("front/layouts/footer");
+    }
+    
+    /**
+     * Función del administrador para ver todas las ventas
+     */
+    public function administrar_ventas()
+    {
+        $ventasModel = new VentasCabeceraModel();
+        $data['ventas'] = $ventasModel->getBuilderVentas_cabecera();
+        $dato['titulo'] = "Administración de Ventas";
+        
+        echo view('back/head_view_crud', $dato);
+        echo view('back/navbar_view');
+        echo view('back/compras/admin_ventas', $data);
+        echo view('back/footer_view');
+    }
+    
+    /**
+     * Función del administrador para ver el detalle de una venta
+     */
+    public function detalle_venta($venta_id)
+    {
+        $detalle_ventas = new VentasDetalleModel();
+        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
+        $dato['titulo'] = "Detalle de Venta";
+        
+        echo view('back/head_view_crud', $dato);
+        echo view('back/navbar_view');
+        echo view('back/compras/detalle_venta', $data);
+        echo view('back/footer_view');
+    }
+    
+    /**
+     * Muestra el historial de compras del cliente actual
+     */
+    public function mis_compras()
+    {
+        $session = session();
+        $usuario_id = $session->get('id');
+        if (!$usuario_id) {
+            $usuario_id = $session->get('id_usuario');
+        }
+        
+        if (!$usuario_id) {
+            $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
+            return redirect()->to(base_url());
+        }
+        
+        $ventasModel = new VentasCabeceraModel();
+        $data['compras'] = $ventasModel->getVentas($usuario_id);
+        $dato['titulo'] = "Mis compras";
+        
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/mis_compras', $data);
+        echo view('front/layouts/footer');
+    }
+    
+    /**
+     * Muestra el detalle de una compra específica
+     */
+    public function detalle_compra($venta_id)
+    {
+        $session = session();
+        $usuario_id = $session->get('id');
+        if (!$usuario_id) {
+            $usuario_id = $session->get('id_usuario');
+        }
+        
+        if (!$usuario_id) {
+            $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
+            return redirect()->to(base_url());
+        }
+        
+        $detalle_ventas = new VentasDetalleModel();
+        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
+        
+        // Verificar que la compra pertenezca al usuario que la está consultando
+        $ventasModel = new VentasCabeceraModel();
+        $venta = $ventasModel->where('id', $venta_id)->where('usuario_id', $usuario_id)->first();
+        if (!$venta) {
+            $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra.');
+            return redirect()->to(base_url('mis-compras'));
+        }
+        
+        $dato['titulo'] = "Detalle de compra";
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/vista_compras', $data);
+        echo view('front/layouts/footer');
     }
 }

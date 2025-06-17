@@ -60,6 +60,18 @@
                                 <a href="<?= base_url('producto/' . $producto['id']) ?>" target="_blank" class="btn btn-ver-producto flex-fill mb-2 mb-md-0">
                                     <i class="fas fa-eye me-1"></i> Ver
                                 </a>
+                                <form class="formAgregarCarrito flex-fill" method="post" action="<?= base_url('carrito/add') ?>">
+                                    <input type="hidden" name="id" value="<?= esc($producto['id']) ?>">
+                                    <input type="hidden" name="nombre_prod" value="<?= esc($producto['nombre_prod']) ?>">
+                                    <input type="hidden" name="precio_vta" value="<?= esc($producto['precio_vta']) ?>">
+                                    <input type="hidden" name="imagen" value="<?= esc($producto['imagen'] ?? '') ?>">
+                                    <div class="input-group">
+                                        <input type="number" name="qty" class="form-control cantidad-selector" min="1" max="<?= esc($producto['stock']) ?>" value="1">
+                                        <button type="submit" class="btn btn-agregar-carrito">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -115,4 +127,60 @@ function filtrarCatalogo() {
 
 filtro.addEventListener('change', filtrarCatalogo);
 buscador.addEventListener('input', filtrarCatalogo);
+
+// Event delegation for all add to cart forms in catalog
+document.addEventListener('submit', async function(e) {
+    if (e.target.classList.contains('formAgregarCarrito')) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            // Create notification
+            let msg = document.createElement('div');
+            msg.style.position = 'fixed';
+            msg.style.bottom = '20px';
+            msg.style.right = '20px';
+            msg.style.zIndex = '9999';
+            msg.style.maxWidth = '300px';
+            
+            if (data.status === 'success') {
+                msg.className = 'alert alert-success';
+                msg.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.msg;
+            } else if (data.status === 'warning') {
+                msg.className = 'alert alert-warning';
+                msg.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' + data.msg;
+            } else if (data.status === 'info') {
+                msg.className = 'alert alert-info';
+                msg.innerHTML = '<i class="fas fa-info-circle me-2"></i>' + data.msg;
+            } else {
+                msg.className = 'alert alert-danger';
+                msg.innerHTML = '<i class="fas fa-times-circle me-2"></i>' + (data.msg || 'Error al agregar al carrito');
+            }
+            
+            document.body.appendChild(msg);
+            
+            // Update cart
+            if (typeof cargarCarritoLateral === 'function') {
+                cargarCarritoLateral();
+            }
+            if (typeof actualizarContadorCarrito === 'function') {
+                actualizarContadorCarrito();
+            }
+            
+            // Remove notification after 3.5 seconds
+            setTimeout(() => msg.remove(), 3500);
+            
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+        }
+    }
+});
 </script>

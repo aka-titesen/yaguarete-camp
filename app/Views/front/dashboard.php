@@ -23,14 +23,13 @@
                     <a href="#" class="btn btn-verde-selva w-100 dashboard-link">Administrar usuarios</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        </div>        <div class="col-md-4">
             <div class="card card-dashboard h-100 shadow-sm">
                 <div class="card-body text-center">
-                    <i class="fas fa-shopping-cart fa-3x mb-3 text-primary"></i>
-                    <h5 class="card-title">Órdenes</h5>
-                    <p class="card-text">Visualiza y gestiona las órdenes de compra realizadas por los clientes.</p>
-                    <a href="#" class="btn btn-verde-selva w-100 dashboard-link">Ver órdenes</a>
+                    <i class="fas fa-chart-bar fa-3x mb-3 text-primary"></i>
+                    <h5 class="card-title">Ventas</h5>
+                    <p class="card-text">Consulta y filtra todas las ventas realizadas en la plataforma.</p>
+                    <a href="<?= base_url('admin-ventas')?>" class="btn btn-verde-selva w-100 dashboard-link">Administrar ventas</a>
                 </div>
             </div>
         </div>
@@ -53,14 +52,13 @@
                     <a href="#" class="btn btn-verde-selva w-100 dashboard-link">Configuración</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        </div>        <div class="col-md-4">
             <div class="card card-dashboard h-100 shadow-sm mt-4">
                 <div class="card-body text-center">
                     <i class="fas fa-envelope fa-3x mb-3 text-primary"></i>
                     <h5 class="card-title">Consultas y Contacto</h5>
                     <p class="card-text">Gestiona mensajes y consultas recibidas desde el formulario de contacto.</p>
-                    <a href="#" class="btn btn-verde-selva w-100 dashboard-link">Ver consultas</a>
+                    <a href="<?= base_url('admin-consultas') ?>" class="btn btn-verde-selva w-100 dashboard-link">Ver consultas</a>
                 </div>
             </div>
         </div>

@@ -5,11 +5,14 @@ use CodeIgniter\Controller;
 use App\Models\Carritos_model;
 
 class CarritoController extends BaseController{
+    protected $response;
+
     public function __construct()
     {
         helper(['form', 'url', 'cart' ]);
         $cart = \Config\Services::cart();
         $session = session();
+        $this->response = \Config\Services::response();
     }
 //agrega items al carrito
     public function add() {
@@ -124,21 +127,52 @@ class CarritoController extends BaseController{
         $cart = \Config\Services::cart();
         $cart->remove($rowid);
         return $this->response->setStatusCode(200)->setBody('ok');
-    }
-    public function devolver_carrito()
+    }    public function devolver_carrito($returnArray = false)
     {
         $cart = \Config\Services::cart();
         $contents = $cart->contents();
         $total_items = 0;
+        
+        // Registrar para depuración
+        log_message('debug', 'Contenido del carrito: ' . json_encode($contents));
+
         foreach ($contents as $item) {
             if (isset($item['qty'])) {
                 $total_items += (int)$item['qty'];
             }
         }
+        
+        // Si se solicita el array directamente (desde otros controladores)
+        if ($returnArray) {
+            log_message('debug', 'Devolviendo contenido del carrito como array: ' . count($contents) . ' productos');
+            return $contents;
+        }
+        
+        // De lo contrario, devuelve la respuesta JSON (para AJAX)
         return $this->response->setJSON([
             'total_items' => $total_items,
             'items' => $contents
         ]);
+    }    // Método para mostrar la página del carrito completo
+    public function muestro()
+    {
+        $cart = \Config\Services::cart();
+        $contents = $cart->contents();
+        
+        // Registrar para depuración
+        log_message('debug', 'Mostrando página de carrito. Contenido: ' . json_encode($contents));
+        
+        $data = [
+            'titulo' => 'Mi carrito de compras',
+            'cart_contents' => $contents,
+            'total' => $cart->total()
+        ];
+        
+        // Simplemente cargaremos las vistas con el contenido del carrito
+        echo view('front/layouts/header', $data);
+        echo view('front/layouts/navbar');
+        echo view('front/muestroCarrito', $data);
+        echo view('front/layouts/footer');
     }
 
     public function suma($rowid)
@@ -187,6 +221,24 @@ class CarritoController extends BaseController{
         include(APPPATH.'Views/front/carritoVista.php');
         $html = ob_get_clean();
         return $this->response->setBody($html);
+    }
+    public function debug_cart()
+    {
+        $cart = \Config\Services::cart();
+        $contents = $cart->contents();
+        
+        echo '<pre>';
+        echo "Contenido del carrito:\n";
+        print_r($contents);
+        echo '</pre>';
+        
+        if (empty($contents)) {
+            echo "El carrito está vacío.";
+        } else {
+            echo "El carrito tiene " . count($contents) . " productos.";
+        }
+        
+        exit;
     }
     
 }

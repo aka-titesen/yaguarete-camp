@@ -26,39 +26,34 @@ if (empty($venta)) { ?>
             <table class="table table-secondary table-responsive table-bordered table-striped rounded">
                 <thead>
                     <tr class="text-center">
-                        <th>N° ORDEN</th>
-                        <th>NOMBRE PRODUCTO</th>
-                        <th>IMAGEN</th>
-                        <th>CANTIDAD</th>
-                        <th>COSTO</th>
-                        <th>COSTO SUB-TOTAL</th>
+                        <th>#</th>
+                        <th>Producto</th>
+                        <th>Imagen</th>
+                        <th>Cantidad</th>
+                        <th>Precio unitario</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $i = 0;
                     $total = 0;
                     ?>
-                    <!--Si es array de ventas y no esta vacio-->
                     <?php if (!empty($venta) && is_array($venta)) {
-                        foreach ($venta as $row) {
-                            $imagen = $row['imagen'];
-                            $i++;
-                            // $total = $row['precio'];
+                        foreach ($venta as $i => $row) {
+                            $imagen = $row['imagen'] ?? ($row['productos.imagen'] ?? '');
+                            $nombre = $row['nombre_prod'] ?? ($row['productos.nombre_prod'] ?? '');
+                            $precio = $row['precio_vta'] ?? ($row['productos.precio_vta'] ?? $row['precio'] ?? 0);
+                            $cantidad = $row['cantidad'] ?? 1;
+                            $subtotal = $precio * $cantidad;
+                            $total += $subtotal;
                     ?>
                     <tr class="text-center">
-                        <th><?php echo $i ?></th>
-                        <td><?php echo $row['nombre_prod']; ?></td>
-                        <td><img width="100" height="65" src="<?php echo base_url($imagen); ?>"></td>
-                        <td><?php echo number_format($row['cantidad']) ?></td>
-                        <td><?php echo $row['precio_vta'] ?></td>
-                        <td>
-                            <?php
-                            $subtotal = ($row['precio_vta'] * $row['cantidad']);
-                            echo number_format($subtotal, 2);
-                            $total += $subtotal;
-                            ?>
-                        </td>
+                        <td><?= $i + 1 ?></td>
+                        <td><?= esc($nombre) ?></td>
+                        <td><img width="100" height="65" src="<?= base_url($imagen) ?>"></td>
+                        <td><?= number_format($cantidad) ?></td>
+                        <td>$<?= number_format($precio, 2) ?></td>
+                        <td>$<?= number_format($subtotal, 2) ?></td>
                     </tr>
                     <?php }} ?>
                 </tbody>
@@ -68,7 +63,7 @@ if (empty($venta)) { ?>
                             <h4>Total</h4>
                         </td>
                         <td class="text-right">
-                            <h4><?php echo number_format($total, 2) ?></h4>
+                            <h4>$<?= number_format($total, 2) ?></h4>
                         </td>
                     </tr>
                 </tfoot>
