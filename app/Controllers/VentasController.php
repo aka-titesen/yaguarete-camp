@@ -112,24 +112,54 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         echo view("front/layouts/navbar");
         echo view("front/vista_compras", $data);
         echo view("front/layouts/footer");
-    }
-    
-    /**
+    }    /**
      * Función del administrador para ver todas las ventas
      */
     public function administrar_ventas()
     {
+        // Obtener parámetros de filtro
+        $fecha_desde = $this->request->getGet('fecha_desde');
+        $fecha_hasta = $this->request->getGet('fecha_hasta');
+        $cliente_id = $this->request->getGet('cliente');
+        $monto_min = $this->request->getGet('monto_min');
+        $monto_max = $this->request->getGet('monto_max');
+        
+        // Guardar filtros para el formulario
+        $filtros = [
+            'fecha_desde' => $fecha_desde,
+            'fecha_hasta' => $fecha_hasta,
+            'cliente' => $cliente_id,
+            'monto_min' => $monto_min,
+            'monto_max' => $monto_max
+        ];
+        
         $ventasModel = new VentasCabeceraModel();
-        $data['ventas'] = $ventasModel->getBuilderVentas_cabecera();
+        
+        // Si hay filtros activos, usar la función filtrada
+        if ($fecha_desde || $fecha_hasta || $cliente_id || $monto_min || $monto_max) {
+            $data['ventas'] = $ventasModel->getVentasFiltradas($fecha_desde, $fecha_hasta, $cliente_id, $monto_min, $monto_max);
+        } else {
+            $data['ventas'] = $ventasModel->getBuilderVentas_cabecera();
+        }
+        
+        // Obtener lista de clientes para el filtro
+        $db = \Config\Database::connect();
+        $builder = $db->table('usuarios');
+        $builder->where('perfil_id !=', 2); // Excluir administradores
+        $query = $builder->get();
+        $data['clientes'] = $query->getResultArray();
+        
+        // Pasar los filtros a la vista
+        $data['filtros'] = $filtros;
+        
         $dato['titulo'] = "Administración de Ventas";
         
-        echo view('back/head_view_crud', $dato);
-        echo view('back/navbar_view');
-        echo view('back/compras/admin_ventas', $data);
-        echo view('back/footer_view');
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/admin_ventas', $data);
+        echo view('front/layouts/footer');
     }
-    
-    /**
+      /**
      * Función del administrador para ver el detalle de una venta
      */
     public function detalle_venta($venta_id)
@@ -138,10 +168,10 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         $data['venta'] = $detalle_ventas->getDetalles($venta_id);
         $dato['titulo'] = "Detalle de Venta";
         
-        echo view('back/head_view_crud', $dato);
-        echo view('back/navbar_view');
-        echo view('back/compras/detalle_venta', $data);
-        echo view('back/footer_view');
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/vista_compras', $data); // Reutilizamos la misma vista que para los clientes
+        echo view('front/layouts/footer');
     }
     
     /**

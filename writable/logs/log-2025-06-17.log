@@ -19,3 +19,15 @@ in APPPATH\Controllers\CarritoController.php on line 139.
  5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
  6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 04:15:48 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "back/head_view_crud.php"
+[Method: GET, Route: admin-ventas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('back/head_view_crud.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('back/head_view_crud', [], true)
+ 3 APPPATH\Controllers\VentasController.php(126): view('back/head_view_crud', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Ventascontroller->administrar_ventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
