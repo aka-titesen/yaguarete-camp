@@ -17,6 +17,16 @@ class Home extends BaseController
         $data = [
             'destacadosPesca' => $destacadosPesca
         ];
+        // Ofertas relámpago: productos de Camping (id=1)
+        $ofertasCamping = $productoModel->where('categoria_id', 1)
+            ->where('eliminado !=', 'SI')
+            ->orderBy('id', 'DESC')
+            ->limit(4)
+            ->findAll();
+        $data = [
+        'destacadosPesca' => $destacadosPesca,
+        'ofertasCamping' => $ofertasCamping
+        ];    
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
         echo view("front/principal", $data);

@@ -138,99 +138,47 @@ if ($msg): ?>
   </div>
 </section>
 
-<!-- Sección Ofertas Relámpago -->
+<!-- Sección Ofertas Relámpago Camping -->
 
 <section id="ofertas-relampago" class="container mb-5">
-  <h2 class="text-center mb-4">OFERTAS RELÁMPAGO</h2>
-
+  <h2 class="text-center mb-4">OFERTAS RELÁMPAGO CAMPING</h2>
   <p class="text-muted text-center mb-4">
     Los productos a precios inigualables
   </p>
   <div class="row g-4">
-    <div class="col-6 col-md-3">
-      <div class="card card-producto h-100">
-        <span class="badge bg-danger position-absolute top-0 end-0 m-2" id="timer-1">
-          Finaliza en 07:05:20
-        </span>
-        <img src="assets/img/productos_ejemplo/remera1.png" class="card-img-top" alt="Oferta" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Campera de pesca</h5>
-            <p class="card-text">Ultraliviana y comoda</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-danger">$89.999</h4>
-            <small class="text-success d-block">3 cuotas sin interés</small>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
+    <?php if (!empty($ofertasCamping)): ?>
+      <?php foreach ($ofertasCamping as $producto): ?>
+        <div class="col-6 col-md-3">
+          <div class="card card-producto h-100">
+            <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+              ¡Oferta!
+            </span>
+            <?php if (!empty($producto['imagen'])): ?>
+              <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" class="card-img-top" alt="<?= esc($producto['nombre_prod']) ?>" />
+            <?php else: ?>
+              <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen" />
+            <?php endif; ?>
+            <div class="card-body">
+              <div class="card-text-container">
+                <h5 class="card-title"><?= esc($producto['nombre_prod']) ?></h5>
+                <p class="card-text">Stock: <?= esc($producto['stock']) ?></p>
+              </div>
+              <div class="card-action-container">
+                <h4 class="text-danger">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
+                <small class="text-success d-block">3 cuotas sin interés</small>
+                <div class="btn-container">
+                  <a href="<?= base_url('producto/' . $producto['id']) ?>" class="btn btn-productos">Ver más</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <div class="col-12">
+        <div class="alert alert-info text-center">No hay ofertas relámpago de camping.</div>
       </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="card card-producto h-100">
-        <span class="badge bg-danger position-absolute top-0 end-0 m-2" id="timer-2">
-          Finaliza en 06:45:10
-        </span>
-        <img src="assets/img/productos_ejemplo/remera2.png" class="card-img-top" alt="Oferta" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Campera camuflada</h5>
-            <p class="card-text">Proteccion contra los rayos del sol</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-danger">$99.999</h4>
-            <small class="text-success d-block">3 cuotas sin interés</small>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="card card-producto h-100">
-        <span class="badge bg-danger position-absolute top-0 end-0 m-2" id="timer-3">
-          Finaliza en 05:30:00
-        </span>
-        <img src="assets/img/productos_ejemplo/carpa3.png" class="card-img-top" alt="Oferta" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Carpa completa</h5>
-            <p class="card-text">Con capacidad para 5 personas</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-danger">$120.999</h4>
-            <small class="text-success d-block">3 cuotas sin interés</small>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="card card-producto h-100">
-        <span class="badge bg-danger position-absolute top-0 end-0 m-2 " id="timer-4">
-          Finaliza en 04:15:50
-        </span>
-        <img src="assets/img/productos_ejemplo/caja1.png" class="card-img-top" alt="Oferta" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Caja de pesca Vintage</h5>
-            <p class="card-text">Capacidad: 15 litros</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-danger">$47.850</h4>
-            <small class="text-success d-block">3 cuotas sin interés</small>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php endif; ?>
   </div>
 </section>
 
