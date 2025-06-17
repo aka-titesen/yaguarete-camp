@@ -89,7 +89,7 @@ if ($msg): ?>
 <br>
 <!-- Sección Productos Destacados -->
 <section class="container mb-5" id="productos-destacados">
-  <h2 class="text-center mb-4">PRODUCTOS DESTACADOS</h2>
+  <h2 class="text-center mb-4">PRODUCTOS DESTACADOS DE PESCA</h2>
   <p class="text-muted text-center mb-4">
     Los productos que arrasan en ventas
   </p>
