@@ -7,9 +7,19 @@ class Home extends BaseController
 {
     public function index(): void
     {
+        $productoModel = new Producto_model();
+        // Traer productos de la categoría Pesca (id=2), solo activos
+        $destacadosPesca = $productoModel->where('categoria_id', 2)
+            ->where('eliminado !=', 'SI')
+            ->orderBy('id', 'DESC')
+            ->limit(6)
+            ->findAll();
+        $data = [
+            'destacadosPesca' => $destacadosPesca
+        ];
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
-        echo view("front/principal");
+        echo view("front/principal", $data);
         echo view("front/layouts/footer");
     }
 

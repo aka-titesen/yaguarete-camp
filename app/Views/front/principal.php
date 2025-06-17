@@ -87,124 +87,46 @@ if ($msg): ?>
   </div>
 </section>
 <br>
+
 <!-- Sección Productos Destacados -->
 <section class="container mb-5" id="productos-destacados">
   <h2 class="text-center mb-4">PRODUCTOS DESTACADOS DE PESCA</h2>
   <p class="text-muted text-center mb-4">
     Los productos que arrasan en ventas
   </p>
-
   <div class="row g-4">
-    <div class="col-6 col-md-6 col-lg-4">
-      <div class="card card-producto h-100">
-        <span class="badge badge-oferta">3 cuotas sin interés</span>
-        <img src="assets/img/productos_ejemplo/caña1.png" class="card-img-top" alt="Caña" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Caña Spinit Tempest 2.4 Mts</h5>
-            <p class="card-text">Resistencia: 150-300 gramos</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-success">$37.500</h4>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-6 col-lg-4">
-      <a href="<?= base_url('producto') ?>" class="card-link">
-        <div class="card card-producto h-100">
-          <span class="badge badge-oferta">6 cuotas sin interés</span>
-          <img src="assets/img/productos_ejemplo/caña2.png" class="card-img-top" alt="Caña" />
-          <div class="card-body">
-            <div class="card-text-container">
-              <h5 class="card-title">Caña completa</h5>
-              <p class="card-text">Material: fibra de vidrio</p>
-            </div>
-            <div class="card-action-container">
-              <h4 class="text-success">$50.500</h4>
-              <div class="btn-container">
-                <button class="btn btn-productos">Ver más</button>
+    <?php if (!empty($destacadosPesca)): ?>
+      <?php foreach ($destacadosPesca as $producto): ?>
+        <div class="col-6 col-md-6 col-lg-4">
+          <div class="card card-producto h-100">
+            <span class="badge badge-oferta">3 cuotas sin interés</span>
+            <?php if (!empty($producto['imagen'])): ?>
+              <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" class="card-img-top" alt="<?= esc($producto['nombre_prod']) ?>" />
+            <?php else: ?>
+              <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen" />
+            <?php endif; ?>
+            <div class="card-body">
+              <div class="card-text-container">
+                <h5 class="card-title"><?= esc($producto['nombre_prod']) ?></h5>
+                <p class="card-text">
+                  Stock: <?= esc($producto['stock']) ?>
+                </p>
+              </div>
+              <div class="card-action-container">
+                <h4 class="text-success">$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></h4>
+                <div class="btn-container">
+                  <a href="<?= base_url('producto/' . $producto['id']) ?>" class="btn btn-productos">Ver más</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </a>
-    </div>
-    <div class="col-6 col-md-6 col-lg-4">
-      <div class="card card-producto h-100">
-        <span class="badge badge-oferta">3 cuotas sin interés</span>
-        <img src="assets/img/productos_ejemplo/carpa1.png" class="card-img-top" alt="Carpa" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Carpa completa</h5>
-            <p class="card-text">Capacidad: 2 personas</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-success">$71.500</h4>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <div class="col-12">
+        <div class="alert alert-info text-center">No hay productos destacados de pesca.</div>
       </div>
-    </div>
-    <div class="col-6 col-md-6 col-lg-4">
-      <div class="card card-producto h-100">
-        <span class="badge badge-oferta">3 cuotas sin interés</span>
-        <img src="assets/img/productos_ejemplo/carpa2.png" class="card-img-top" alt="Carpa" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Carpa completa + accesorios</h5>
-            <p class="card-text">Capacidad: 4 personas</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-success">$112.500</h4>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-6 col-lg-4">
-      <div class="card card-producto h-100">
-        <span class="badge badge-oferta">6 cuotas sin interés</span>
-        <img src="assets/img/productos_ejemplo/bota1.png" class="card-img-top" alt="Caña" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Bota de aventura</h5>
-            <p class="card-text">Material: cuero y goma</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-success">$78.500</h4>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-6 col-lg-4">
-      <div class="card card-producto h-100">
-        <span class="badge badge-oferta">3 cuotas sin interés</span>
-        <img src="assets/img/productos_ejemplo/mochila1.png" class="card-img-top" alt="Caña" />
-        <div class="card-body">
-          <div class="card-text-container">
-            <h5 class="card-title">Mochila de aventura</h5>
-            <p class="card-text">Capacidad: 70 litros</p>
-          </div>
-          <div class="card-action-container">
-            <h4 class="text-success">$125.500</h4>
-            <div class="btn-container">
-              <button class="btn btn-productos">Ver más</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php endif; ?>
   </div>
 </section>
 
