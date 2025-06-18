@@ -201,6 +201,9 @@
 <br>
 <br>
 <!-- Scripts necesarios -->
+ <script>
+    window.usuariosData = <?php echo json_encode($users); ?>;
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
@@ -241,5 +244,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // Mostrar solo activos al cargar
     filtro.dispatchEvent(new Event('change'));
+});
+</script>
+
+<script>
+  // Script para manejar el modal de edición de usuarios
+document.addEventListener('DOMContentLoaded', function() {
+    // Pasar datos del usuario al modal de edición
+    const usuarios = window.usuariosData || [];
+    document.querySelectorAll('.btn-editar-usuario').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const usuario = usuarios.find(u => u.id == id);
+            if (usuario) {
+                document.getElementById('edit_id_usuario').value = usuario.id;
+                document.getElementById('edit_nombre').value = usuario.nombre;
+                document.getElementById('edit_apellido').value = usuario.apellido;
+                document.getElementById('edit_usuario').value = usuario.usuario;
+                document.getElementById('edit_email').value = usuario.email;
+                document.getElementById('edit_perfil_id').value = usuario.perfil_id;
+                // Mostrar modal
+                var modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
+                modal.show();
+            }
+        });
+    });
 });
 </script>

@@ -98,7 +98,7 @@ class Usuario_crud_controller extends Controller
             'perfil_id'=> $this->request->getVar('perfil'),
         ];
         $userModel->update($id, $data);
-        return $this->response->redirect(site_url('users-list'));
+        return redirect()->to('admin_usuarios');
     }
 
     // delete lógico (cambia el estado del campo baja)
