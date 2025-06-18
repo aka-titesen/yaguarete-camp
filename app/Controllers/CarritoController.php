@@ -240,6 +240,56 @@ class CarritoController extends BaseController{
         
         exit;
     }
+    public function debug_compra($id = null) {
+        // Solo permitir en entorno de desarrollo
+        if (ENVIRONMENT !== 'development') {
+            return redirect()->to(base_url());
+        }
+        
+        $session = session();
+        
+        // Verificar permisos
+        if (!$session->get('id')) {
+            return $this->response->setJSON(['error' => 'No autorizado']);
+        }
+        
+        // Verificar el ID
+        if (!$id) {
+            $id = $this->request->getGet('id');
+        }
+        
+        if (!$id) {
+            return $this->response->setJSON(['error' => 'ID de compra no especificado']);
+        }
+        
+        // Obtener datos de la compra
+        $db = \Config\Database::connect();
+        
+        // Cabecera de venta
+        $builder = $db->table('ventas_cabecera');
+        $builder->where('id', $id);
+        $cabecera = $builder->get()->getRowArray();
+        
+        // Detalles de venta
+        $builder = $db->table('ventas_detalle');
+        $builder->where('venta_id', $id);
+        $builder->join('productos', 'productos.id = ventas_detalle.producto_id');
+        $detalles = $builder->get()->getResultArray();
+        
+        // Mostrar datos para depuración
+        echo "<h2>Depuración de Compra ID: $id</h2>";
+        echo "<h3>Cabecera:</h3>";
+        echo "<pre>";
+        print_r($cabecera);
+        echo "</pre>";
+        
+        echo "<h3>Detalles (". count($detalles) ." filas):</h3>";
+        echo "<pre>";
+        print_r($detalles);
+        echo "</pre>";
+        
+        echo "<p>SQL cabecera: " . $db->getLastQuery() . "</p>";
+    }
     
 }
 

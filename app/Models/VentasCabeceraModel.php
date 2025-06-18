@@ -9,8 +9,18 @@ class VentasCabeceraModel extends Model
     protected $allowedFields = ['fecha', 'usuario_id', 'total_venta'];    public function getBuilderVentas_cabecera(){
         $db = \Config\Database::connect();
         $builder = $db->table('ventas_cabecera');
-        $builder->select('*');
+        $builder->select('
+            ventas_cabecera.id,
+            ventas_cabecera.fecha,
+            ventas_cabecera.total_venta,
+            ventas_cabecera.usuario_id,
+            usuarios.nombre,
+            usuarios.apellido,
+            usuarios.email,
+            usuarios.usuario
+        ');
         $builder->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id');
+        $builder->orderBy('ventas_cabecera.fecha', 'DESC'); // Más reciente primero
         $query = $builder->get();
         
         // Manejo de errores para evitar Call to a member function getResultArray() on bool
@@ -19,18 +29,25 @@ class VentasCabeceraModel extends Model
             return [];
         }
         
-        return $query->getResultArray();
-    }
-
-    public function getVentas($id_usuario = null){
+        return $query->getResultArray();    }public function getVentas($id_usuario = null){
         if($id_usuario === null) {
             return $this->getBuilderVentas_cabecera();
         } else {
             $db = \Config\Database::connect();
             $builder = $db->table('ventas_cabecera');
-            $builder->select('*');
+            $builder->select('
+                ventas_cabecera.id,
+                ventas_cabecera.fecha,
+                ventas_cabecera.total_venta,
+                ventas_cabecera.usuario_id,
+                usuarios.nombre,
+                usuarios.apellido,
+                usuarios.email,
+                usuarios.usuario
+            ');
             $builder->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id');
             $builder->where('ventas_cabecera.usuario_id', $id_usuario);
+            $builder->orderBy('ventas_cabecera.fecha', 'DESC'); // Más reciente primero
             $query = $builder->get();
             
             // Manejo de errores para evitar Call to a member function getResultArray() on bool
@@ -49,8 +66,16 @@ class VentasCabeceraModel extends Model
     public function getVentasFiltradas($fecha_desde = null, $fecha_hasta = null, $cliente = null, $monto_min = null, $monto_max = null)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('ventas_cabecera');
-        $builder->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email, usuarios.usuario');
+        $builder = $db->table('ventas_cabecera');        $builder->select('
+            ventas_cabecera.id,
+            ventas_cabecera.fecha,
+            ventas_cabecera.total_venta,
+            ventas_cabecera.usuario_id,
+            usuarios.nombre,
+            usuarios.apellido,
+            usuarios.email,
+            usuarios.usuario
+        ');
         $builder->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id');
         
         // Aplicar filtros si están definidos

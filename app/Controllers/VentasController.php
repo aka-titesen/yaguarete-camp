@@ -84,8 +84,38 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
     }    // Función del usuario cliente para ver sus compras
     public function ver_factura($venta_id)
     {
-        $detalle_ventas = new VentasDetalleModel();
-        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
+        $session = session();
+        $usuario_id = $session->get('id') ?: $session->get('id_usuario');
+        if (!$usuario_id) {
+            $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
+            return redirect()->to(base_url('login'));
+        }
+        // Validar que la compra pertenezca al usuario
+        $cabeceraModel = new \App\Models\VentasCabeceraModel();
+        $cabecera = $cabeceraModel->where('id', $venta_id)->where('usuario_id', $usuario_id)->first();
+        if (!$cabecera) {
+            $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra o la compra no existe.');
+            return redirect()->to(base_url('mis-compras'));
+        }
+        $detalle_ventas = new \App\Models\VentasDetalleModel();
+        $detalles = $detalle_ventas->where('venta_id', $venta_id)->findAll();
+        // Si no hay detalles, mostrar mensaje claro
+        if (empty($detalles)) {
+            $session->setFlashdata('mensaje', 'Esta compra no tiene productos asociados.');
+            return redirect()->to(base_url('mis-compras'));
+        }
+        // Obtener datos de producto para cada detalle
+        $productoModel = new \App\Models\Producto_model();
+        foreach ($detalles as &$detalle) {
+            $producto = $productoModel->find($detalle['producto_id']);
+            $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
+            $detalle['imagen'] = $producto['imagen'] ?? '';
+            $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
+            $detalle['descripcion'] = $producto['descripcion'] ?? '';
+        }
+        unset($detalle);
+        $data['venta'] = $detalles;
+        $data['cabecera'] = $cabecera;
         $dato['titulo'] = "Mi compra";
         echo view('front/layouts/header', $dato);
         echo view('front/layouts/navbar');
@@ -199,38 +229,73 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         echo view('front/mis_compras', $data);
         echo view('front/layouts/footer');
     }
-    
     /**
      * Muestra el detalle de una compra específica
-     */
-    public function detalle_compra($venta_id)
+     */    public function detalle_compra($venta_id)
     {
         $session = session();
         $usuario_id = $session->get('id');
         if (!$usuario_id) {
             $usuario_id = $session->get('id_usuario');
         }
-        
         if (!$usuario_id) {
             $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
             return redirect()->to(base_url());
         }
-        
-        $detalle_ventas = new VentasDetalleModel();
-        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
-        
-        // Verificar que la compra pertenezca al usuario que la está consultando
-        $ventasModel = new VentasCabeceraModel();
-        $venta = $ventasModel->where('id', $venta_id)->where('usuario_id', $usuario_id)->first();
-        if (!$venta) {
-            $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra.');
+        // Validar que $venta_id sea numérico
+        if (!is_numeric($venta_id)) {
+            $session->setFlashdata('mensaje', 'Error: ID de compra inválido.');
             return redirect()->to(base_url('mis-compras'));
         }
+        try {
+            // 1. Verificar que la compra exista y pertenezca al usuario
+            $ventasCabecera = new \App\Models\VentasCabeceraModel();
+            $venta_cabecera = $ventasCabecera->where('id', $venta_id)
+                ->where('usuario_id', $usuario_id)
+                ->first();
+            if (!$venta_cabecera) {
+                $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra o la compra no existe.');
+                return redirect()->to(base_url('mis-compras'));
+            }
+            // 2. Obtener detalles usando el modelo (más seguro)
+            $detalle_ventas = new \App\Models\VentasDetalleModel();
+            $data['venta'] = $detalle_ventas->getDetalles($venta_id);
+            if (empty($data['venta'])) {
+                $session->setFlashdata('mensaje', 'No se encontraron detalles para esta compra.');
+                return redirect()->to(base_url('mis-compras'));
+            }
+            $data['cabecera'] = $venta_cabecera;
+            $dato['titulo'] = "Detalle de compra";
+            echo view('front/layouts/header', $dato);
+            echo view('front/layouts/navbar');
+            echo view('front/vista_compras', $data);
+            echo view('front/layouts/footer');
+        } catch (\Exception $e) {
+            log_message('error', "Error al obtener detalle de compra ID $venta_id: " . $e->getMessage());
+            $session->setFlashdata('mensaje', 'Error al recuperar los detalles de la compra. Por favor intente nuevamente.');
+            return redirect()->to(base_url('mis-compras'));
+        }
+    }
+    
+    /**
+     * Método de diagnóstico para analizar problemas con una venta específica
+     */
+    public function diagnosticar($venta_id)
+    {
+        // Validar que venta_id sea numérico
+        if (!is_numeric($venta_id)) {
+            echo "Error: ID de venta inválido";
+            return;
+        }
         
-        $dato['titulo'] = "Detalle de compra";
-        echo view('front/layouts/header', $dato);
-        echo view('front/layouts/navbar');
-        echo view('front/vista_compras', $data);
-        echo view('front/layouts/footer');
+        // Verificar que el usuario tenga permisos (debe ser administrador)
+        $session = session();
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+            echo "Error: No tiene permisos para acceder a este diagnóstico";
+            return;
+        }
+        
+        // Redirigir al script de diagnóstico
+        return redirect()->to(base_url('diagnostico_detalle_compra.php?id=' . $venta_id));
     }
 }

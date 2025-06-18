@@ -38,6 +38,10 @@ $routes->get('carrito/ajax', 'CarritoController::ajax');
 $routes->get('carrito/devolver_carrito', 'CarritoController::devolver_carrito');
 $routes->get('muestro', 'CarritoController::muestro');
 $routes->get('debug-cart', 'CarritoController::debug_cart'); // Ruta para depuración
+$routes->get('debug-compra/(:num)', 'CarritoController::debug_compra/$1'); // Ruta para depurar una compra específica
+$routes->get('debug-compra', 'CarritoController::debug_compra'); // Ruta para depuración general
+$routes->get('debug/compra/(:num)', 'Home::verCompra/$1'); // Ruta personalizada para acceder al script de depuración
+$routes->get('diagnostico/(:num)', 'Ventascontroller::diagnosticar/$1'); // Ruta personalizada para el diagnóstico de compra
 
 // Rutas del cliente para ver sus compras y detalle
 $routes->get('vista_compras/(:num)', 'Ventascontroller::ver_factura/$1', ['filter' => 'cliente']);
@@ -45,7 +49,7 @@ $routes->get('ver_factura_usuario/(:num)', 'Ventascontroller::ver_facturas_usuar
 
 // Nuevas rutas para compras de cliente y administración de ventas
 $routes->get('mis-compras', 'Ventascontroller::mis_compras', ['filter' => 'cliente']);
-$routes->get('detalle-compra/(:num)', 'Ventascontroller::detalle_compra/$1', ['filter' => 'cliente']);
+$routes->get('detalle-compra/(:num)', 'Ventascontroller::ver_factura/$1', ['filter' => 'cliente']); // Usar el método que funcionaba correctamente
 $routes->get('admin-ventas', 'Ventascontroller::administrar_ventas', ['filter' => 'auth']);
 $routes->get('detalle-venta/(:num)', 'Ventascontroller::detalle_venta/$1', ['filter' => 'auth']);
 
@@ -54,4 +58,4 @@ $routes->post('enviar-consulta', 'ConsultasController::enviarConsulta');
 $routes->get('admin-consultas', 'ConsultasController::administrarConsultas', ['filter' => 'auth']);
 $routes->post('responder-consulta', 'ConsultasController::responderConsulta');
 
-$routes->get('/ventas', 'Ventas_controller::ventas');
+$routes->get('/ventas', 'Ventascontroller::ventas');

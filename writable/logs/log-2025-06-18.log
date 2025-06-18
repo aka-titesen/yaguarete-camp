@@ -1,0 +1,264 @@
+ERROR - 2025-06-18 00:29:57 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(262): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+CRITICAL - 2025-06-18 00:29:57 --> Error: Call to a member function getResultArray() on bool
+[Method: GET, Route: detalle-compra/1]
+in APPPATH\Controllers\VentasController.php on line 263.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-06-18 00:37:08 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:08 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 1
+ERROR - 2025-06-18 00:37:10 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:10 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 1
+ERROR - 2025-06-18 00:37:11 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:11 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 1
+ERROR - 2025-06-18 00:37:12 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:12 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 1
+ERROR - 2025-06-18 00:37:13 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:13 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 1
+ERROR - 2025-06-18 00:37:14 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:14 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 1
+ERROR - 2025-06-18 00:37:15 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(279): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('2')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 00:37:15 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' - ID Venta: 2
+ERROR - 2025-06-18 01:12:13 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(285): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+CRITICAL - 2025-06-18 01:12:13 --> Error: Call to a member function getResultArray() on bool
+[Method: GET, Route: detalle-compra/1]
+in APPPATH\Controllers\VentasController.php on line 288.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-06-18 01:21:10 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(283): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('2')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 01:21:10 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' (Código: 1054)
+ERROR - 2025-06-18 01:21:10 --> Query que falló: SELECT 
+                vd.id, 
+                vd.venta_id, 
+                vd.producto_id, 
+                vd.cantidad, 
+                vd.precio,
+                vc.fecha, 
+                vc.total_venta, 
+                vc.usuario_id,
+                p.nombre_prod, 
+                p.descripcion, 
+                p.imagen, 
+                p.precio_vta,
+                u.nombre, 
+                u.apellido, 
+                u.email, 
+                u.usuario
+              FROM 
+                ventas_detalle vd
+              LEFT JOIN 
+                ventas_cabecera vc ON vc.id = vd.venta_id
+              LEFT JOIN 
+                productos p ON p.id = vd.producto_id
+              LEFT JOIN 
+                usuarios u ON u.id = vc.usuario_id
+              WHERE 
+                vd.venta_id = 2
+              ORDER BY 
+                p.nombre_prod ASC
+ERROR - 2025-06-18 01:21:10 --> Tablas verificadas: ventas_detalle existe
+ERROR - 2025-06-18 01:21:10 --> Consulta simple exitosa. Encontrados 1 detalles para venta_id=2
+ERROR - 2025-06-18 01:23:20 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(283): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('2')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 01:23:20 --> Error en consulta SQL: Unknown column 'p.descripcion' in 'field list' (Código: 1054)
+ERROR - 2025-06-18 01:23:20 --> Query que falló: SELECT 
+                vd.id, 
+                vd.venta_id, 
+                vd.producto_id, 
+                vd.cantidad, 
+                vd.precio,
+                vc.fecha, 
+                vc.total_venta, 
+                vc.usuario_id,
+                p.nombre_prod, 
+                p.descripcion, 
+                p.imagen, 
+                p.precio_vta,
+                u.nombre, 
+                u.apellido, 
+                u.email, 
+                u.usuario
+              FROM 
+                ventas_detalle vd
+              LEFT JOIN 
+                ventas_cabecera vc ON vc.id = vd.venta_id
+              LEFT JOIN 
+                productos p ON p.id = vd.producto_id
+              LEFT JOIN 
+                usuarios u ON u.id = vc.usuario_id
+              WHERE 
+                vd.venta_id = 2
+              ORDER BY 
+                p.nombre_prod ASC
+ERROR - 2025-06-18 01:23:20 --> Tablas verificadas: ventas_detalle existe
+ERROR - 2025-06-18 01:23:20 --> Consulta simple exitosa. Encontrados 1 detalles para venta_id=2
+ERROR - 2025-06-18 01:24:41 --> mysqli_sql_exception: Unknown column 'p.descripcion' in 'field list' in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT \r\n      ...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT \r\n      ...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT \r\n      ...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\VentasController.php(283): CodeIgniter\Database\BaseConnection->query('SELECT \r\n      ...', Array)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Ventascontroller->detalle_compra('1')
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+ERROR - 2025-06-18 01:42:18 --> Error al obtener detalle de compra ID 1: Undefined variable $ruta_imagen
+ERROR - 2025-06-18 01:44:28 --> Error al obtener detalle de compra ID 2: Undefined variable $ruta_imagen
+ERROR - 2025-06-18 01:44:30 --> Error al obtener detalle de compra ID 2: Undefined variable $ruta_imagen
+ERROR - 2025-06-18 01:46:14 --> Error al obtener detalle de compra ID 2: Undefined variable $ruta_imagen
+ERROR - 2025-06-18 01:46:17 --> Error al obtener detalle de compra ID 2: Undefined variable $ruta_imagen
+CRITICAL - 2025-06-18 01:48:29 --> ErrorException: Undefined variable $ruta_imagen
+[Method: GET, Route: detalle-compra/2]
+in APPPATH\Views\front\vista_compras.php on line 200.
+ 1 APPPATH\Views\front\vista_compras.php(200): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $ruta_imagen', 'C:\\xampp\\htdocs\\proyecto_Martinez_Gonzalez\\app\\Views\\front\\vista_compras.php', 200)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\proyecto_Martinez_Gonzalez\\app\\Views\\front\\vista_compras.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('front/vista_compras', [], true)
+ 5 APPPATH\Controllers\VentasController.php(92): view('front/vista_compras', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Ventascontroller->ver_factura('2')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Ventascontroller))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
