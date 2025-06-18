@@ -24,6 +24,7 @@ $routes->get('administrarProductos', 'ProductoController::index', ['filter' => '
 $routes->get('admin_usuarios', 'usuario_crud_controller::index', ['filter' => 'auth']);
 $routes->post('/store', 'usuario_crud_controller::store', ['filter' => 'auth']);
 $routes->get('deletelogico/(:num)', 'usuario_crud_controller::deletelogico/$1', ['filter' => 'auth']);
+$routes->get('activar/(:num)', 'usuario_crud_controller::activar/$1', ['filter' => 'auth']);
 
 $routes->post('ProductoController/modifica/(:num)', 'ProductoController::modifica/$1', ['filter' => 'auth']);
 $routes->get('ProductoController/deleteproducto/(:num)', 'ProductoController::deleteproducto/$1', ['filter' => 'auth']);

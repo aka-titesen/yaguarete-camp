@@ -113,9 +113,7 @@ class Usuario_crud_controller extends Controller
     public function activar($id = null)
     {
         $userModel = new Usuarios_Model();
-        $data['baja'] = $userModel->where('id', $id)->first();
-        $data['baja'] = 'NO';
-        $userModel->update($id, $data);
-        return $this->response->redirect(site_url('users-list'));
+        $userModel->update($id, ['baja' => 'NO']);
+        return redirect()->to('admin_usuarios');
     }
 }
