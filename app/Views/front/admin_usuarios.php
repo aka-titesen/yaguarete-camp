@@ -8,6 +8,15 @@
         </button>
     </div>
 
+    <!-- Filtro de usuarios activos/dados de baja -->
+  <div class="mb-3 d-flex justify-content-end align-items-center">
+      <label class="me-2 mb-0 fw-bold">Ver:</label>
+      <select id="filtroUsuarios" class="form-select w-auto">
+          <option value="activos" selected>Usuarios activos</option>
+          <option value="baja">Usuarios dados de baja</option>
+      </select>
+  </div>
+
     <!-- Buscador por nombre de usuario -->
     <div class="row mb-3 justify-content-end">
         <div class="col-auto buscador-con-icono">
@@ -147,10 +156,10 @@
                         <th scope="col" class="text-center">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tablaUsuariosBody">
                     <?php if($users): ?>
                         <?php foreach($users as $user): ?>
-                            <tr>
+                            <tr class="<?= ($user['baja'] === 'SI') ? 'usuario-baja' : 'usuario-activo'; ?>">
                                 <td><?= $user['id']; ?></td>
                                 <td><?= $user['nombre'] . ' ' . $user['apellido']; ?></td>
                                 <td><?= $user['email']; ?></td>
@@ -211,5 +220,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filtro de usuarios activos/dados de baja
+    const filtro = document.getElementById('filtroUsuarios');
+    const filas = document.querySelectorAll('#tablaUsuariosBody tr');
+    filtro.addEventListener('change', function() {
+        const valor = this.value;
+        filas.forEach(fila => {
+            if (valor === 'activos' && fila.classList.contains('usuario-activo')) {
+                fila.style.display = '';
+            } else if (valor === 'baja' && fila.classList.contains('usuario-baja')) {
+                fila.style.display = '';
+            } else {
+                fila.style.display = 'none';
+            }
+        });
+    });
+    // Mostrar solo activos al cargar
+    filtro.dispatchEvent(new Event('change'));
 });
 </script>
