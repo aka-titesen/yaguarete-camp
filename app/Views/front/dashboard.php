@@ -20,7 +20,7 @@
                     <i class="fas fa-users fa-3x mb-3 text-primary"></i>
                     <h5 class="card-title">Usuarios</h5>
                     <p class="card-text">Administra los usuarios del sistema: crear, modificar, eliminar y asignar roles.</p>
-                    <a href="#" class="btn btn-verde-selva w-100 dashboard-link">Administrar usuarios</a>
+                    <a href="<?= base_url('admin_usuarios')?>" class="btn btn-verde-selva w-100 dashboard-link">Administrar usuarios</a>
                 </div>
             </div>
         </div>

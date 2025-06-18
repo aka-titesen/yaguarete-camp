@@ -21,6 +21,10 @@ $routes->post('login/auth', 'login_controller::auth');
 $routes->get('logout', 'login_controller::logout');
 $routes->post('/crear-producto', 'ProductoController::store', ['filter' => 'auth']);
 $routes->get('administrarProductos', 'ProductoController::index', ['filter' => 'auth']);
+$routes->get('admin_usuarios', 'usuario_crud_controller::index', ['filter' => 'auth']);
+
+$routes->post('/store', 'usuario_crud_controller::store', ['filter' => 'auth']);
+
 $routes->post('ProductoController/modifica/(:num)', 'ProductoController::modifica/$1', ['filter' => 'auth']);
 $routes->get('ProductoController/deleteproducto/(:num)', 'ProductoController::deleteproducto/$1', ['filter' => 'auth']);
 $routes->post('ProductoController/deleteproducto/(:num)', 'ProductoController::deleteproducto/$1', ['filter' => 'auth']);
