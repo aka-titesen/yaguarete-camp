@@ -97,7 +97,6 @@
               <option value="1">Cliente</option>
               <option value="2">Administrador</option>
               <option value="2">Vendedor</option>
-              <!-- Agrega más perfiles si es necesario -->
             </select>
             <?php if($validation->getError('perfil_id')): ?>
               <div class="alert alert-danger mt-2"><?= $validation->getError('perfil_id'); ?></div>
