@@ -105,10 +105,8 @@ class Usuario_crud_controller extends Controller
     public function deletelogico($id = null)
     {
         $userModel = new Usuarios_Model();
-        $data['baja'] = $userModel->where('id', $id)->first();
-        $data['baja'] = 'SI';
-        $userModel->update($id, $data);
-        return $this->response->redirect(site_url('users-list'));
+        $userModel->update($id, ['baja' => 'SI']);
+        return redirect()->to('admin_usuarios');
     }
 
     // activar usuario (cambia el estado del campo baja a NO)
