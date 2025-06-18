@@ -153,9 +153,6 @@ log_message('debug', 'Total filas en detalle: ' . (is_array($venta) ? count($ven
                         }
                         
                         foreach ($venta as $i => $row) {
-                            echo '<pre style="background:#fffbe6; color:#333; border:1px solid #ccc; padding:8px;">';
-                            print_r($row);
-                            echo '</pre>';
                             $nombre = isset($row['nombre_prod']) && $row['nombre_prod'] !== null && $row['nombre_prod'] !== '' ? $row['nombre_prod'] : 'Producto sin nombre';
                             $imagen = isset($row['imagen']) && $row['imagen'] !== null && $row['imagen'] !== '' ? $row['imagen'] : '';
                             // Definir la ruta de la imagen correctamente antes de usarla
