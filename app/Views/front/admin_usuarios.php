@@ -8,6 +8,14 @@
         </button>
     </div>
 
+    <!-- Buscador por nombre de usuario -->
+    <div class="row mb-3 justify-content-end">
+        <div class="col-auto buscador-con-icono">
+            <i class="fas fa-search input-search-icon"></i>
+            <input type="text" id="buscadorNombreUsuario" class="form-control buscador-input" placeholder="Buscar por nombre...">
+        </div>
+    </div>
+
     <!-- Modal para agregar usuario -->
     <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -188,3 +196,20 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const buscador = document.getElementById('buscadorNombreUsuario');
+    const filas = document.querySelectorAll('table tbody tr');
+    buscador.addEventListener('input', function() {
+        const texto = this.value.toLowerCase();
+        filas.forEach(fila => {
+            const nombre = fila.querySelector('td:nth-child(2)');
+            if (nombre && nombre.textContent.toLowerCase().includes(texto)) {
+                fila.style.display = '';
+            } else {
+                fila.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
