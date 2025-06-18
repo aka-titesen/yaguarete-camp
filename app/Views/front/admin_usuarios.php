@@ -97,7 +97,7 @@
     <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <form id="formEditarUsuario" method="post" action="<?= base_url('update-user') ?>">
+          <form id="formEditarUsuario" method="post" action="<?= base_url('editar_user') ?>">
             <div class="modal-header bg-verde-selva text-white">
               <h5 class="modal-title" id="modalEditarUsuarioLabel"><i class="fas fa-edit"></i> Editar Usuario</h5>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>

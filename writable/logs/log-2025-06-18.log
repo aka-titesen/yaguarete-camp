@@ -402,3 +402,51 @@ in SYSTEMPATH\Model.php on line 456.
  7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
  8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-18 20:38:06 --> ErrorException: Undefined variable $user
+[Method: GET, Route: admin_usuarios]
+in APPPATH\Views\front\admin_usuarios.php on line 100.
+ 1 APPPATH\Views\front\admin_usuarios.php(100): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $user', 'C:\\xampp\\htdocs\\proyecto_Martinez_Gonzalez\\app\\Views\\front\\admin_usuarios.php', 100)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\proyecto_Martinez_Gonzalez\\app\\Views\\front\\admin_usuarios.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('front/admin_usuarios', [], true)
+ 5 APPPATH\Controllers\usuario_crud_controller.php(21): view('front/admin_usuarios', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Usuario_crud_controller->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuario_crud_controller))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-06-18 20:43:36 --> mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`bd_martinez_gonzalez`.`usuarios`, CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`perfil_id`) REFERENCES `perfiles` (`id`)) in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `usuario...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `usuario...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `usuario...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `usuario...', Array, false)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\BaseModel.php(1027): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Model.php(863): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\usuario_crud_controller.php(100): CodeIgniter\Model->update('24', Array)
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Usuario_crud_controller->update()
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuario_crud_controller))
+#10 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+ERROR - 2025-06-18 20:43:51 --> mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`bd_martinez_gonzalez`.`usuarios`, CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`perfil_id`) REFERENCES `perfiles` (`id`)) in C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `usuario...', 0)
+#1 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `usuario...')
+#2 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `usuario...')
+#3 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `usuario...', Array, false)
+#4 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\BaseModel.php(1027): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Model.php(863): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\app\Controllers\usuario_crud_controller.php(100): CodeIgniter\Model->update('24', Array)
+#8 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(933): App\Controllers\Usuario_crud_controller->update()
+#9 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuario_crud_controller))
+#10 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\proyecto_Martinez_Gonzalez\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}

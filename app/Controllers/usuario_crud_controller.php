@@ -86,16 +86,17 @@ class Usuario_crud_controller extends Controller
     }
 
     // editar y modificar un usuario
-    public function update(){
+    public function update()
+    {
         $userModel = new Usuarios_Model();
-        $id = $this->request->getVar('id');
+        $id = $this->request->getPost('id'); // <-- así lo recibes
 
         $data = [
-            'nombre'   => $this->request->getVar('nombre'),
-            'apellido' => $this->request->getVar('apellido'),
-            'usuario'  => $this->request->getVar('usuario'),
-            'email'    => $this->request->getVar('email'),
-            'perfil_id'=> $this->request->getVar('perfil'),
+            'nombre'   => $this->request->getPost('nombre'),
+            'apellido' => $this->request->getPost('apellido'),
+            'usuario'  => $this->request->getPost('usuario'),
+            'email'    => $this->request->getPost('email'),
+            'perfil_id'=> $this->request->getPost('perfil_id'),
         ];
         $userModel->update($id, $data);
         return redirect()->to('admin_usuarios');
