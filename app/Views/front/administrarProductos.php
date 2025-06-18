@@ -261,13 +261,13 @@
                                         </td>
                                         <td><?= esc($producto['nombre_prod']) ?></td>
                                         <td><?= esc([
-    '1' => 'Camping',
-    '2' => 'Pesca',
-    '3' => 'Ropa',
-    '4' => 'Calzado',
-    '5' => 'Mochilas',
-    '6' => 'Accesorios',
-][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
+                                                '1' => 'Camping',
+                                                '2' => 'Pesca',
+                                                '3' => 'Ropa',
+                                                '4' => 'Calzado',
+                                                '5' => 'Mochilas',
+                                                '6' => 'Accesorios',
+                                            ][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
                                         <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
                                         <td>$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></td>
                                         <td><?= esc($producto['stock']) ?></td>
@@ -295,13 +295,13 @@
                                         </td>
                                         <td><?= esc($producto['nombre_prod']) ?></td>
                                         <td><?= esc([
-    '1' => 'Camping',
-    '2' => 'Pesca',
-    '3' => 'Ropa',
-    '4' => 'Calzado',
-    '5' => 'Mochilas',
-    '6' => 'Accesorios',
-][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
+                                                '1' => 'Camping',
+                                                '2' => 'Pesca',
+                                                '3' => 'Ropa',
+                                                '4' => 'Calzado',
+                                                '5' => 'Mochilas',
+                                                '6' => 'Accesorios',
+                                            ][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
                                         <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
                                         <td>$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></td>
                                         <td><?= esc($producto['stock']) ?></td>
