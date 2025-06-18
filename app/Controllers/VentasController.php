@@ -66,18 +66,21 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         $venta_id = $ventasModel->insert($nueva_venta);
 
         // Registrar detalle y actualizar stock
+        $total_final = 0;
         foreach ($productos_validos as $item) {
             $detalle = [
                 'venta_id' => $venta_id,
                 'producto_id' => $item['id'],
                 'cantidad' => $item['qty'],
-                'precio' => $item['subtotal']
+                'precio' => $item['price'] // precio unitario
             ];
             $detalleModel->insert($detalle);
-
+            $total_final += $item['price'] * $item['qty'];
             $producto = $productoModel->getProducto($item['id']);
             $productoModel->updateStock($item['id'], $producto['stock'] - $item['qty']);
-        }        // Vaciar carrito y mostrar confirmación
+        }
+        // Actualizar el total en la cabecera con la suma real de los detalles
+        $ventasModel->update($venta_id, ['total_venta' => $total_final]);        // Vaciar carrito y mostrar confirmación
         $cartController->borrar_carrito();
         $session->setFlashdata('mensaje', 'Compra registrada exitosamente.');
         return redirect()->to(base_url('detalle-compra/' . $venta_id));

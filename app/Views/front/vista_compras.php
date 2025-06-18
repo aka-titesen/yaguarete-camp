@@ -233,17 +233,8 @@ log_message('debug', 'Total filas en detalle: ' . (is_array($venta) ? count($ven
                 <div class="card bg-light shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Subtotal:</span>
-                            <span>$<?= number_format($total, 2, ',', '.') ?></span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Envío:</span>
-                            <span>Gratis</span>
-                        </div>
-                        <hr class="my-2">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="mb-0">Total:</h5>
-                            <h5 class="mb-0 text-success">$<?= number_format($total, 2, ',', '.') ?></h5>
+                            <span class="text-muted">Total:</span>
+                            <span>$<?= isset($cabecera['total_venta']) ? number_format($cabecera['total_venta'], 2, ',', '.') : number_format($total, 2, ',', '.') ?></span>
                         </div>
                     </div>
                 </div>
