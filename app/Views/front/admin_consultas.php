@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow">
-                <div class="card-header bg-dark text-white">
+                <div class="card-header text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h2 class="mb-0">Consultas de Clientes</h2>
                         <a href="<?= base_url('dashboard') ?>" class="btn btn-outline-light btn-sm">
