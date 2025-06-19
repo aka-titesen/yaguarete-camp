@@ -58,7 +58,7 @@ $session = session();
                                 <div class="card-footer bg-white border-top-0">
                                     <div class="d-flex justify-content-between align-items-center small">
                                         <span class="text-success">Completada</span>
-                                        <!-- Solo mostramos la fecha, no la hora -->
+                                        <!-- Solo mostramos la fecha -->
                                     </div>
                                 </div>
                             </div>

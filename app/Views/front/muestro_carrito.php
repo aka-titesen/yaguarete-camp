@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
                     <div id="cartContent">
-                        <!-- Aquí se carga el contenido del carrito desde carritoVista.php -->
+                        <!-- Aquí se carga el contenido del carrito desde carrito_vista -->
                         <?php 
                             echo view('front/carrito_vista');
                         ?>
