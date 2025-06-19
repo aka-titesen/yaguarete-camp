@@ -67,7 +67,7 @@ if ($validation):
           <p class="lead">
             Tiendas y sacos de dormir con 25% OFF
           </p>
-          <a class="btn btn-cta btn-lg" href="<?= base_url( 'catalogoProductos') ?>">Ver Colección</a>
+          <a class="btn btn-cta btn-lg" href="<?= base_url( 'catalogo') ?>">Ver Colección</a>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ if ($validation):
           <p class="lead">
             Equipamiento especializado para la flora y fauna de Corrientes
           </p>
-          <a class="btn btn-cta btn-lg" href="<?= base_url( 'catalogoProductos') ?>">Descubrir</a>
+          <a class="btn btn-cta btn-lg" href="<?= base_url( 'catalogo') ?>">Descubrir</a>
         </div>
       </div>
     </div>
@@ -213,7 +213,7 @@ if ($validation):
   </div>
 </section>
 
-<?= view('front/layouts/ubicacionHorarios'); ?>
+<?= view('front/layouts/ubicacion_horarios'); ?>
 
 
 

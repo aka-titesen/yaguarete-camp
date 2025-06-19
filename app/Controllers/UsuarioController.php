@@ -1,16 +1,16 @@
 <?php
 namespace App\Controllers;
-use App\Models\Usuarios_model;
+use App\Models\UsuariosModel;
 use CodeIgniter\Controller;
 
-class Usuario_controller extends Controller
+class UsuarioController extends Controller
 {
     protected $formModel;
 
     public function __construct()
     {
         helper(['form', 'url']);
-        $this->formModel = new Usuarios_model();
+        $this->formModel = new UsuariosModel();
     }
 
     public function formValidation()

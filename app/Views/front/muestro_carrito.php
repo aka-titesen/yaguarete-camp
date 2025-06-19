@@ -19,7 +19,7 @@
                     <div id="cartContent">
                         <!-- Aquí se carga el contenido del carrito desde carritoVista.php -->
                         <?php 
-                            echo view('front/carritoVista');
+                            echo view('front/carrito_vista');
                         ?>
                     </div>
                 </div>

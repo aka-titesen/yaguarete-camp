@@ -6,7 +6,7 @@ class VentasCabeceraModel extends Model
 {
     protected $table = 'ventas_cabecera';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['fecha', 'usuario_id', 'total_venta'];    public function getBuilderVentas_cabecera(){
+    protected $allowedFields = ['fecha', 'usuario_id', 'total_venta'];    public function getBuilderVentasCabecera(){
         $db = \Config\Database::connect();
         $builder = $db->table('ventas_cabecera');
         $builder->select('
@@ -25,13 +25,13 @@ class VentasCabeceraModel extends Model
         
         // Manejo de errores para evitar Call to a member function getResultArray() on bool
         if ($query === false) {
-            log_message('error', 'Error en consulta getBuilderVentas_cabecera: ' . $db->error()['message']);
+            log_message('error', 'Error en consulta getBuilderVentasCabecera: ' . $db->error()['message']);
             return [];
         }
         
         return $query->getResultArray();    }public function getVentas($id_usuario = null){
         if($id_usuario === null) {
-            return $this->getBuilderVentas_cabecera();
+            return $this->getBuilderVentasCabecera();
         } else {
             $db = \Config\Database::connect();
             $builder = $db->table('ventas_cabecera');

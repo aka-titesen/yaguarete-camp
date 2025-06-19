@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\Producto_model;
+use App\Models\ProductoModel;
 
 class Home extends BaseController
 {
     protected $productoModel;
     public function __construct()
     {
-        $this->productoModel = new Producto_model();
+        $this->productoModel = new ProductoModel();
     }
     public function index(): void
     {
@@ -37,23 +37,23 @@ class Home extends BaseController
         echo view("front/layouts/footer");
     }
 
-    public function sobre_Nosotros(): void
+    public function sobreNosotros(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
-        echo view("front/sobreNosotros");
+        echo view("front/sobre_nosotros");
         echo view("front/layouts/footer");
     }
 
-    public function term_Y_Condiciones(): void
+    public function termYCondiciones(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
-        echo view("front/termYCondiciones");
+        echo view("front/term_y_condiciones");
         echo view("front/layouts/footer");
     }
 
-    public function a_comercializacion(): void
+    public function aComercializacion(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
@@ -61,13 +61,13 @@ class Home extends BaseController
         echo view("front/layouts/footer");
     }
 
-    public function a_contacto(): void
+    public function aContacto(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
         echo view("front/contacto");
         echo view("front/layouts/footer");
-    }    public function a_producto(): void
+    }    public function aProducto(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
@@ -75,7 +75,7 @@ class Home extends BaseController
         echo view("front/layouts/footer");
     }
 
-    public function a_detalleProducto($id): void
+    public function aDetalleProducto($id): void
     {
         $producto = $this->productoModel->where('id', $id)->first();
         
@@ -91,12 +91,12 @@ class Home extends BaseController
         ];
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
-        echo view("front/detalleProducto", $data);
+        echo view("front/detalle_producto", $data);
         echo view("front/layouts/footer");
     }
 
     
-    public function a_dashboard(): void
+    public function aDashboard(): void
     {
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
@@ -104,7 +104,7 @@ class Home extends BaseController
         echo view("front/layouts/footer");
     }
 
-    public function a_administrarProductos(): void
+    public function aAdministrarProductos(): void
     {
         $session = session();
         if ($session->get('perfil_id') != 2) {
@@ -118,7 +118,7 @@ class Home extends BaseController
         echo view("front/layouts/footer");
     }
 
-    public function a_catalogoProductos(): void
+    public function aCatalogoProductos(): void
     {
         $session = session();
         if ($session->get('perfil_id') == 2) {
@@ -133,7 +133,7 @@ class Home extends BaseController
         $data = ['productos' => $productos];
         echo view('front/layouts/header');
         echo view('front/layouts/navbar');
-        echo view('front/catalogoProductos', $data);
+        echo view('front/catalogo_productos', $data);
         echo view('front/layouts/footer');
     }
 

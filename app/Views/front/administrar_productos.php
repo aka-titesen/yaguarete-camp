@@ -346,7 +346,7 @@
                                             </button>
                                             <button type="button" class="btn btn-sm btn-outline-danger me-1 btn-eliminar-producto"
                                                 title="Eliminar" data-id="<?= $producto['id'] ?>"
-                                                data-action="<?= base_url('ProductoController/deleteproducto/' . $producto['id']) ?>">
+                                                data-action="<?= base_url('deleteproducto/' . $producto['id']) ?>">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </td>
@@ -376,7 +376,7 @@
                                         <td class="text-center">
                                             <button type="button" class="btn btn-sm btn-outline-success me-1 btn-activar-producto"
                                                 title="Reactivar" data-id="<?= $producto['id'] ?>"
-                                                data-action="<?= base_url('ProductoController/activarproducto/' . $producto['id']) ?>">
+                                                data-action="<?= base_url('activarproducto/' . $producto['id']) ?>">
                                                 <i class="fas fa-undo"></i>
                                             </button>
                                         </td>

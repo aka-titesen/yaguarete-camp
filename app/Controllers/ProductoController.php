@@ -1,8 +1,8 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Producto_model;
-use App\Models\Categorias_model;
+use App\Models\ProductoModel;
+use App\Models\CategoriasModel;
 use CodeIgniter\Controller;
 
 class ProductoController extends Controller
@@ -13,9 +13,8 @@ class ProductoController extends Controller
     public function __construct()
     {
         helper(['url', 'form']);
-        $session = session();
-        $this->productoModel = new Producto_model();
-        $this->categoriasModel = new Categorias_model();
+        $this->productoModel = new ProductoModel();
+        $this->categoriasModel = new CategoriasModel();
     }
 
     // Mostrar los productos en lista
@@ -29,11 +28,11 @@ class ProductoController extends Controller
         ];
         echo view('front/layouts/header');
         echo view('front/layouts/navbar');
-        echo view('front/administrarProductos', $data);
+        echo view('front/administrar_productos', $data);
         echo view('front/layouts/footer');
     }
 
-    public function creaproducto()
+    public function creaProducto()
     {
         $data['categorias'] = $this->categoriasModel->getCategorias(); // traer las categorías desde la db
         $data['producto'] = $this->productoModel->getProductoAll();
@@ -97,7 +96,7 @@ class ProductoController extends Controller
             $data['categorias'] = $this->categoriasModel->getCategorias();
             $data['errores'] = $errores;
             $data['old'] = $this->request->getPost();
-            echo view('front/administrarProductos', $data);
+            echo view('front/administrar_productos', $data);
             return;
         }
         // Procesar imagen y guardar producto SOLO si la validación es exitosa
@@ -114,7 +113,7 @@ class ProductoController extends Controller
         ];
         $this->productoModel->insert($data);
         session()->setFlashdata('success', 'Producto creado exitosamente.');
-        return $this->response->redirect(site_url('administrarProductos'));
+        return $this->response->redirect(site_url('administrar_productos'));
     }
 
     public function modifica($id)
@@ -172,7 +171,7 @@ class ProductoController extends Controller
             $data['errores'] = $errores;
             $data['old'] = $this->request->getPost();
             $data['edit_id'] = $id;
-            echo view('front/administrarProductos', $data);
+            echo view('front/administrar_productos', $data);
             return;
         }
         // Procesar imagen si se subió una nueva
@@ -200,22 +199,22 @@ class ProductoController extends Controller
         }
         $this->productoModel->update($id, $data);
         session()->setFlashdata('success', 'Modificación exitosa.');
-        return $this->response->redirect(site_url('administrarProductos'));
+        return $this->response->redirect(site_url('administrar_productos'));
     }
 
     // Eliminar (dar de baja) producto
-    public function deleteproducto($id)
+    public function deleteProducto($id)
     {
         $producto = $this->productoModel->where('id', $id)->first();
         if ($producto) {
             $producto['eliminado'] = 'SI';
             $this->productoModel->update($id, $producto);
         }
-        return $this->response->redirect(site_url('administrarProductos'));
+        return $this->response->redirect(site_url('administrar_productos'));
     }
 
     // Reactivar producto dado de baja
-    public function activarproducto($id)
+    public function activarProducto($id)
     {
         $producto = $this->productoModel->where('id', $id)->first();
         if ($producto) {
@@ -223,7 +222,7 @@ class ProductoController extends Controller
             $this->productoModel->update($id, $producto);
         }
         session()->setFlashdata('success', 'Activación Exitosa...');
-        return $this->response->redirect(site_url('administrarProductos'));
+        return $this->response->redirect(site_url('administrar_productos'));
     }
 
     // Mostrar productos eliminados

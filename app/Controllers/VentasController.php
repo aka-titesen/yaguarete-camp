@@ -1,8 +1,8 @@
 <?php
 namespace App\Controllers;
 use CodeIgniter\Controller;
-use App\Models\Producto_model;
-use App\Models\Usuarios_model;
+use App\Models\ProductoModel;
+use App\Models\UsuariosModel;
 use App\Models\VentasCabeceraModel;
 use App\Models\VentasDetalleModel;
 
@@ -14,17 +14,17 @@ class Ventascontroller extends Controller {
 
     public function __construct()
     {
-        $this->productoModel = new Producto_model();
-        $this->usuariosModel = new Usuarios_model();
+        $this->productoModel = new ProductoModel();
+        $this->usuariosModel = new UsuariosModel();
         $this->ventasCabeceraModel = new VentasCabeceraModel();
         $this->ventasDetalleModel = new VentasDetalleModel();
     }
 
-    public function registrar_venta()
+    public function registrarVenta()
     {
         $session = session();
         $cartController = new \App\Controllers\CarritoController();
-        $carrito_contents = $cartController->devolver_carrito(true); // Pasar true para obtener el array directamente
+        $carrito_contents = $cartController->devolverCarrito(true); // Pasar true para obtener el array directamente
         
         // Verificar si obtenemos correctamente los contenidos del carrito
         if (empty($carrito_contents)) {
@@ -45,7 +45,7 @@ class Ventascontroller extends Controller {
             } else {
                 $productos_sin_stock[] = $item['name'];
                 // Eliminar del carrito el producto sin stock
-                $cartController->eliminar_item($item['rowid']);
+                $cartController->eliminarItem($item['rowid']);
             }
         }
 
@@ -93,11 +93,11 @@ class Ventascontroller extends Controller {
         }
         // Actualizar el total en la cabecera con la suma real de los detalles
         $this->ventasCabeceraModel->update($venta_id, ['total_venta' => $total_final]);        // Vaciar carrito y mostrar confirmación
-        $cartController->borrar_carrito();
+        $cartController->borrarCarrito();
         $session->setFlashdata('mensaje', 'Compra registrada exitosamente.');
         return redirect()->to(base_url('detalle-compra/' . $venta_id));
     }    // --- MÉTODO PARA CLIENTE ---
-    public function ver_factura($venta_id)
+    public function verFactura($venta_id)
     {
         $session = session();
         if ($session->get('perfil_id') == 2) {
@@ -141,7 +141,7 @@ class Ventascontroller extends Controller {
     }
 
     // --- MÉTODO PARA ADMIN ---
-    public function detalle_venta($venta_id)
+    public function detalleVenta($venta_id)
     {
         $session = session();
         if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
@@ -177,7 +177,7 @@ class Ventascontroller extends Controller {
         echo view('front/layouts/footer');
     }
     // Función del cliente para ver el detalle de sus facturas de compras
-    public function ver_facturas_usuario($id_usuario)
+    public function verFacturasUsuario($id_usuario)
     {
         $data['ventas'] = $this->ventasCabeceraModel->getVentas($id_usuario);
         $dato['titulo'] = "Todos mis compras";
@@ -202,7 +202,7 @@ class Ventascontroller extends Controller {
     }    /**
      * Función del administrador para ver todas las ventas
      */
-    public function administrar_ventas()
+    public function administrarVentas()
     {
         // Obtener parámetros de filtro
         $fecha_desde = $this->request->getGet('fecha_desde');
@@ -224,7 +224,7 @@ class Ventascontroller extends Controller {
         if ($fecha_desde || $fecha_hasta || $cliente_id || $monto_min || $monto_max) {
             $data['ventas'] = $this->ventasCabeceraModel->getVentasFiltradas($fecha_desde, $fecha_hasta, $cliente_id, $monto_min, $monto_max);
         } else {
-            $data['ventas'] = $this->ventasCabeceraModel->getBuilderVentas_cabecera();
+            $data['ventas'] = $this->ventasCabeceraModel->getBuilderVentasCabecera();
         }
         
         // Obtener lista de clientes para el filtro
@@ -247,7 +247,7 @@ class Ventascontroller extends Controller {
     /**
      * Muestra el historial de compras del cliente actual
      */
-    public function mis_compras()
+    public function misCompras()
     {
         $session = session();
         if ($session->get('perfil_id') == 2) {
@@ -274,7 +274,7 @@ class Ventascontroller extends Controller {
     }
     /**
      * Muestra el detalle de una compra específica
-     */    public function detalle_compra($venta_id)
+     */    public function detalleCompra($venta_id)
     {
         $session = session();
         $usuario_id = $session->get('id');

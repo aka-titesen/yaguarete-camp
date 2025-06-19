@@ -1,16 +1,16 @@
 <?php
 namespace App\Controllers;
-use App\Models\Usuarios_Model;
+use App\Models\UsuariosModel;
 use App\Models\ConsultaModel;
 use CodeIgniter\Controller;
 
-class Usuario_crud_controller extends Controller
+class UsuarioCrudController extends Controller
 {
     protected $userModel;
 
     public function __construct(){
         helper(['url', 'form']);
-        $this->userModel = new Usuarios_Model();
+        $this->userModel = new UsuariosModel();
     }
 
     // Mostrar lista de usuarios
@@ -154,7 +154,7 @@ class Usuario_crud_controller extends Controller
     }
 
     // delete lógico (cambia el estado del campo baja)
-    public function deletelogico($id = null)
+    public function deleteLogico($id = null)
     {
         $this->userModel->update($id, ['baja' => 'SI']);
         return redirect()->to('admin_usuarios');

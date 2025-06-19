@@ -15,5 +15,5 @@
             </p>
         </div>
     </section>
-    <?= view('front/layouts/ubicacionHorarios'); ?>
+    <?= view('front/layouts/ubicacion_horarios'); ?>
 </main>

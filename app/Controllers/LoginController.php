@@ -1,13 +1,13 @@
 <?php
 namespace App\Controllers;
 use CodeIgniter\Controller;
-use App\Models\Usuarios_model;
+use App\Models\UsuariosModel;
 
-class login_controller extends Controller{    
+class LoginController extends Controller{    
     protected $model;
     public function __construct()
     {
-        $this->model = new Usuarios_model();
+        $this->model = new UsuariosModel();
     }
     public function index(){
         // Redirigir siempre a la página principal para mantener el layout y estilos

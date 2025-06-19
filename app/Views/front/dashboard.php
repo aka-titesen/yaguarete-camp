@@ -10,7 +10,7 @@
                     <i class="fas fa-box fa-3x mb-3 text-primary"></i>
                     <h5 class="card-title">Productos</h5>
                     <p class="card-text">Gestiona el catálogo de productos: crear, modificar o eliminar productos.</p>
-                    <a href="<?= base_url('administrarProductos')?>" class="btn btn-verde-selva w-100 dashboard-link">Administrar productos</a>
+                    <a href="<?= base_url('administrar_productos')?>" class="btn btn-verde-selva w-100 dashboard-link">Administrar productos</a>
                 </div>
             </div>
         </div>

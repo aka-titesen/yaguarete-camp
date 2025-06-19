@@ -1,5 +1,5 @@
 <?php
-// filepath: app/Views/front/carritoVista.php
+// filepath: app/Views/front/carrito_vista.php
 // Vista para mostrar el contenido del carrito en el offcanvas o página
 $cart = \Config\Services::cart();
 $items = $cart->contents();

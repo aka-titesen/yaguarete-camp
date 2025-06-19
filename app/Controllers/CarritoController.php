@@ -3,8 +3,8 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Carritos_model;
-use App\Models\Producto_model;
-use App\Models\Categorias_model;
+use App\Models\ProductoModel;
+use App\Models\CategoriasModel;
 
 class CarritoController extends BaseController{
     protected $response;
@@ -17,8 +17,8 @@ class CarritoController extends BaseController{
         $cart = \Config\Services::cart();
         $session = session();
         $this->response = \Config\Services::response();
-        $this->productoModel = new Producto_model();
-        $this->categoriaModel = new Categorias_model();
+        $this->productoModel = new ProductoModel();
+        $this->categoriaModel = new CategoriasModel();
     }
 //agrega items al carrito
     public function add() {
@@ -115,7 +115,7 @@ class CarritoController extends BaseController{
         }
     }
 //Actualiza el carrito que se muestra
-    public function actualiza_carrito()
+    public function actualizaCarrito()
     {
         $cart = \Config\Services::Cart();
         $request = \Config\Services::request();
@@ -128,14 +128,14 @@ class CarritoController extends BaseController{
         ));
         return redirect()->back()->withInput();
     }
-    public function eliminar_item($rowid)
+    public function eliminarItem($rowid)
     {
         $cart = \Config\Services::Cart();
         $cart->remove($rowid);
         return redirect()->to(base_url('muestro'));
     }
 
-    public function borrar_carrito()
+    public function borrarCarrito()
     {
         $cart = \Config\Services::Cart();
         $cart->destroy();
@@ -146,7 +146,7 @@ class CarritoController extends BaseController{
         $cart = \Config\Services::cart();
         $cart->remove($rowid);
         return $this->response->setStatusCode(200)->setBody('ok');
-    }    public function devolver_carrito($returnArray = false)
+    }    public function devolverCarrito($returnArray = false)
     {
         $cart = \Config\Services::cart();
         $contents = $cart->contents();
@@ -241,78 +241,9 @@ class CarritoController extends BaseController{
         $items = $cart->contents();
         $total = $cart->total();
         ob_start();
-        include(APPPATH.'Views/front/carritoVista.php');
+        include(APPPATH.'Views/front/carrito_vista.php');
         $html = ob_get_clean();
         return $this->response->setBody($html);
     }
-    public function debug_cart()
-    {
-        $cart = \Config\Services::cart();
-        $contents = $cart->contents();
-        
-        echo '<pre>';
-        echo "Contenido del carrito:\n";
-        print_r($contents);
-        echo '</pre>';
-        
-        if (empty($contents)) {
-            echo "El carrito está vacío.";
-        } else {
-            echo "El carrito tiene " . count($contents) . " productos.";
-        }
-        
-        exit;
-    }
-    public function debug_compra($id = null) {
-        // Solo permitir en entorno de desarrollo
-        if (ENVIRONMENT !== 'development') {
-            return redirect()->to(base_url());
-        }
-        
-        $session = session();
-        
-        // Verificar permisos
-        if (!$session->get('id')) {
-            return $this->response->setJSON(['error' => 'No autorizado']);
-        }
-        
-        // Verificar el ID
-        if (!$id) {
-            $id = $this->request->getGet('id');
-        }
-        
-        if (!$id) {
-            return $this->response->setJSON(['error' => 'ID de compra no especificado']);
-        }
-        
-        // Obtener datos de la compra
-        $db = \Config\Database::connect();
-        
-        // Cabecera de venta
-        $builder = $db->table('ventas_cabecera');
-        $builder->where('id', $id);
-        $cabecera = $builder->get()->getRowArray();
-        
-        // Detalles de venta
-        $builder = $db->table('ventas_detalle');
-        $builder->where('venta_id', $id);
-        $builder->join('productos', 'productos.id = ventas_detalle.producto_id');
-        $detalles = $builder->get()->getResultArray();
-        
-        // Mostrar datos para depuración
-        echo "<h2>Depuración de Compra ID: $id</h2>";
-        echo "<h3>Cabecera:</h3>";
-        echo "<pre>";
-        print_r($cabecera);
-        echo "</pre>";
-        
-        echo "<h3>Detalles (". count($detalles) ." filas):</h3>";
-        echo "<pre>";
-        print_r($detalles);
-        echo "</pre>";
-        
-        echo "<p>SQL cabecera: " . $db->getLastQuery() . "</p>";
-    }
-    
 }
 

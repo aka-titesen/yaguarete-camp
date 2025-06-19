@@ -2,7 +2,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class Perfiles_model extends Model
+class PerfilesModel extends Model
 {
     protected $table = 'perfiles';
     protected $primaryKey = 'id';
