@@ -7,18 +7,22 @@ use CodeIgniter\Controller;
 
 class ProductoController extends Controller
 {
+    protected $productoModel;
+    protected $categoriasModel;
+
     public function __construct()
     {
         helper(['url', 'form']);
         $session = session();
+        $this->productoModel = new Producto_model();
+        $this->categoriasModel = new Categorias_model();
     }
 
     // Mostrar los productos en lista
     public function index()
     {
-        $productoModel = new Producto_model();
         // Solo productos no eliminados
-        $productos = $productoModel->findAll(); // Trae todos, activos y eliminados
+        $productos = $this->productoModel->findAll(); // Trae todos, activos y eliminados
         $data = [
             'titulo' => 'Gestión de Productos',
             'productos' => $productos
@@ -31,19 +35,14 @@ class ProductoController extends Controller
 
     public function creaproducto()
     {
-        $categoriasModel = new Categorias_model();
-        $data['categorias'] = $categoriasModel->getCategorias(); // traer las categorías desde la db
-
-        $productoModel = new Producto_model();
-        $data['producto'] = $productoModel->getProductoAll();
-
+        $data['categorias'] = $this->categoriasModel->getCategorias(); // traer las categorías desde la db
+        $data['producto'] = $this->productoModel->getProductoAll();
         // Aquí puedes agregar la lógica para mostrar la vista de creación de producto
         // echo view(...);
     }
 
     public function store()
     {
-        $productoModel = new Producto_model();
         $nombre_prod = trim($this->request->getVar('nombre_prod'));
         $categoria_id = $this->request->getVar('categoria_id');
         $precio = $this->request->getVar('precio');
@@ -54,7 +53,7 @@ class ProductoController extends Controller
         $errores = [];
 
         // Validación de unicidad de nombre
-        if ($productoModel->where('nombre_prod', $nombre_prod)->first()) {
+        if ($this->productoModel->where('nombre_prod', $nombre_prod)->first()) {
             $errores[] = 'Ya existe un producto con ese nombre.';
         }
         // Validación de campos obligatorios y reglas
@@ -95,8 +94,7 @@ class ProductoController extends Controller
             }
         }
         if (count($errores) > 0) {
-            $categoria_model = new Categorias_model();
-            $data['categorias'] = $categoria_model->getCategorias();
+            $data['categorias'] = $this->categoriasModel->getCategorias();
             $data['errores'] = $errores;
             $data['old'] = $this->request->getPost();
             echo view('front/administrarProductos', $data);
@@ -114,15 +112,14 @@ class ProductoController extends Controller
             'stock' => $stock,
             'stock_min' => $stock_min,
         ];
-        $productoModel->insert($data);
+        $this->productoModel->insert($data);
         session()->setFlashdata('success', 'Producto creado exitosamente.');
         return $this->response->redirect(site_url('administrarProductos'));
     }
 
     public function modifica($id)
     {
-        $productoModel = new Producto_model();
-        $producto = $productoModel->where('id', $id)->first();
+        $producto = $this->productoModel->where('id', $id)->first();
         $nombre_prod = trim($this->request->getVar('nombre_prod'));
         $categoria_id = $this->request->getVar('categoria_id');
         $precio = $this->request->getVar('precio');
@@ -132,7 +129,7 @@ class ProductoController extends Controller
         $img = $this->request->getFile('imagen');
         $errores = [];
         // Validación de unicidad de nombre (excepto el propio)
-        $existe = $productoModel->where('nombre_prod', $nombre_prod)->where('id !=', $id)->first();
+        $existe = $this->productoModel->where('nombre_prod', $nombre_prod)->where('id !=', $id)->first();
         if ($existe) {
             $errores[] = 'Ya existe un producto con ese nombre.';
         }
@@ -171,8 +168,7 @@ class ProductoController extends Controller
             }
         }
         if (count($errores) > 0) {
-            $categoria_model = new Categorias_model();
-            $data['categorias'] = $categoria_model->getCategorias();
+            $data['categorias'] = $this->categoriasModel->getCategorias();
             $data['errores'] = $errores;
             $data['old'] = $this->request->getPost();
             $data['edit_id'] = $id;
@@ -202,7 +198,7 @@ class ProductoController extends Controller
                 'stock_min' => $stock_min,
             ];
         }
-        $productoModel->update($id, $data);
+        $this->productoModel->update($id, $data);
         session()->setFlashdata('success', 'Modificación exitosa.');
         return $this->response->redirect(site_url('administrarProductos'));
     }
@@ -210,11 +206,10 @@ class ProductoController extends Controller
     // Eliminar (dar de baja) producto
     public function deleteproducto($id)
     {
-        $productoModel = new Producto_model();
-        $producto = $productoModel->where('id', $id)->first();
+        $producto = $this->productoModel->where('id', $id)->first();
         if ($producto) {
             $producto['eliminado'] = 'SI';
-            $productoModel->update($id, $producto);
+            $this->productoModel->update($id, $producto);
         }
         return $this->response->redirect(site_url('administrarProductos'));
     }
@@ -222,11 +217,10 @@ class ProductoController extends Controller
     // Reactivar producto dado de baja
     public function activarproducto($id)
     {
-        $productoModel = new Producto_model();
-        $producto = $productoModel->where('id', $id)->first();
+        $producto = $this->productoModel->where('id', $id)->first();
         if ($producto) {
             $producto['eliminado'] = 'NO';
-            $productoModel->update($id, $producto);
+            $this->productoModel->update($id, $producto);
         }
         session()->setFlashdata('success', 'Activación Exitosa...');
         return $this->response->redirect(site_url('administrarProductos'));
@@ -235,8 +229,7 @@ class ProductoController extends Controller
     // Mostrar productos eliminados
     public function eliminados()
     {
-        $productoModel = new Producto_model();
-        $data['producto'] = $productoModel->getProductoAll();
+        $data['producto'] = $this->productoModel->getProductoAll();
         $data['titulo'] = 'Crud_productos';
         echo view('front/head_view_crud', $data);
         echo view('front/nav_view');

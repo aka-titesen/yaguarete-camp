@@ -5,9 +5,12 @@ use CodeIgniter\Controller;
 
 class Usuario_controller extends Controller
 {
+    protected $formModel;
+
     public function __construct()
     {
         helper(['form', 'url']);
+        $this->formModel = new Usuarios_model();
     }
 
     public function formValidation()
@@ -27,15 +30,14 @@ class Usuario_controller extends Controller
                 'regex_match' => 'La contraseña debe tener entre 8 y 32 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo.'
             ]
         ]);
-        $formModel = new Usuarios_model();
         // Verificación manual de unicidad de email y usuario
         $email = $this->request->getVar('email');
         $usuario = $this->request->getVar('usuario');
-        if ($formModel->where('email', $email)->first()) {
+        if ($this->formModel->where('email', $email)->first()) {
             session()->setFlashdata('validation', ['email' => 'El email ya está registrado.']);
             return redirect()->to('/');
         }
-        if ($formModel->where('usuario', $usuario)->first()) {
+        if ($this->formModel->where('usuario', $usuario)->first()) {
             session()->setFlashdata('validation', ['usuario' => 'El nombre de usuario ya está registrado.']);
             return redirect()->to('/');
         }
@@ -46,7 +48,7 @@ class Usuario_controller extends Controller
         } else {
 
             $perfil_id = $this->request->getVar('perfil_id') ?? 1; // Por defecto: 1=Cliente según BD
-            $formModel->save([
+            $this->formModel->save([
                 'nombre' => $this->request->getVar('nombre'),
                 'apellido' => $this->request->getVar('apellido'),
                 'usuario' => $this->request->getVar('usuario'),
@@ -57,7 +59,7 @@ class Usuario_controller extends Controller
             if ($perfil_id == 2) { // Si es administrador según BD
                 // Si es administrador, iniciar sesión y redirigir al dashboard
                 $session = session();
-                $usuario = $formModel->where('email', $this->request->getVar('email'))->first();                $session->set([
+                $usuario = $this->formModel->where('email', $this->request->getVar('email'))->first();                $session->set([
                     'id' => $usuario['id'], // Usar clave primaria estándar
                     'nombre' => $usuario['nombre'],
                     'apellido' => $usuario['apellido'],

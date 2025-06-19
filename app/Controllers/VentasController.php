@@ -6,13 +6,25 @@ use App\Models\Usuarios_model;
 use App\Models\VentasCabeceraModel;
 use App\Models\VentasDetalleModel;
 
-class Ventascontroller extends Controller{    public function registrar_venta()    {
+class Ventascontroller extends Controller {
+    protected $productoModel;
+    protected $usuariosModel;
+    protected $ventasCabeceraModel;
+    protected $ventasDetalleModel;
+
+    public function __construct()
+    {
+        $this->productoModel = new Producto_model();
+        $this->usuariosModel = new Usuarios_model();
+        $this->ventasCabeceraModel = new VentasCabeceraModel();
+        $this->ventasDetalleModel = new VentasDetalleModel();
+    }
+
+    public function registrar_venta()
+    {
         $session = session();
-        // Instanciar correctamente los controladores y modelos
         $cartController = new \App\Controllers\CarritoController();
-        $productoModel = new Producto_model();
-        $ventasModel = new VentasCabeceraModel();
-        $detalleModel = new VentasDetalleModel();        $carrito_contents = $cartController->devolver_carrito(true); // Pasar true para obtener el array directamente
+        $carrito_contents = $cartController->devolver_carrito(true); // Pasar true para obtener el array directamente
         
         // Verificar si obtenemos correctamente los contenidos del carrito
         if (empty($carrito_contents)) {
@@ -26,7 +38,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
 
         // Validar stock y filtrar productos válidos
         foreach ($carrito_contents as $item) {
-            $producto = $productoModel->getProducto($item['id']);
+            $producto = $this->productoModel->getProducto($item['id']);
             if ($producto && $producto['stock'] >= $item['qty']) {
                 $productos_validos[] = $item;
                 $total += $item['subtotal'];
@@ -63,7 +75,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             'usuario_id' => $usuario_id,
             'total_venta' => $total
         ];
-        $venta_id = $ventasModel->insert($nueva_venta);
+        $venta_id = $this->ventasCabeceraModel->insert($nueva_venta);
 
         // Registrar detalle y actualizar stock
         $total_final = 0;
@@ -74,13 +86,13 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
                 'cantidad' => $item['qty'],
                 'precio' => $item['price'] // precio unitario
             ];
-            $detalleModel->insert($detalle);
+            $this->ventasDetalleModel->insert($detalle);
             $total_final += $item['price'] * $item['qty'];
-            $producto = $productoModel->getProducto($item['id']);
-            $productoModel->updateStock($item['id'], $producto['stock'] - $item['qty']);
+            $producto = $this->productoModel->getProducto($item['id']);
+            $this->productoModel->updateStock($item['id'], $producto['stock'] - $item['qty']);
         }
         // Actualizar el total en la cabecera con la suma real de los detalles
-        $ventasModel->update($venta_id, ['total_venta' => $total_final]);        // Vaciar carrito y mostrar confirmación
+        $this->ventasCabeceraModel->update($venta_id, ['total_venta' => $total_final]);        // Vaciar carrito y mostrar confirmación
         $cartController->borrar_carrito();
         $session->setFlashdata('mensaje', 'Compra registrada exitosamente.');
         return redirect()->to(base_url('detalle-compra/' . $venta_id));
@@ -97,8 +109,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
             return redirect()->to(base_url('login'));
         }
-        $cabeceraModel = new \App\Models\VentasCabeceraModel();
-        $cabecera = $cabeceraModel->db->table('ventas_cabecera')
+        $cabecera = $this->ventasCabeceraModel->db->table('ventas_cabecera')
             ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
             ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
             ->where('ventas_cabecera.id', $venta_id)
@@ -108,12 +119,10 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra o la compra no existe.');
             return redirect()->to(base_url('mis-compras'));
         }
-        $detalle_ventas = new \App\Models\VentasDetalleModel();
-        $detalles = $detalle_ventas->getDetalles($venta_id);
-        $productoModel = new \App\Models\Producto_model();
+        $detalles = $this->ventasDetalleModel->getDetalles($venta_id);
         foreach ($detalles as &$detalle) {
             if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
-                $producto = $productoModel->find($detalle['producto_id']);
+                $producto = $this->productoModel->find($detalle['producto_id']);
                 $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
                 $detalle['imagen'] = $producto['imagen'] ?? '';
                 $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
@@ -138,8 +147,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
             return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'No tiene permisos para ver el detalle de ventas.');
         }
-        $cabeceraModel = new \App\Models\VentasCabeceraModel();
-        $cabecera = $cabeceraModel->db->table('ventas_cabecera')
+        $cabecera = $this->ventasCabeceraModel->db->table('ventas_cabecera')
             ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
             ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
             ->where('ventas_cabecera.id', $venta_id)
@@ -148,12 +156,10 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             $session->setFlashdata('mensaje', 'No existe la venta.');
             return redirect()->to(base_url('admin-ventas'));
         }
-        $detalle_ventas = new \App\Models\VentasDetalleModel();
-        $detalles = $detalle_ventas->getDetalles($venta_id);
-        $productoModel = new \App\Models\Producto_model();
+        $detalles = $this->ventasDetalleModel->getDetalles($venta_id);
         foreach ($detalles as &$detalle) {
             if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
-                $producto = $productoModel->find($detalle['producto_id']);
+                $producto = $this->productoModel->find($detalle['producto_id']);
                 $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
                 $detalle['imagen'] = $producto['imagen'] ?? '';
                 $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
@@ -173,8 +179,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
     // Función del cliente para ver el detalle de sus facturas de compras
     public function ver_facturas_usuario($id_usuario)
     {
-        $ventas = new VentasCabeceraModel();
-        $data['ventas'] = $ventas->getVentas($id_usuario);
+        $data['ventas'] = $this->ventasCabeceraModel->getVentas($id_usuario);
         $dato['titulo'] = "Todos mis compras";
         echo view('front/layouts/header', $dato);
         echo view('front/layouts/navbar');
@@ -183,10 +188,8 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
     }
     public function ventas () {
         $venta_id = $this->request->getGet('id');
-        $detalle_ventas = new VentasDetalleModel();
-        $detalles = $detalle_ventas->getDetalles($venta_id);
-        $ventascabecera = new VentasCabeceraModel();
-        $cabecera = $ventascabecera->where('id', $venta_id)->first();
+        $detalles = $this->ventasDetalleModel->getDetalles($venta_id);
+        $cabecera = $this->ventasCabeceraModel->where('id', $venta_id)->first();
         $data = [
             'detalles' => $detalles,
             'cabecera' => $cabecera
@@ -217,13 +220,11 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             'monto_max' => $monto_max
         ];
         
-        $ventasModel = new VentasCabeceraModel();
-        
         // Si hay filtros activos, usar la función filtrada
         if ($fecha_desde || $fecha_hasta || $cliente_id || $monto_min || $monto_max) {
-            $data['ventas'] = $ventasModel->getVentasFiltradas($fecha_desde, $fecha_hasta, $cliente_id, $monto_min, $monto_max);
+            $data['ventas'] = $this->ventasCabeceraModel->getVentasFiltradas($fecha_desde, $fecha_hasta, $cliente_id, $monto_min, $monto_max);
         } else {
-            $data['ventas'] = $ventasModel->getBuilderVentas_cabecera();
+            $data['ventas'] = $this->ventasCabeceraModel->getBuilderVentas_cabecera();
         }
         
         // Obtener lista de clientes para el filtro
@@ -263,8 +264,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             return redirect()->to(base_url());
         }
         
-        $ventasModel = new VentasCabeceraModel();
-        $data['compras'] = $ventasModel->getVentas($usuario_id);
+        $data['compras'] = $this->ventasCabeceraModel->getVentas($usuario_id);
         $dato['titulo'] = "Mis compras";
         
         echo view('front/layouts/header', $dato);
@@ -292,8 +292,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         }
         try {
             // 1. Verificar que la compra exista y pertenezca al usuario
-            $ventasCabecera = new \App\Models\VentasCabeceraModel();
-            $venta_cabecera = $ventasCabecera->where('id', $venta_id)
+            $venta_cabecera = $this->ventasCabeceraModel->where('id', $venta_id)
                 ->where('usuario_id', $usuario_id)
                 ->first();
             if (!$venta_cabecera) {
@@ -301,17 +300,15 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
                 return redirect()->to(base_url('mis-compras'));
             }
             // 2. Obtener detalles usando el modelo (más seguro)
-            $detalle_ventas = new \App\Models\VentasDetalleModel();
-            $detalles = $detalle_ventas->getDetalles($venta_id);
+            $detalles = $this->ventasDetalleModel->getDetalles($venta_id);
             if (empty($detalles)) {
                 $session->setFlashdata('mensaje', 'No se encontraron detalles para esta compra.');
                 return redirect()->to(base_url('mis-compras'));
             }
             // Enriquecer detalles con nombre e imagen si faltan
-            $productoModel = new \App\Models\Producto_model();
             foreach ($detalles as &$detalle) {
                 if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
-                    $producto = $productoModel->find($detalle['producto_id']);
+                    $producto = $this->productoModel->find($detalle['producto_id']);
                     $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
                     $detalle['imagen'] = $producto['imagen'] ?? '';
                     $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];

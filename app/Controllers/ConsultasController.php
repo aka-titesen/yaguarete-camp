@@ -5,6 +5,13 @@ use App\Models\ConsultaModel;
 
 class ConsultasController extends Controller
 {
+    protected $consultaModel;
+
+    public function __construct()
+    {
+        $this->consultaModel = new ConsultaModel();
+    }
+
     /**
      * Muestra el formulario de contacto (opcional, ya está en el footer)
      */
@@ -25,8 +32,6 @@ class ConsultasController extends Controller
      */
     public function enviarConsulta()
     {
-        $consultaModel = new ConsultaModel();
-        
         $data = [
             'nombre' => $this->request->getPost('nombre'),
             'apellido' => $this->request->getPost('apellido'),
@@ -36,7 +41,7 @@ class ConsultasController extends Controller
             'fecha_consulta' => date('Y-m-d H:i:s')
         ];
         
-        if ($consultaModel->save($data)) {
+        if ($this->consultaModel->save($data)) {
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Tu consulta ha sido enviada correctamente. Nos pondremos en contacto contigo pronto.'
@@ -45,7 +50,7 @@ class ConsultasController extends Controller
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Error al enviar tu consulta. Por favor, intenta nuevamente.',
-                'errors' => $consultaModel->errors()
+                'errors' => $this->consultaModel->errors()
             ]);
         }
     }
@@ -63,17 +68,15 @@ class ConsultasController extends Controller
             return redirect()->to(base_url('/'));
         }
         
-        $consultaModel = new ConsultaModel();
-        
         // Obtener el filtro (todas, respondidas, sin responder)
         $filtro = $this->request->getGet('filtro') ?? 'todas';
         
         if ($filtro == 'respondidas') {
-            $consultas = $consultaModel->getConsultasRespondidas();
+            $consultas = $this->consultaModel->getConsultasRespondidas();
         } elseif ($filtro == 'sin_responder') {
-            $consultas = $consultaModel->getConsultasSinResponder();
+            $consultas = $this->consultaModel->getConsultasSinResponder();
         } else {
-            $consultas = $consultaModel->getConsultas();
+            $consultas = $this->consultaModel->getConsultas();
         }
         
         $data = [
@@ -103,8 +106,6 @@ class ConsultasController extends Controller
             ]);
         }
         
-        $consultaModel = new ConsultaModel();
-        
         $id = $this->request->getPost('id');
         $respuesta = $this->request->getPost('respuesta');
         
@@ -115,7 +116,7 @@ class ConsultasController extends Controller
             ]);
         }
         
-        if ($consultaModel->responderConsulta($id, $respuesta)) {
+        if ($this->consultaModel->responderConsulta($id, $respuesta)) {
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Respuesta enviada correctamente'

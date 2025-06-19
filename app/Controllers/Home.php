@@ -5,11 +5,15 @@ use App\Models\Producto_model;
 
 class Home extends BaseController
 {
+    protected $productoModel;
+    public function __construct()
+    {
+        $this->productoModel = new Producto_model();
+    }
     public function index(): void
     {
-        $productoModel = new Producto_model();
         // Traer productos de la categoría Pesca (id=2), solo activos
-        $destacadosPesca = $productoModel->where('categoria_id', 2)
+        $destacadosPesca = $this->productoModel->where('categoria_id', 2)
             ->where('eliminado !=', 'SI')
             ->orderBy('id', 'DESC')
             ->limit(6)
@@ -18,7 +22,7 @@ class Home extends BaseController
             'destacadosPesca' => $destacadosPesca
         ];
         // Ofertas relámpago: productos de Camping (id=1)
-        $ofertasCamping = $productoModel->where('categoria_id', 1)
+        $ofertasCamping = $this->productoModel->where('categoria_id', 1)
             ->where('eliminado !=', 'SI')
             ->orderBy('id', 'DESC')
             ->limit(4)
@@ -73,15 +77,14 @@ class Home extends BaseController
 
     public function a_detalleProducto($id): void
     {
-        $productoModel = new Producto_model();
-        $producto = $productoModel->where('id', $id)->first();
+        $producto = $this->productoModel->where('id', $id)->first();
         
         if (!$producto || $producto['eliminado'] === 'SI') {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         
         // Obtener productos relacionados (misma categoría, excluyendo el actual)
-        $relacionados = $productoModel->getRelacionados($producto['categoria_id'], $producto['id']);
+        $relacionados = $this->productoModel->getRelacionados($producto['categoria_id'], $producto['id']);
         $data = [
             'producto' => $producto,
             'relacionados' => $relacionados
@@ -126,8 +129,7 @@ class Home extends BaseController
             echo view('front/layouts/footer');
             exit();
         }
-        $productoModel = new Producto_model();
-        $productos = $productoModel->getProductoAll();
+        $productos = $this->productoModel->getProductoAll();
         $data = ['productos' => $productos];
         echo view('front/layouts/header');
         echo view('front/layouts/navbar');

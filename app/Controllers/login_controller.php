@@ -4,16 +4,17 @@ use CodeIgniter\Controller;
 use App\Models\Usuarios_model;
 
 class login_controller extends Controller{    
-    
+    protected $model;
+    public function __construct()
+    {
+        $this->model = new Usuarios_model();
+    }
     public function index(){
         // Redirigir siempre a la página principal para mantener el layout y estilos
         return redirect()->to('/');
     }
-    
     public function auth(){
         $session = session();
-        $model = new Usuarios_model();
-
         $email = $this->request->getVar('email');
         $pass = $this->request->getVar('pass');
 
@@ -27,7 +28,7 @@ class login_controller extends Controller{
             return redirect()->to('/');
         }
 
-        $data = $model->where('email', $email)->first();
+        $data = $this->model->where('email', $email)->first();
         if($data){
             if(isset($data['baja']) && $data['baja'] == 'SI'){
                 $session->setFlashdata('msg', 'Usuario dado de baja');

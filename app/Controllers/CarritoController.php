@@ -3,9 +3,13 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Carritos_model;
+use App\Models\Producto_model;
+use App\Models\Categorias_model;
 
 class CarritoController extends BaseController{
     protected $response;
+    protected $productoModel;
+    protected $categoriaModel;
 
     public function __construct()
     {
@@ -13,6 +17,8 @@ class CarritoController extends BaseController{
         $cart = \Config\Services::cart();
         $session = session();
         $this->response = \Config\Services::response();
+        $this->productoModel = new Producto_model();
+        $this->categoriaModel = new Categorias_model();
     }
 //agrega items al carrito
     public function add() {
@@ -23,7 +29,6 @@ class CarritoController extends BaseController{
         if ($session->get('perfil_id') == 2) {
             return $this->response->setJSON(['status'=>'error','msg'=>'El administrador no puede agregar productos al carrito.']);
         }
-
         $producto_id = $request->getPost('id');
         $cantidad = (int) $request->getPost('qty');
         $nombre = $request->getPost('nombre_prod');
@@ -31,16 +36,14 @@ class CarritoController extends BaseController{
         $imagen = $request->getPost('imagen');
 
         // Obtener stock actual del producto
-        $productoModel = new \App\Models\Producto_model();
-        $producto = $productoModel->find($producto_id);
+        $producto = $this->productoModel->find($producto_id);
         if (is_object($producto)) {
             $producto = (array)$producto;
         }
         // Obtener nombre de la categoría
         $categoria_nombre = '';
         if (isset($producto['categoria_id'])) {
-            $categoriaModel = new \App\Models\Categorias_model();
-            $categoria = $categoriaModel->find($producto['categoria_id']);
+            $categoria = $this->categoriaModel->find($producto['categoria_id']);
             if ($categoria && isset($categoria['descripcion'])) {
                 $categoria_nombre = $categoria['descripcion'];
             }
@@ -202,8 +205,7 @@ class CarritoController extends BaseController{
         $item = $cart->getItem($rowid);
         if ($item) {
             // Obtener stock actual del producto
-            $productoModel = new \App\Models\Producto_model();
-            $producto = $productoModel->asArray()->find($item['id']);
+            $producto = $this->productoModel->asArray()->find($item['id']);
             $nuevoStock = $producto ? $producto['stock'] : ($item['stock'] ?? 0);
             if ($item['qty'] < $nuevoStock) {
                 $cart->update([

@@ -6,14 +6,16 @@ use CodeIgniter\Controller;
 
 class Usuario_crud_controller extends Controller
 {
+    protected $userModel;
+
     public function __construct(){
         helper(['url', 'form']);
+        $this->userModel = new Usuarios_Model();
     }
 
     // Mostrar lista de usuarios
     public function index(){
-        $userModel = new Usuarios_Model();
-        $data['users'] = $userModel->orderBy('id', 'DESC')->findAll();
+        $data['users'] = $this->userModel->orderBy('id', 'DESC')->findAll();
         $data['titulo'] = 'Crud_usuarios';
 
         echo view('front/layouts/header');
@@ -24,8 +26,7 @@ class Usuario_crud_controller extends Controller
 
     // Formulario para alta de usuario
     public function create(){
-        $userModel = new Usuarios_Model();
-        $data['user_obj'] = $userModel->orderBy('id', 'DESC')->findAll();
+        $data['user_obj'] = $this->userModel->orderBy('id', 'DESC')->findAll();
         $data['titulo'] = 'Alta Usuario';
 
         echo view('front/head_view_crud', $data); // Vista de encabezado
@@ -52,11 +53,10 @@ class Usuario_crud_controller extends Controller
                 'regex_match' => 'La contraseña debe tener entre 8 y 32 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo.'
             ]
         ]);
-        $userModel = new Usuarios_Model();
         // Verificación manual de unicidad de email y usuario
         $email = $this->request->getVar('email');
         $usuario = $this->request->getVar('usuario');
-        if ($userModel->where('email', $email)->first()) {
+        if ($this->userModel->where('email', $email)->first()) {
             $data['validation'] = ['email' => 'El email ya está registrado.'];
             $data['open_modal'] = true;
             echo view('front/layouts/header');
@@ -65,7 +65,7 @@ class Usuario_crud_controller extends Controller
             echo view('front/layouts/footer');
             return;
         }
-        if ($userModel->where('usuario', $usuario)->first()) {
+        if ($this->userModel->where('usuario', $usuario)->first()) {
             $data['validation'] = ['usuario' => 'El nombre de usuario ya está registrado.'];
             $data['open_modal'] = true;
             echo view('front/layouts/header');
@@ -74,11 +74,8 @@ class Usuario_crud_controller extends Controller
             echo view('front/layouts/footer');
             return;
         }
-
-        $data['users'] = $userModel->orderBy('id', 'DESC')->findAll();
-
+        $data['users'] = $this->userModel->orderBy('id', 'DESC')->findAll();
         if (!$input) {
-            // Si hay errores, recarga la vista y reabre la modal
             $data['validation'] = $validation;
             $data['open_modal'] = true;
             echo view('front/layouts/header');
@@ -86,7 +83,6 @@ class Usuario_crud_controller extends Controller
             echo view('front/admin_usuarios', $data);
             echo view('front/layouts/footer');
         } else {
-            // Si todo está bien, guarda y muestra mensaje de éxito
             $newUser = [
                 'nombre'  => $this->request->getVar('nombre'),
                 'apellido'=> $this->request->getVar('apellido'),
@@ -95,7 +91,7 @@ class Usuario_crud_controller extends Controller
                 'pass'    => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
                 'perfil_id' => $this->request->getVar('perfil_id'),
             ];
-            $userModel->insert($newUser);
+            $this->userModel->insert($newUser);
             session()->setFlashdata('msg', '<div class="alert alert-success">Usuario agregado correctamente.</div>');
             return redirect()->to('admin_usuarios');
         }
@@ -103,8 +99,7 @@ class Usuario_crud_controller extends Controller
 
     // mostrar un usuario por id para editarlo
     public function singleUser($id = null){
-        $userModel = new Usuarios_Model();
-        $data['user_obj'] = $userModel->where('id', $id)->first();
+        $data['user_obj'] = $this->userModel->where('id', $id)->first();
 
         $data['titulo'] = 'Crud_usuarios';
         echo view('front/head_view_crud', $data); // Encabezado
@@ -116,9 +111,7 @@ class Usuario_crud_controller extends Controller
     // editar y modificar un usuario
     public function update()
     {
-        $userModel = new Usuarios_Model();
         $id = $this->request->getPost('id');
-        // Validación de datos al editar usuario
         $input = $this->validate([
             'nombre'   => 'required|min_length[3]|max_length[25]',
             'apellido' => 'required|min_length[3]|max_length[25]',
@@ -130,16 +123,15 @@ class Usuario_crud_controller extends Controller
                 'valid_email' => 'Debe ingresar un email válido.'
             ]
         ]);
-        // Verificar unicidad de email y usuario (excepto para el propio usuario)
         $email = $this->request->getPost('email');
         $usuario = $this->request->getPost('usuario');
-        $usuarioExistente = $userModel->where('email', $email)->where('id !=', $id)->first();
+        $usuarioExistente = $this->userModel->where('email', $email)->where('id !=', $id)->first();
         if ($usuarioExistente) {
             session()->setFlashdata('validation', ['email' => 'El email ya está registrado por otro usuario.']);
             session()->setFlashdata('edit_data', $this->request->getPost());
             return redirect()->to('admin_usuarios?edit_id=' . $id);
         }
-        $usuarioExistente = $userModel->where('usuario', $usuario)->where('id !=', $id)->first();
+        $usuarioExistente = $this->userModel->where('usuario', $usuario)->where('id !=', $id)->first();
         if ($usuarioExistente) {
             session()->setFlashdata('validation', ['usuario' => 'El nombre de usuario ya está registrado por otro usuario.']);
             session()->setFlashdata('edit_data', $this->request->getPost());
@@ -157,23 +149,21 @@ class Usuario_crud_controller extends Controller
             'email'    => $this->request->getPost('email'),
             'perfil_id'=> $this->request->getPost('perfil_id'),
         ];
-        $userModel->update($id, $data);
+        $this->userModel->update($id, $data);
         return redirect()->to('admin_usuarios');
     }
 
     // delete lógico (cambia el estado del campo baja)
     public function deletelogico($id = null)
     {
-        $userModel = new Usuarios_Model();
-        $userModel->update($id, ['baja' => 'SI']);
+        $this->userModel->update($id, ['baja' => 'SI']);
         return redirect()->to('admin_usuarios');
     }
 
     // activar usuario (cambia el estado del campo baja a NO)
     public function activar($id = null)
     {
-        $userModel = new Usuarios_Model();
-        $userModel->update($id, ['baja' => 'NO']);
+        $this->userModel->update($id, ['baja' => 'NO']);
         return redirect()->to('admin_usuarios');
     }
 }
