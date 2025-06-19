@@ -139,6 +139,77 @@
       </div>
     </div>
 
+    <!-- Modal Confirmar Desactivar Usuario -->
+<div class="modal fade" id="modalConfirmarDesactivar" tabindex="-1" aria-labelledby="modalConfirmarDesactivarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 12px;">
+      <div class="modal-header border-0" style="border-radius: 12px 12px 0 0;">
+        <h5 class="modal-title fw-bold d-flex align-items-center" id="modalConfirmarDesactivarLabel" style="color:#222;"><i class="fas fa-trash-alt me-2" style="color:#e74c3c;"></i> Confirmar eliminación</h5>
+      </div>
+      <div style="height:4px; background:#e74c3c; width:100%; margin-bottom:0;"></div>
+      <div class="modal-body text-center">
+        <p class="mb-0" style="color:#222; font-size:1.1em;">¿Estás seguro de que deseas eliminar este usuario?</p>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4">
+        <button type="button" class="btn btn-dark px-4 py-2 fw-bold btn-cancelar-modal" data-bs-dismiss="modal">Cancelar</button>
+        <a id="btnConfirmarDesactivar" href="#" class="btn px-4 py-2 fw-bold btn-eliminar-modal" style="background:#e74c3c;color:#fff;">Eliminar</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Confirmar Activar Usuario -->
+<div class="modal fade" id="modalConfirmarActivar" tabindex="-1" aria-labelledby="modalConfirmarActivarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 12px;">
+      <div class="modal-header border-0" style="border-radius: 12px 12px 0 0;">
+        <h5 class="modal-title fw-bold d-flex align-items-center" id="modalConfirmarActivarLabel" style="color:#222;"><i class="fas fa-undo me-2" style="color:#27ae60;"></i> Confirmar reactivación</h5>
+      </div>
+      <div style="height:4px; background:#27ae60; width:100%; margin-bottom:0;"></div>
+      <div class="modal-body text-center">
+        <p class="mb-0" style="color:#222; font-size:1.1em;">¿Estás seguro de que deseas reactivar este usuario?</p>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4">
+        <button type="button" class="btn btn-dark px-4 py-2 fw-bold btn-cancelar-modal" data-bs-dismiss="modal">Cancelar</button>
+        <a id="btnConfirmarActivar" href="#" class="btn px-4 py-2 fw-bold btn-reactivar-modal" style="background:#27ae60;color:#fff;">Reactivar</a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.btn-eliminar-modal {
+  background: #e74c3c !important;
+  color: #fff !important;
+  border: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-eliminar-modal:hover, .btn-eliminar-modal:focus {
+  background: #c0392b !important;
+  color: #fff !important;
+  transform: scale(1.07);
+}
+.btn-reactivar-modal {
+  background: #27ae60 !important;
+  color: #fff !important;
+  border: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-reactivar-modal:hover, .btn-reactivar-modal:focus {
+  background: #219150 !important;
+  color: #fff !important;
+  transform: scale(1.07);
+}
+.btn-cancelar-modal {
+  background: #222 !important;
+  color: #fff !important;
+  border: none;
+  transition: background 0.2s;
+}
+.btn-cancelar-modal:hover, .btn-cancelar-modal:focus {
+  background: #444 !important;
+  color: #fff !important;
+}
+</style>
+
     <!-- Listado de usuarios -->
     <div class="card mt-4">
         <div class="card-header bg-verde-selva text-negro">
@@ -175,16 +246,19 @@
                                 </td>
                                 <td><?= $user['baja']; ?></td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-editar-usuario"
-                                            title="Editar" data-id="<?= $user['id']; ?>">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <a href="<?= base_url('deletelogico/'.$user['id']);?>" class="btn btn-sm btn-outline-danger me-1" title="Desactivar">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                    <a href="<?= base_url('activar/'.$user['id']);?>" class="btn btn-sm btn-outline-success" title="Activar">
-                                        <i class="fas fa-undo"></i>
-                                    </a>
+                                    <?php if (isset($user['baja']) && $user['baja'] === 'SI'): ?>
+                                        <a href="<?= base_url('activar/'.$user['id']);?>" class="btn btn-sm btn-outline-success" title="Activar">
+                                            <i class="fas fa-undo"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-editar-usuario"
+                                                title="Editar" data-id="<?= $user['id']; ?>">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <a href="<?= base_url('deletelogico/'.$user['id']);?>" class="btn btn-sm btn-outline-danger me-1" title="Desactivar">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -267,6 +341,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 var modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
                 modal.show();
             }
+        });
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Modal para desactivar usuario
+    document.querySelectorAll('a.btn-outline-danger[title="Desactivar"]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            document.getElementById('btnConfirmarDesactivar').setAttribute('href', url);
+            var modal = new bootstrap.Modal(document.getElementById('modalConfirmarDesactivar'));
+            modal.show();
+        });
+    });
+    // Modal para activar usuario
+    document.querySelectorAll('a.btn-outline-success[title="Activar"]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            document.getElementById('btnConfirmarActivar').setAttribute('href', url);
+            var modal = new bootstrap.Modal(document.getElementById('modalConfirmarActivar'));
+            modal.show();
         });
     });
 });
