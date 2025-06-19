@@ -41,12 +41,40 @@ class Usuario_crud_controller extends Controller
         $input = $this->validate([
             'nombre'  => 'required|min_length[3]|max_length[25]',
             'apellido'=> 'required|min_length[3]|max_length[25]',
-            'email'   => 'required|min_length[4]|max_length[100]|valid_email|is_unique[usuarios.email]',
+            'email'   => 'required|min_length[4]|max_length[100]|valid_email',
             'usuario' => 'required|min_length[3]|max_length[10]',
-            'pass'    => 'required|min_length[3]|max_length[10]'
+            'pass'    => [
+                'label' => 'Contraseña',
+                'rules' => 'required|min_length[8]|max_length[32]|regex_match[/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,32}/]'
+            ]
+        ], [
+            'pass' => [
+                'regex_match' => 'La contraseña debe tener entre 8 y 32 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo.'
+            ]
         ]);
-
         $userModel = new Usuarios_Model();
+        // Verificación manual de unicidad de email y usuario
+        $email = $this->request->getVar('email');
+        $usuario = $this->request->getVar('usuario');
+        if ($userModel->where('email', $email)->first()) {
+            $data['validation'] = ['email' => 'El email ya está registrado.'];
+            $data['open_modal'] = true;
+            echo view('front/layouts/header');
+            echo view('front/layouts/navbar');
+            echo view('front/admin_usuarios', $data);
+            echo view('front/layouts/footer');
+            return;
+        }
+        if ($userModel->where('usuario', $usuario)->first()) {
+            $data['validation'] = ['usuario' => 'El nombre de usuario ya está registrado.'];
+            $data['open_modal'] = true;
+            echo view('front/layouts/header');
+            echo view('front/layouts/navbar');
+            echo view('front/admin_usuarios', $data);
+            echo view('front/layouts/footer');
+            return;
+        }
+
         $data['users'] = $userModel->orderBy('id', 'DESC')->findAll();
 
         if (!$input) {

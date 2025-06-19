@@ -202,8 +202,8 @@
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
               <input type="password" class="form-control" id="password" name="pass" placeholder="Crea una contraseña"
-                pattern="(?=.*\d)[A-Za-z\d]{8,}"
-                title="La contraseña debe tener al menos 8 caracteres y contener al menos un número" required>
+                pattern=".{8,32}"
+                title="La contraseña debe tener entre 8 y 32 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo" required>
             </div>
             <div class="mb-3">
               <label for="confirmPassword" class="form-label">Confirmar contraseña</label>

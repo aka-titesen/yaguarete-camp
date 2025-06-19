@@ -7,6 +7,29 @@ if ($msg): ?>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
 <?php endif; ?>
+<?php
+$validation = session()->getFlashdata('validation');
+if ($validation):
+    // Si es un objeto de validación, extrae los mensajes
+    if ($validation instanceof \CodeIgniter\Validation\Validation) {
+        $errors = $validation->getErrors();
+    } else {
+        $errors = $validation;
+    }
+?>
+  <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <?php
+    if (is_array($errors)) {
+        foreach ($errors as $error) {
+            echo esc($error) . '<br>';
+        }
+    } else {
+        echo esc($errors);
+    }
+    ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+<?php endif; ?>
 <!-- Sección Carrusel ajustada a pantalla completa -->
 <section class="carousel-section">
   <div

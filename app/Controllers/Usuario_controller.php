@@ -13,16 +13,32 @@ class Usuario_controller extends Controller
     public function formValidation()
     {
 
-        $input = $this->validate(
-            [
-                'nombre' => 'required|min_length[3]',
-                'apellido' => 'required|min_length[3]|max_length[25]',
-                'email' => 'required|min_length[4]|max_length[100]|valid_email|is_unique[usuarios.email]',
-                'usuario' => 'required|min_length[3]|is_unique[usuarios.usuario]',
-                'pass' => 'required|min_length[3]|max_length[10]'
-            ],
-        );
+        $input = $this->validate([
+            'nombre' => 'required|min_length[3]',
+            'apellido' => 'required|min_length[3]|max_length[25]',
+            'email' => 'required|min_length[4]|max_length[100]|valid_email',
+            'usuario' => 'required|min_length[3]',
+            'pass' => [
+                'label' => 'Contraseña',
+                'rules' => 'required|min_length[8]|max_length[32]|regex_match[/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,32}/]'
+            ]
+        ], [
+            'pass' => [
+                'regex_match' => 'La contraseña debe tener entre 8 y 32 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo.'
+            ]
+        ]);
         $formModel = new Usuarios_model();
+        // Verificación manual de unicidad de email y usuario
+        $email = $this->request->getVar('email');
+        $usuario = $this->request->getVar('usuario');
+        if ($formModel->where('email', $email)->first()) {
+            session()->setFlashdata('validation', ['email' => 'El email ya está registrado.']);
+            return redirect()->to('/');
+        }
+        if ($formModel->where('usuario', $usuario)->first()) {
+            session()->setFlashdata('validation', ['usuario' => 'El nombre de usuario ya está registrado.']);
+            return redirect()->to('/');
+        }
         if (!$input) {
             // Si la validación falla, redirige a la página principal y muestra los errores en la sesión
             session()->setFlashdata('validation', $this->validator);

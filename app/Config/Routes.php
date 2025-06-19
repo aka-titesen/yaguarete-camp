@@ -43,11 +43,11 @@ $routes->get('carrito_resta/(:any)', 'CarritoController::resta/$1');
 $routes->get('carrito/ajax', 'CarritoController::ajax');
 $routes->get('carrito/devolver_carrito', 'CarritoController::devolver_carrito');
 $routes->get('muestro', 'CarritoController::muestro');
-$routes->get('debug-cart', 'CarritoController::debug_cart'); // Ruta para depuración
-$routes->get('debug-compra/(:num)', 'CarritoController::debug_compra/$1'); // Ruta para depurar una compra específica
-$routes->get('debug-compra', 'CarritoController::debug_compra'); // Ruta para depuración general
-$routes->get('debug/compra/(:num)', 'Home::verCompra/$1'); // Ruta personalizada para acceder al script de depuración
-$routes->get('diagnostico/(:num)', 'Ventascontroller::diagnosticar/$1'); // Ruta personalizada para el diagnóstico de compra
+// $routes->get('debug-cart', 'CarritoController::debug_cart'); // Ruta para depuración
+// $routes->get('debug-compra/(:num)', 'CarritoController::debug_compra/$1'); // Ruta para depurar una compra específica
+// $routes->get('debug-compra', 'CarritoController::debug_compra'); // Ruta para depuración general
+// $routes->get('debug/compra/(:num)', 'Home::verCompra/$1'); // Ruta personalizada para acceder al script de depuración
+// $routes->get('diagnostico/(:num)', 'Ventascontroller::diagnosticar/$1'); // Ruta personalizada para el diagnóstico de compra
 
 // Rutas del cliente para ver sus compras y detalle
 $routes->get('vista_compras/(:num)', 'Ventascontroller::ver_factura/$1', ['filter' => 'cliente']);

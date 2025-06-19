@@ -13,7 +13,9 @@ class ConsultaModel extends Model
 
     protected $validationRules = [
         'nombre' => 'required|min_length[2]|max_length[50]',
+        'apellido' => 'required|min_length[2]|max_length[50]',
         'email' => 'required|valid_email|max_length[50]',
+        'telefono' => 'permit_empty|regex_match[/^[0-9+\-()\s]{7,20}$/]',
         'mensaje' => 'required|min_length[10]'
     ];
 
@@ -23,10 +25,18 @@ class ConsultaModel extends Model
             'min_length' => 'El nombre debe tener al menos 2 caracteres',
             'max_length' => 'El nombre no puede exceder los 50 caracteres'
         ],
+        'apellido' => [
+            'required' => 'El apellido es obligatorio',
+            'min_length' => 'El apellido debe tener al menos 2 caracteres',
+            'max_length' => 'El apellido no puede exceder los 50 caracteres'
+        ],
         'email' => [
             'required' => 'El email es obligatorio',
             'valid_email' => 'Debe ingresar un email válido',
             'max_length' => 'El email no puede exceder los 50 caracteres'
+        ],
+        'telefono' => [
+            'regex_match' => 'El teléfono solo puede contener números, espacios y los símbolos + - ( )',
         ],
         'mensaje' => [
             'required' => 'El mensaje es obligatorio',

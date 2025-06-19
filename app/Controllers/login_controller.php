@@ -17,6 +17,16 @@ class login_controller extends Controller{
         $email = $this->request->getVar('email');
         $pass = $this->request->getVar('pass');
 
+        // Validar formato de email y longitud de contraseña antes de consultar la base de datos
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
+            $session->setFlashdata('msg', 'Email inválido.');
+            return redirect()->to('/');
+        }
+        if (strlen($pass) < 3 || strlen($pass) > 32) {
+            $session->setFlashdata('msg', 'Contraseña inválida.');
+            return redirect()->to('/');
+        }
+
         $data = $model->where('email', $email)->first();
         if($data){
             if(isset($data['baja']) && $data['baja'] == 'SI'){
@@ -24,6 +34,8 @@ class login_controller extends Controller{
                 return redirect()->to('/');
             }
             if(password_verify($pass, $data['pass'])){                
+                // Regenerar la sesión para evitar fijación de sesión
+                $session->regenerate();
                 $ses_data = [
                     'id' => $data['id'], // Usar clave primaria estándar
                     'nombre' => $data['nombre'],
