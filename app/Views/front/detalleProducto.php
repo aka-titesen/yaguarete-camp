@@ -61,6 +61,7 @@
         
         <div class="btn-acciones">
             <div class="d-flex align-items-center mb-3">
+                <?php if (session()->get('perfil_id') != 2): ?>
                 <form id="formAgregarCarrito" method="post" action="<?= base_url('carrito/add') ?>" class="d-flex align-items-center w-100 gap-2">
                     <input type="hidden" name="id" value="<?= esc($producto['id']) ?>">
                     <input type="hidden" name="nombre_prod" value="<?= esc($producto['nombre_prod']) ?>">
@@ -71,6 +72,7 @@
                         <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
                     </button>
                 </form>
+                <?php endif; ?>
             </div>
         </div>
     </div>

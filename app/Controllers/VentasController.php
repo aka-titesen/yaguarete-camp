@@ -93,9 +93,14 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
             return redirect()->to(base_url('login'));
         }
-        // Validar que la compra pertenezca al usuario
         $cabeceraModel = new \App\Models\VentasCabeceraModel();
-        $cabecera = $cabeceraModel->where('id', $venta_id)->where('usuario_id', $usuario_id)->first();
+        // Traer cabecera con datos de usuario (join explícito y limpio)
+        $cabecera = $cabeceraModel->db->table('ventas_cabecera')
+            ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
+            ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
+            ->where('ventas_cabecera.id', $venta_id)
+            ->where('ventas_cabecera.usuario_id', $usuario_id)
+            ->get()->getRowArray();
         if (!$cabecera) {
             $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra o la compra no existe.');
             return redirect()->to(base_url('mis-compras'));
@@ -117,8 +122,10 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             $detalle['descripcion'] = $producto['descripcion'] ?? '';
         }
         unset($detalle);
-        $data['venta'] = $detalles;
-        $data['cabecera'] = $cabecera;
+        $data = [
+            'detalles' => $detalles,
+            'cabecera' => $cabecera
+        ];
         $dato['titulo'] = "Mi compra";
         echo view('front/layouts/header', $dato);
         echo view('front/layouts/navbar');
@@ -138,9 +145,14 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
     public function ventas () {
         $venta_id = $this->request->getGet('id');
         $detalle_ventas = new VentasDetalleModel();
-        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
+        $detalles = $detalle_ventas->getDetalles($venta_id);
         $ventascabecera = new VentasCabeceraModel();
-        $data['usuarios']=$ventascabecera->getBuilderVentas_cabecera();        $dato['titulo'] = "ventas";
+        $cabecera = $ventascabecera->where('id', $venta_id)->first();
+        $data = [
+            'detalles' => $detalles,
+            'cabecera' => $cabecera
+        ];
+        $dato['titulo'] = "ventas";
         echo view("front/layouts/header", $dato);
         echo view("front/layouts/navbar");
         echo view("front/vista_compras", $data);
@@ -197,14 +209,62 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
      */
     public function detalle_venta($venta_id)
     {
-        $detalle_ventas = new VentasDetalleModel();
-        $data['venta'] = $detalle_ventas->getDetalles($venta_id);
-        $dato['titulo'] = "Detalle de Venta";
-        
-        echo view('front/layouts/header', $dato);
-        echo view('front/layouts/navbar');
-        echo view('front/vista_compras', $data); // Reutilizamos la misma vista que para los clientes
-        echo view('front/layouts/footer');
+        $session = session();
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+            return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'No tiene permisos para ver el detalle de ventas.');
+        }
+        if (!is_numeric($venta_id)) {
+            $session->setFlashdata('mensaje', 'Error: ID de venta inválido.');
+            return redirect()->to(base_url('admin-ventas'));
+        }
+        try {
+            log_message('error', 'ADMIN detalle_venta: $venta_id=' . print_r($venta_id, true));
+            $ventasCabecera = new \App\Models\VentasCabeceraModel();
+            $cabeceraModel = new \App\Models\VentasCabeceraModel();
+            $usuario_id = $session->get('id') ?: $session->get('id_usuario');
+            if (!$usuario_id) {
+                $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
+                return redirect()->to(base_url('login'));
+            }
+            // Traer cabecera con datos de usuario (join explícito y limpio)
+            $cabecera = $cabeceraModel->db->table('ventas_cabecera')
+                ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
+                ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
+                ->where('ventas_cabecera.id', $venta_id)
+                ->where('ventas_cabecera.usuario_id', $usuario_id)
+                ->get()->getRowArray();
+            if (!$cabecera) {
+                $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra o la compra no existe.');
+                return redirect()->to(base_url('mis-compras'));
+            }
+            $detalle_ventas = new \App\Models\VentasDetalleModel();
+            $detalles = $detalle_ventas->getDetalles($venta_id);
+            // Enriquecer detalles con nombre e imagen si faltan
+            $productoModel = new \App\Models\Producto_model();
+            foreach (
+                $detalles as &$detalle) {
+                if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
+                    $producto = $productoModel->find($detalle['producto_id']);
+                    $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
+                    $detalle['imagen'] = $producto['imagen'] ?? '';
+                    $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
+                }
+            }
+            unset($detalle);
+            $data = [
+                'detalles' => $detalles,
+                'cabecera' => $cabecera
+            ];
+            $dato['titulo'] = "Detalle de Venta";
+            echo view('front/layouts/header', $dato);
+            echo view('front/layouts/navbar');
+            echo view('front/vista_compras', $data);
+            echo view('front/layouts/footer');
+        } catch (\Exception $e) {
+            log_message('error', "Error al obtener detalle de venta ID $venta_id: " . $e->getMessage());
+            $session->setFlashdata('mensaje', 'Error al recuperar los detalles de la venta. Por favor intente nuevamente.');
+            return redirect()->to(base_url('admin-ventas'));
+        }
     }
     
     /**
@@ -262,12 +322,26 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             }
             // 2. Obtener detalles usando el modelo (más seguro)
             $detalle_ventas = new \App\Models\VentasDetalleModel();
-            $data['venta'] = $detalle_ventas->getDetalles($venta_id);
-            if (empty($data['venta'])) {
+            $detalles = $detalle_ventas->getDetalles($venta_id);
+            if (empty($detalles)) {
                 $session->setFlashdata('mensaje', 'No se encontraron detalles para esta compra.');
                 return redirect()->to(base_url('mis-compras'));
             }
-            $data['cabecera'] = $venta_cabecera;
+            // Enriquecer detalles con nombre e imagen si faltan
+            $productoModel = new \App\Models\Producto_model();
+            foreach ($detalles as &$detalle) {
+                if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
+                    $producto = $productoModel->find($detalle['producto_id']);
+                    $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
+                    $detalle['imagen'] = $producto['imagen'] ?? '';
+                    $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
+                }
+            }
+            unset($detalle);
+            $data = [
+                'detalles' => $detalles,
+                'cabecera' => $venta_cabecera
+            ];
             $dato['titulo'] = "Detalle de compra";
             echo view('front/layouts/header', $dato);
             echo view('front/layouts/navbar');

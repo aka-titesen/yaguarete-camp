@@ -51,11 +51,14 @@
         </li>
         
         <!-- Enlace directo al catálogo con icono -->
+        <?php if (session()->get('perfil_id') != 2): ?>
         <li class="nav-item">
           <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('catalogo') ?>">
             <i class="fas fa-th-large me-1"></i> Catálogo
           </a>
-        </li>        <!-- Menú Guías -->
+        </li>
+        <?php endif; ?>
+        <!-- Menú Guías -->
         <li class="nav-item dropdown mx-1">
           <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownGuias" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Guías
@@ -102,11 +105,13 @@
               </li>
               <li><hr class="dropdown-divider"></li>
               <!-- Enlace a Mis Compras -->
+              <?php if (session()->get('perfil_id') != 2): ?>
               <li>
                 <a class="dropdown-item" href="<?= base_url('mis-compras') ?>">
                   <i class="fas fa-shopping-bag me-2"></i> Mis Compras
                 </a>
               </li>
+              <?php endif; ?>
               <li>
                 <a class="dropdown-item" href="<?= base_url('logout') ?>">
                   <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
@@ -129,6 +134,7 @@
         </li>
 
         <li class="nav-item mx-1">
+          <?php if (session()->get('perfil_id') != 2): ?>
           <a class="nav-link text-white d-flex align-items-center" href="#" id="btnAbrirCarrito">
             <div class="position-relative me-1">
               <i class="fas fa-shopping-cart"></i>
@@ -136,6 +142,7 @@
             </div>
             <span class="ms-1">Carrito</span>
           </a>
+          <?php endif; ?>
         </li>
       </ul>
     </div>

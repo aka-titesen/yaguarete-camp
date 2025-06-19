@@ -1,44 +1,30 @@
 <?php
-// Script para renombrar imágenes con caracteres especiales y actualizar la base de datos
-// Uso: Ejecutar desde el navegador o CLI
-
-require 'vendor/autoload.php';
-$app = Config\Services::codeigniter();
-$app->initialize();
-$app->boot();
+// Script para limpiar nombres de archivos de imagen en la tabla productos y en el disco
+function limpiar_nombre($nombre) {
+    // Reemplaza ñ, acentos y caracteres especiales por equivalentes simples
+    $nombre = iconv('UTF-8', 'ASCII//TRANSLIT', $nombre);
+    $nombre = preg_replace('/[^A-Za-z0-9_.-]/', '', $nombre);
+    return $nombre;
+}
 
 $db = \Config\Database::connect();
+$builder = $db->table('productos');
+$productos = $builder->select('id, imagen')->get()->getResultArray();
 
-// Carpeta donde están las imágenes
-$carpeta = __DIR__ . '/assets/img/';
-
-// Buscar archivos con ñ, acentos o espacios
-$archivos = glob($carpeta . '*');
-
-$renombrados = [];
-foreach ($archivos as $archivo) {
-    $nombre = basename($archivo);
-    $nuevo_nombre = iconv('UTF-8', 'ASCII//TRANSLIT', $nombre); // Quita acentos y ñ → n
-    $nuevo_nombre = preg_replace('/[^A-Za-z0-9._-]/', '', $nuevo_nombre); // Solo letras, números, guion, punto
-    if ($nombre !== $nuevo_nombre) {
-        $nuevo_path = $carpeta . $nuevo_nombre;
-        if (!file_exists($nuevo_path)) {
-            rename($archivo, $nuevo_path);
-            $renombrados[$nombre] = $nuevo_nombre;
+foreach ($productos as $prod) {
+    $id = $prod['id'];
+    $imagen = $prod['imagen'];
+    if ($imagen && preg_match('/[^A-Za-z0-9_.-]/', $imagen)) {
+        $nuevo = limpiar_nombre($imagen);
+        // Renombrar archivo en disco si existe
+        $ruta = FCPATH . 'assets/uploads/' . $imagen;
+        $nueva_ruta = FCPATH . 'assets/uploads/' . $nuevo;
+        if (file_exists($ruta)) {
+            rename($ruta, $nueva_ruta);
         }
+        // Actualizar en la base de datos
+        $db->table('productos')->where('id', $id)->update(['imagen' => $nuevo]);
     }
 }
-
-// Actualizar referencias en la base de datos
-echo "<h2>Renombrando imágenes y actualizando base de datos</h2>";
-if (empty($renombrados)) {
-    echo "<p>No se encontraron imágenes con caracteres especiales.</p>";
-} else {
-    foreach ($renombrados as $viejo => $nuevo) {
-        $db->query("UPDATE productos SET imagen = ? WHERE imagen = ?", [$nuevo, $viejo]);
-        echo "<p>$viejo → $nuevo (actualizado en la base de datos)</p>";
-    }
-}
-
-echo "<h3>Proceso finalizado.</h3>";
+echo 'Nombres de imágenes limpiados.';
 ?>
