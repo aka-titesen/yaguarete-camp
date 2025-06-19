@@ -84,7 +84,7 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         $cartController->borrar_carrito();
         $session->setFlashdata('mensaje', 'Compra registrada exitosamente.');
         return redirect()->to(base_url('detalle-compra/' . $venta_id));
-    }    // Función del usuario cliente para ver sus compras
+    }    // --- MÉTODO PARA CLIENTE ---
     public function ver_factura($venta_id)
     {
         $session = session();
@@ -94,7 +94,6 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             return redirect()->to(base_url('login'));
         }
         $cabeceraModel = new \App\Models\VentasCabeceraModel();
-        // Traer cabecera con datos de usuario (join explícito y limpio)
         $cabecera = $cabeceraModel->db->table('ventas_cabecera')
             ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
             ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
@@ -106,20 +105,15 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
             return redirect()->to(base_url('mis-compras'));
         }
         $detalle_ventas = new \App\Models\VentasDetalleModel();
-        $detalles = $detalle_ventas->where('venta_id', $venta_id)->findAll();
-        // Si no hay detalles, mostrar mensaje claro
-        if (empty($detalles)) {
-            $session->setFlashdata('mensaje', 'Esta compra no tiene productos asociados.');
-            return redirect()->to(base_url('mis-compras'));
-        }
-        // Obtener datos de producto para cada detalle
+        $detalles = $detalle_ventas->getDetalles($venta_id);
         $productoModel = new \App\Models\Producto_model();
         foreach ($detalles as &$detalle) {
-            $producto = $productoModel->find($detalle['producto_id']);
-            $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
-            $detalle['imagen'] = $producto['imagen'] ?? '';
-            $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
-            $detalle['descripcion'] = $producto['descripcion'] ?? '';
+            if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
+                $producto = $productoModel->find($detalle['producto_id']);
+                $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
+                $detalle['imagen'] = $producto['imagen'] ?? '';
+                $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
+            }
         }
         unset($detalle);
         $data = [
@@ -131,7 +125,48 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         echo view('front/layouts/navbar');
         echo view('front/vista_compras', $data);
         echo view('front/layouts/footer');
-    }    // Función del cliente para ver el detalle de sus facturas de compras
+    }
+
+    // --- MÉTODO PARA ADMIN ---
+    public function detalle_venta($venta_id)
+    {
+        $session = session();
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+            return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'No tiene permisos para ver el detalle de ventas.');
+        }
+        $cabeceraModel = new \App\Models\VentasCabeceraModel();
+        $cabecera = $cabeceraModel->db->table('ventas_cabecera')
+            ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
+            ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
+            ->where('ventas_cabecera.id', $venta_id)
+            ->get()->getRowArray();
+        if (!$cabecera) {
+            $session->setFlashdata('mensaje', 'No existe la venta.');
+            return redirect()->to(base_url('admin-ventas'));
+        }
+        $detalle_ventas = new \App\Models\VentasDetalleModel();
+        $detalles = $detalle_ventas->getDetalles($venta_id);
+        $productoModel = new \App\Models\Producto_model();
+        foreach ($detalles as &$detalle) {
+            if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
+                $producto = $productoModel->find($detalle['producto_id']);
+                $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
+                $detalle['imagen'] = $producto['imagen'] ?? '';
+                $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
+            }
+        }
+        unset($detalle);
+        $data = [
+            'detalles' => $detalles,
+            'cabecera' => $cabecera
+        ];
+        $dato['titulo'] = "Detalle de Venta";
+        echo view('front/layouts/header', $dato);
+        echo view('front/layouts/navbar');
+        echo view('front/vista_compras', $data);
+        echo view('front/layouts/footer');
+    }
+    // Función del cliente para ver el detalle de sus facturas de compras
     public function ver_facturas_usuario($id_usuario)
     {
         $ventas = new VentasCabeceraModel();
@@ -204,69 +239,6 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
         echo view('front/admin_ventas', $data);
         echo view('front/layouts/footer');
     }
-      /**
-     * Función del administrador para ver el detalle de una venta
-     */
-    public function detalle_venta($venta_id)
-    {
-        $session = session();
-        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
-            return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'No tiene permisos para ver el detalle de ventas.');
-        }
-        if (!is_numeric($venta_id)) {
-            $session->setFlashdata('mensaje', 'Error: ID de venta inválido.');
-            return redirect()->to(base_url('admin-ventas'));
-        }
-        try {
-            log_message('error', 'ADMIN detalle_venta: $venta_id=' . print_r($venta_id, true));
-            $ventasCabecera = new \App\Models\VentasCabeceraModel();
-            $cabeceraModel = new \App\Models\VentasCabeceraModel();
-            $usuario_id = $session->get('id') ?: $session->get('id_usuario');
-            if (!$usuario_id) {
-                $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
-                return redirect()->to(base_url('login'));
-            }
-            // Traer cabecera con datos de usuario (join explícito y limpio)
-            $cabecera = $cabeceraModel->db->table('ventas_cabecera')
-                ->select('ventas_cabecera.*, usuarios.nombre, usuarios.apellido, usuarios.email')
-                ->join('usuarios', 'usuarios.id = ventas_cabecera.usuario_id', 'left')
-                ->where('ventas_cabecera.id', $venta_id)
-                ->where('ventas_cabecera.usuario_id', $usuario_id)
-                ->get()->getRowArray();
-            if (!$cabecera) {
-                $session->setFlashdata('mensaje', 'No tiene permiso para ver esta compra o la compra no existe.');
-                return redirect()->to(base_url('mis-compras'));
-            }
-            $detalle_ventas = new \App\Models\VentasDetalleModel();
-            $detalles = $detalle_ventas->getDetalles($venta_id);
-            // Enriquecer detalles con nombre e imagen si faltan
-            $productoModel = new \App\Models\Producto_model();
-            foreach (
-                $detalles as &$detalle) {
-                if (empty($detalle['nombre_prod']) || empty($detalle['imagen'])) {
-                    $producto = $productoModel->find($detalle['producto_id']);
-                    $detalle['nombre_prod'] = $producto['nombre_prod'] ?? 'Producto sin nombre';
-                    $detalle['imagen'] = $producto['imagen'] ?? '';
-                    $detalle['precio_vta'] = $producto['precio_vta'] ?? $detalle['precio'];
-                }
-            }
-            unset($detalle);
-            $data = [
-                'detalles' => $detalles,
-                'cabecera' => $cabecera
-            ];
-            $dato['titulo'] = "Detalle de Venta";
-            echo view('front/layouts/header', $dato);
-            echo view('front/layouts/navbar');
-            echo view('front/vista_compras', $data);
-            echo view('front/layouts/footer');
-        } catch (\Exception $e) {
-            log_message('error', "Error al obtener detalle de venta ID $venta_id: " . $e->getMessage());
-            $session->setFlashdata('mensaje', 'Error al recuperar los detalles de la venta. Por favor intente nuevamente.');
-            return redirect()->to(base_url('admin-ventas'));
-        }
-    }
-    
     /**
      * Muestra el historial de compras del cliente actual
      */
