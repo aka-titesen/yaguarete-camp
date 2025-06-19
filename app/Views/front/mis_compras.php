@@ -11,7 +11,7 @@ $session = session();
     <?php endif; ?>
 
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-verde-selva text-white">
+        <div class="card-header text-white">
             <h2 class="mb-0 d-flex align-items-center">
                 <i class="fas fa-shopping-bag me-3"></i> Mi historial de compras
             </h2>
