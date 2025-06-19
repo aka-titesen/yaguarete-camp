@@ -1,6 +1,3 @@
-<?php
-// Vista para la página completa del carrito
-?>
 <div class="container my-5">
     <div class="row">
         <div class="col-md-12">
