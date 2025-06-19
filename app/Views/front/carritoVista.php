@@ -5,34 +5,40 @@ $cart = \Config\Services::cart();
 $items = $cart->contents();
 $total = $cart->total();
 ?>
+<link rel="stylesheet" href="<?= base_url('assets/css/carrito.css') ?>">
 <div class="cart-list">
     <?php if (empty($items)): ?>
         <p class="text-center text-muted">El carrito está vacío.</p>
     <?php else: ?>
-        <ul class="list-group mb-3">
+        <ul class="carrito-sidebar-list mb-3">
             <?php foreach ($items as $item): ?>
-                <li class="list-group-item d-flex justify-content-between lh-sm py-3">
-                    <div class="d-flex align-items-start">
-                        <?php if (!empty($item['imagen'])): ?>
-                            <img src="<?= base_url('assets/uploads/' . esc($item['imagen'])) ?>" alt="<?= esc($item['name']) ?>" width="50" height="50" class="rounded me-2" style="object-fit:cover;">
-                        <?php endif; ?>
-                        <div>
-                            <h6 class="mb-1"><?= esc($item['name']) ?></h6>
-                            <div class="text-muted d-flex align-items-center">
-                                <small class="me-2">Precio: $<?= number_format($item['price'], 2, ',', '.') ?></small>
-                                <div class="input-group input-group-sm" style="width: 110px;">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-resta-item" data-rowid="<?= esc($item['rowid']) ?>"><i class="fas fa-minus"></i></button>
-                                    <input type="text" readonly class="form-control text-center border-secondary" value="<?= esc($item['qty']) ?>">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-suma-item" data-rowid="<?= esc($item['rowid']) ?>" <?= (isset($item['stock']) && $item['qty'] >= $item['stock']) ? 'disabled' : '' ?>><i class="fas fa-plus"></i></button>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-danger ms-2 btn-eliminar-item" data-rowid="<?= esc($item['rowid']) ?>"><i class="fas fa-trash"></i></button>
-                            </div>
+                <li class="carrito-sidebar-item">
+                    <div class="carrito-sidebar-main">
+                        <div class="carrito-sidebar-img-title">
+                            <?php if (!empty($item['imagen'])): ?>
+                                <img src="<?= base_url('assets/uploads/' . esc($item['imagen'])) ?>" alt="<?= esc($item['name']) ?>" class="carrito-sidebar-img">
+                            <?php endif; ?>
+                            <div class="carrito-sidebar-title"><?= esc($item['name']) ?></div>
+                        </div>
+                        <div class="carrito-sidebar-category">
+                            <span class="badge bg-light text-dark">
+                                <?= isset($item['categoria']) ? esc($item['categoria']) : 'Sin categoría' ?>
+                            </span>
                         </div>
                     </div>
-                    <div class="text-end">
-                        <span class="fw-bold">$<?= number_format($item['subtotal'], 2, ',', '.') ?></span>
-                        <br>
-                        <small class="text-muted">Stock: <?= isset($item['stock']) ? $item['stock'] : 'N/A' ?></small>
+                    <div class="carrito-sidebar-bottom d-flex justify-content-between align-items-end w-100">
+                        <div class="carrito-sidebar-controls-bottom">
+                            <div class="input-group input-group-sm" style="width: 110px;">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-resta-item" data-rowid="<?= esc($item['rowid']) ?>"><i class="fas fa-minus"></i></button>
+                                <input type="text" readonly class="form-control text-center border-secondary" value="<?= esc($item['qty']) ?>">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-suma-item" data-rowid="<?= esc($item['rowid']) ?>" <?= (isset($item['stock']) && $item['qty'] >= $item['stock']) ? 'disabled' : '' ?>><i class="fas fa-plus"></i></button>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger ms-2 btn-eliminar-item" data-rowid="<?= esc($item['rowid']) ?>"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="carrito-sidebar-stock text-end">
+                            <span>Stock: <?= isset($item['stock']) ? $item['stock'] : 'N/A' ?></span><br>
+                            <span class="carrito-sidebar-subtotal">$<?= number_format($item['subtotal'], 2, ',', '.') ?></span>
+                        </div>
                     </div>
                 </li>
             <?php endforeach; ?>

@@ -632,3 +632,669 @@ ERROR - 2025-06-19 01:40:17 --> RESULTADO getDetalles: Array
 
 )
 
+ERROR - 2025-06-19 02:16:19 --> SQL getDetalles: SELECT `ventas_detalle`.`id`, `ventas_detalle`.`venta_id`, `ventas_detalle`.`producto_id`, `ventas_detalle`.`cantidad`, `ventas_detalle`.`precio`, `productos`.`nombre_prod`, `productos`.`imagen`, `productos`.`precio_vta`
+FROM `ventas_detalle`
+LEFT JOIN `productos` ON `productos`.`id` = `ventas_detalle`.`producto_id`
+WHERE `ventas_detalle`.`venta_id` = 7
+ORDER BY `ventas_detalle`.`id` ASC
+ERROR - 2025-06-19 02:16:19 --> RESULTADO getDetalles: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [venta_id] => 1
+            [producto_id] => 16
+            [cantidad] => 6
+            [precio] => 360000.00
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [venta_id] => 1
+            [producto_id] => 22
+            [cantidad] => 6
+            [precio] => 1068000.00
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [venta_id] => 2
+            [producto_id] => 16
+            [cantidad] => 1
+            [precio] => 60000.00
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [venta_id] => 3
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [venta_id] => 4
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [venta_id] => 5
+            [producto_id] => 15
+            [cantidad] => 4
+            [precio] => 134000.00
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [venta_id] => 5
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [venta_id] => 5
+            [producto_id] => 16
+            [cantidad] => 2
+            [precio] => 120000.00
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [venta_id] => 6
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [venta_id] => 7
+            [producto_id] => 35
+            [cantidad] => 1
+            [precio] => 80000.00
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [venta_id] => 7
+            [producto_id] => 18
+            [cantidad] => 1
+            [precio] => 38900.00
+        )
+
+)
+
+ERROR - 2025-06-19 02:16:44 --> SQL getDetalles: SELECT `ventas_detalle`.`id`, `ventas_detalle`.`venta_id`, `ventas_detalle`.`producto_id`, `ventas_detalle`.`cantidad`, `ventas_detalle`.`precio`, `productos`.`nombre_prod`, `productos`.`imagen`, `productos`.`precio_vta`
+FROM `ventas_detalle`
+LEFT JOIN `productos` ON `productos`.`id` = `ventas_detalle`.`producto_id`
+WHERE `ventas_detalle`.`venta_id` = 7
+ORDER BY `ventas_detalle`.`id` ASC
+ERROR - 2025-06-19 02:16:44 --> RESULTADO getDetalles: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [venta_id] => 1
+            [producto_id] => 16
+            [cantidad] => 6
+            [precio] => 360000.00
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [venta_id] => 1
+            [producto_id] => 22
+            [cantidad] => 6
+            [precio] => 1068000.00
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [venta_id] => 2
+            [producto_id] => 16
+            [cantidad] => 1
+            [precio] => 60000.00
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [venta_id] => 3
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [venta_id] => 4
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [venta_id] => 5
+            [producto_id] => 15
+            [cantidad] => 4
+            [precio] => 134000.00
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [venta_id] => 5
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [venta_id] => 5
+            [producto_id] => 16
+            [cantidad] => 2
+            [precio] => 120000.00
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [venta_id] => 6
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [venta_id] => 7
+            [producto_id] => 35
+            [cantidad] => 1
+            [precio] => 80000.00
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [venta_id] => 7
+            [producto_id] => 18
+            [cantidad] => 1
+            [precio] => 38900.00
+        )
+
+)
+
+ERROR - 2025-06-19 02:17:31 --> SQL getDetalles: SELECT `ventas_detalle`.`id`, `ventas_detalle`.`venta_id`, `ventas_detalle`.`producto_id`, `ventas_detalle`.`cantidad`, `ventas_detalle`.`precio`, `productos`.`nombre_prod`, `productos`.`imagen`, `productos`.`precio_vta`
+FROM `ventas_detalle`
+LEFT JOIN `productos` ON `productos`.`id` = `ventas_detalle`.`producto_id`
+WHERE `ventas_detalle`.`venta_id` = 7
+ORDER BY `ventas_detalle`.`id` ASC
+ERROR - 2025-06-19 02:17:31 --> RESULTADO getDetalles: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [venta_id] => 1
+            [producto_id] => 16
+            [cantidad] => 6
+            [precio] => 360000.00
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [venta_id] => 1
+            [producto_id] => 22
+            [cantidad] => 6
+            [precio] => 1068000.00
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [venta_id] => 2
+            [producto_id] => 16
+            [cantidad] => 1
+            [precio] => 60000.00
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [venta_id] => 3
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [venta_id] => 4
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [venta_id] => 5
+            [producto_id] => 15
+            [cantidad] => 4
+            [precio] => 134000.00
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [venta_id] => 5
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [venta_id] => 5
+            [producto_id] => 16
+            [cantidad] => 2
+            [precio] => 120000.00
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [venta_id] => 6
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [venta_id] => 7
+            [producto_id] => 35
+            [cantidad] => 1
+            [precio] => 80000.00
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [venta_id] => 7
+            [producto_id] => 18
+            [cantidad] => 1
+            [precio] => 38900.00
+        )
+
+)
+
+ERROR - 2025-06-19 02:18:59 --> SQL getDetalles: SELECT `ventas_detalle`.`id`, `ventas_detalle`.`venta_id`, `ventas_detalle`.`producto_id`, `ventas_detalle`.`cantidad`, `ventas_detalle`.`precio`, `productos`.`nombre_prod`, `productos`.`imagen`, `productos`.`precio_vta`
+FROM `ventas_detalle`
+LEFT JOIN `productos` ON `productos`.`id` = `ventas_detalle`.`producto_id`
+WHERE `ventas_detalle`.`venta_id` = 7
+ORDER BY `ventas_detalle`.`id` ASC
+ERROR - 2025-06-19 02:18:59 --> RESULTADO getDetalles: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [venta_id] => 1
+            [producto_id] => 16
+            [cantidad] => 6
+            [precio] => 360000.00
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [venta_id] => 1
+            [producto_id] => 22
+            [cantidad] => 6
+            [precio] => 1068000.00
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [venta_id] => 2
+            [producto_id] => 16
+            [cantidad] => 1
+            [precio] => 60000.00
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [venta_id] => 3
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [venta_id] => 4
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [venta_id] => 5
+            [producto_id] => 15
+            [cantidad] => 4
+            [precio] => 134000.00
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [venta_id] => 5
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [venta_id] => 5
+            [producto_id] => 16
+            [cantidad] => 2
+            [precio] => 120000.00
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [venta_id] => 6
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [venta_id] => 7
+            [producto_id] => 35
+            [cantidad] => 1
+            [precio] => 80000.00
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [venta_id] => 7
+            [producto_id] => 18
+            [cantidad] => 1
+            [precio] => 38900.00
+        )
+
+)
+
+ERROR - 2025-06-19 02:19:30 --> SQL getDetalles: SELECT `ventas_detalle`.`id`, `ventas_detalle`.`venta_id`, `ventas_detalle`.`producto_id`, `ventas_detalle`.`cantidad`, `ventas_detalle`.`precio`, `productos`.`nombre_prod`, `productos`.`imagen`, `productos`.`precio_vta`
+FROM `ventas_detalle`
+LEFT JOIN `productos` ON `productos`.`id` = `ventas_detalle`.`producto_id`
+WHERE `ventas_detalle`.`venta_id` = 7
+ORDER BY `ventas_detalle`.`id` ASC
+ERROR - 2025-06-19 02:19:30 --> RESULTADO getDetalles: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [venta_id] => 1
+            [producto_id] => 16
+            [cantidad] => 6
+            [precio] => 360000.00
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [venta_id] => 1
+            [producto_id] => 22
+            [cantidad] => 6
+            [precio] => 1068000.00
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [venta_id] => 2
+            [producto_id] => 16
+            [cantidad] => 1
+            [precio] => 60000.00
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [venta_id] => 3
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [venta_id] => 4
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [venta_id] => 5
+            [producto_id] => 15
+            [cantidad] => 4
+            [precio] => 134000.00
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [venta_id] => 5
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [venta_id] => 5
+            [producto_id] => 16
+            [cantidad] => 2
+            [precio] => 120000.00
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [venta_id] => 6
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [venta_id] => 7
+            [producto_id] => 35
+            [cantidad] => 1
+            [precio] => 80000.00
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [venta_id] => 7
+            [producto_id] => 18
+            [cantidad] => 1
+            [precio] => 38900.00
+        )
+
+)
+
+ERROR - 2025-06-19 02:37:49 --> SQL getDetalles: SELECT `ventas_detalle`.`id`, `ventas_detalle`.`venta_id`, `ventas_detalle`.`producto_id`, `ventas_detalle`.`cantidad`, `ventas_detalle`.`precio`, `productos`.`nombre_prod`, `productos`.`imagen`, `productos`.`precio_vta`
+FROM `ventas_detalle`
+LEFT JOIN `productos` ON `productos`.`id` = `ventas_detalle`.`producto_id`
+WHERE `ventas_detalle`.`venta_id` = 8
+ORDER BY `ventas_detalle`.`id` ASC
+ERROR - 2025-06-19 02:37:49 --> RESULTADO getDetalles: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [venta_id] => 1
+            [producto_id] => 16
+            [cantidad] => 6
+            [precio] => 360000.00
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [venta_id] => 1
+            [producto_id] => 22
+            [cantidad] => 6
+            [precio] => 1068000.00
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [venta_id] => 2
+            [producto_id] => 16
+            [cantidad] => 1
+            [precio] => 60000.00
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [venta_id] => 3
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [venta_id] => 4
+            [producto_id] => 15
+            [cantidad] => 1
+            [precio] => 33500.00
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [venta_id] => 5
+            [producto_id] => 15
+            [cantidad] => 4
+            [precio] => 134000.00
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [venta_id] => 5
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [venta_id] => 5
+            [producto_id] => 16
+            [cantidad] => 2
+            [precio] => 120000.00
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [venta_id] => 6
+            [producto_id] => 17
+            [cantidad] => 1
+            [precio] => 110000.00
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [venta_id] => 7
+            [producto_id] => 35
+            [cantidad] => 1
+            [precio] => 80000.00
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [venta_id] => 7
+            [producto_id] => 18
+            [cantidad] => 1
+            [precio] => 38900.00
+        )
+
+    [11] => Array
+        (
+            [id] => 12
+            [venta_id] => 8
+            [producto_id] => 21
+            [cantidad] => 1
+            [precio] => 16850.00
+        )
+
+    [12] => Array
+        (
+            [id] => 13
+            [venta_id] => 8
+            [producto_id] => 22
+            [cantidad] => 5
+            [precio] => 178000.00
+        )
+
+)
+

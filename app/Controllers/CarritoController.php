@@ -36,6 +36,15 @@ class CarritoController extends BaseController{
         if (is_object($producto)) {
             $producto = (array)$producto;
         }
+        // Obtener nombre de la categoría
+        $categoria_nombre = '';
+        if (isset($producto['categoria_id'])) {
+            $categoriaModel = new \App\Models\Categorias_model();
+            $categoria = $categoriaModel->find($producto['categoria_id']);
+            if ($categoria && isset($categoria['descripcion'])) {
+                $categoria_nombre = $categoria['descripcion'];
+            }
+        }
         if (!$producto || (isset($producto['eliminado']) && $producto['eliminado'] === 'SI')) {
             return $this->response->setJSON(['status'=>'error','msg'=>'Producto no disponible.']);
         }
@@ -75,6 +84,7 @@ class CarritoController extends BaseController{
                     'price'   => $precio,
                     'imagen'  => $imagen,
                     'stock'   => $stock,
+                    'categoria' => $categoria_nombre,
                 ]);
             }
             $fuera = $cantidad - $puedeAgregar;
@@ -95,6 +105,7 @@ class CarritoController extends BaseController{
                     'price'   => $precio,
                     'imagen'  => $imagen,
                     'stock'   => $stock,
+                    'categoria' => $categoria_nombre,
                 ]);
             }
             return $this->response->setJSON(['status'=>'success','msg'=>'Producto agregado al carrito.']);
