@@ -1,5 +1,3 @@
-<?php // Solo el contenido principal del dashboard, sin head, body ni includes de navbar/footer/header
-?>
 <div class="container mt-5 pt-4">
     <h1 class="mb-4 text-center"><i class="fas fa-tools"></i> Panel de Administración</h1>
         <br>
