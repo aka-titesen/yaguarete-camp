@@ -38,13 +38,13 @@
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
-                    <form method="post" action="<?= base_url('/crear-producto') ?>" enctype="multipart/form-data">
+                    <form method="post" action="<?= base_url('/crear-producto') ?>" enctype="multipart/form-data" id="formCrearProducto">
                         <?= csrf_field(); ?>
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre_prod" maxlength="100"
-                                    required>
+                                    required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$" title="Solo letras y espacios">
                             </div>
                             <div class="mb-3">
                                 <label for="imagen" class="form-label">Imagen</label>
@@ -90,6 +90,64 @@
                             </button>
                         </div>
                     </form>
+                    <!-- Mostrar errores en la modal de alta -->
+                    <?php if (isset($errores) && count($errores) > 0 && !isset($edit_id)): ?>
+                      <div class="alert alert-danger">
+                        <ul class="mb-0">
+                          <?php foreach ($errores as $error): ?>
+                            <li><?= esc($error) ?></li>
+                          <?php endforeach; ?>
+                        </ul>
+                      </div>
+                    <?php endif; ?>
+                    <script>
+                    // Validación JS para alta de producto
+                    document.getElementById('formCrearProducto').addEventListener('submit', function(e) {
+                        let errores = [];
+                        const nombre = document.getElementById('nombre').value.trim();
+                        if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(nombre)) errores.push('El nombre solo debe contener letras y espacios.');
+                        const precio = parseFloat(document.getElementById('precio').value);
+                        const precio_vta = parseFloat(document.getElementById('precio_vta').value);
+                        const stock = parseInt(document.getElementById('stock').value);
+                        const stock_min = parseInt(document.getElementById('stock_min').value);
+                        const imagen = document.getElementById('imagen').files[0];
+                        if (nombre.length < 3) errores.push('El nombre debe tener al menos 3 caracteres.');
+                        if (precio_vta < precio) errores.push('El precio de venta debe ser mayor o igual al de compra.');
+                        if (stock_min > stock) errores.push('El stock mínimo no puede ser mayor al stock actual.');
+                        if (imagen) {
+                            const tipos = ['image/jpeg','image/png','image/gif','image/webp'];
+                            if (!tipos.includes(imagen.type)) errores.push('La imagen debe ser JPG, PNG, GIF o WEBP.');
+                            if (imagen.size > 2*1024*1024) errores.push('La imagen no debe superar los 2MB.');
+                        }
+                        if (errores.length > 0) {
+                            e.preventDefault();
+                            alert(errores.join('\n'));
+                        }
+                    });
+                    // Validación JS para edición de producto
+                    document.getElementById('formEditarProducto').addEventListener('submit', function(e) {
+                        let errores = [];
+                        const nombre = document.getElementById('edit_nombre_prod').value.trim();
+                        if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(nombre)) errores.push('El nombre solo debe contener letras y espacios.');
+                        const precio = parseFloat(document.getElementById('edit_precio').value);
+                        const precio_vta = parseFloat(document.getElementById('edit_precio_vta').value);
+                        const stock = parseInt(document.getElementById('edit_stock').value);
+                        const stock_min = parseInt(document.getElementById('edit_stock_min').value);
+                        const imagen = document.getElementById('edit_imagen').files[0];
+                        if (nombre.length < 3) errores.push('El nombre debe tener al menos 3 caracteres.');
+                        if (precio_vta < precio) errores.push('El precio de venta debe ser mayor o igual al de compra.');
+                        if (stock_min > stock) errores.push('El stock mínimo no puede ser mayor al stock actual.');
+                        if (imagen) {
+                            const tipos = ['image/jpeg','image/png','image/gif','image/webp'];
+                            if (!tipos.includes(imagen.type)) errores.push('La imagen debe ser JPG, PNG, GIF o WEBP.');
+                            if (imagen.size > 2*1024*1024) errores.push('La imagen no debe superar los 2MB.');
+                        }
+                        if (errores.length > 0) {
+                            e.preventDefault();
+                            alert(errores.join('\n'));
+                        }
+                    });
+                    </script>
                 </div>
             </div>
         </div>
@@ -112,7 +170,7 @@
                             <div class="mb-3">
                                 <label for="edit_nombre_prod" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="edit_nombre_prod" name="nombre_prod"
-                                    maxlength="100" required>
+                                    maxlength="100" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$" title="Solo letras y espacios">
                             </div>
                             <div class="mb-3">
                                 <label for="edit_imagen" class="form-label">Imagen (opcional)</label>
@@ -157,6 +215,16 @@
                             </button>
                         </div>
                     </form>
+                    <!-- Mostrar errores en la modal de edición -->
+                    <?php if (isset($errores) && count($errores) > 0 && isset($edit_id)): ?>
+                      <div class="alert alert-danger">
+                        <ul class="mb-0">
+                          <?php foreach ($errores as $error): ?>
+                            <li><?= esc($error) ?></li>
+                          <?php endforeach; ?>
+                        </ul>
+                      </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

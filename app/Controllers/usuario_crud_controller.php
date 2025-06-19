@@ -117,8 +117,39 @@ class Usuario_crud_controller extends Controller
     public function update()
     {
         $userModel = new Usuarios_Model();
-        $id = $this->request->getPost('id'); // <-- así lo recibes
-
+        $id = $this->request->getPost('id');
+        // Validación de datos al editar usuario
+        $input = $this->validate([
+            'nombre'   => 'required|min_length[3]|max_length[25]',
+            'apellido' => 'required|min_length[3]|max_length[25]',
+            'usuario'  => 'required|min_length[3]|max_length[10]',
+            'email'    => 'required|min_length[4]|max_length[100]|valid_email',
+            'perfil_id'=> 'required|in_list[1,2,3]'
+        ], [
+            'email' => [
+                'valid_email' => 'Debe ingresar un email válido.'
+            ]
+        ]);
+        // Verificar unicidad de email y usuario (excepto para el propio usuario)
+        $email = $this->request->getPost('email');
+        $usuario = $this->request->getPost('usuario');
+        $usuarioExistente = $userModel->where('email', $email)->where('id !=', $id)->first();
+        if ($usuarioExistente) {
+            session()->setFlashdata('validation', ['email' => 'El email ya está registrado por otro usuario.']);
+            session()->setFlashdata('edit_data', $this->request->getPost());
+            return redirect()->to('admin_usuarios?edit_id=' . $id);
+        }
+        $usuarioExistente = $userModel->where('usuario', $usuario)->where('id !=', $id)->first();
+        if ($usuarioExistente) {
+            session()->setFlashdata('validation', ['usuario' => 'El nombre de usuario ya está registrado por otro usuario.']);
+            session()->setFlashdata('edit_data', $this->request->getPost());
+            return redirect()->to('admin_usuarios?edit_id=' . $id);
+        }
+        if (!$input) {
+            session()->setFlashdata('validation', $this->validator);
+            session()->setFlashdata('edit_data', $this->request->getPost());
+            return redirect()->to('admin_usuarios?edit_id=' . $id);
+        }
         $data = [
             'nombre'   => $this->request->getPost('nombre'),
             'apellido' => $this->request->getPost('apellido'),

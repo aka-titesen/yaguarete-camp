@@ -33,47 +33,52 @@
             <h5 class="modal-title" id="modalAgregarUsuarioLabel"><i class="fas fa-user-plus"></i> Alta de Usuario</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
-          <form action="<?= base_url('/store') ?>" method="post">
+          <form action="<?= base_url('/store') ?>" method="post" id="formCrearUsuario" autocomplete="off">
             <div class="modal-body">
               <?php $validation = \Config\Services::validation(); ?>
               <div class="mb-3">
                 <label class="form-label">Nombre</label>
-                <input name="nombre" type="text" class="form-control" placeholder="Nombre" value="<?= set_value('nombre') ?>">
+                <input name="nombre" type="text" class="form-control" placeholder="Nombre" value="<?= set_value('nombre') ?>" minlength="3" maxlength="25" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$" title="Solo letras y espacios">
                 <?php if($validation->getError('nombre')): ?>
                   <div class="alert alert-danger mt-2"><?= $validation->getError('nombre'); ?></div>
                 <?php endif; ?>
               </div>
               <div class="mb-3">
                 <label class="form-label">Apellido</label>
-                <input name="apellido" type="text" class="form-control" placeholder="Apellido" value="<?= set_value('apellido') ?>">
+                <input name="apellido" type="text" class="form-control" placeholder="Apellido" value="<?= set_value('apellido') ?>" minlength="3" maxlength="25" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$" title="Solo letras y espacios">
                 <?php if($validation->getError('apellido')): ?>
                   <div class="alert alert-danger mt-2"><?= $validation->getError('apellido'); ?></div>
                 <?php endif; ?>
               </div>
               <div class="mb-3">
                 <label class="form-label">Usuario</label>
-                <input name="usuario" type="text" class="form-control" placeholder="Usuario" value="<?= set_value('usuario') ?>">
+                <input name="usuario" type="text" class="form-control" placeholder="Usuario" value="<?= set_value('usuario') ?>" minlength="3" maxlength="10" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" title="Solo letras, sin espacios ni números">
                 <?php if($validation->getError('usuario')): ?>
                   <div class="alert alert-danger mt-2"><?= $validation->getError('usuario'); ?></div>
                 <?php endif; ?>
               </div>
               <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input name="email" type="email" class="form-control" placeholder="correo@algo.com" value="<?= set_value('email') ?>">
+                <input name="email" type="email" class="form-control" placeholder="correo@algo.com" value="<?= set_value('email') ?>" minlength="4" maxlength="100" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
                 <?php if($validation->getError('email')): ?>
                   <div class="alert alert-danger mt-2"><?= $validation->getError('email'); ?></div>
                 <?php endif; ?>
               </div>
               <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input name="pass" type="password" class="form-control" placeholder="Password">
+                <input name="pass" id="pass" type="password" class="form-control" placeholder="Password" minlength="8" maxlength="32" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,32}" required>
+                <small class="text-muted">Mínimo 8, máximo 32, mayúscula, minúscula, número y símbolo.</small>
                 <?php if($validation->getError('pass')): ?>
                   <div class="alert alert-danger mt-2"><?= $validation->getError('pass'); ?></div>
                 <?php endif; ?>
               </div>
               <div class="mb-3">
+                <label class="form-label">Repetir Password</label>
+                <input name="pass_confirm" id="pass_confirm" type="password" class="form-control" placeholder="Repetir Password" minlength="8" maxlength="32" required>
+              </div>
+              <div class="mb-3">
                 <label class="form-label">Perfil</label>
-                <select name="perfil_id" class="form-control">
+                <select name="perfil_id" class="form-control" required>
                   <option value="">Seleccione un perfil</option>
                   <option value="1">Cliente</option>
                   <option value="2">Administrador</option>
@@ -89,6 +94,54 @@
               <button type="submit" class="btn btn-cta">Guardar</button>
             </div>
           </form>
+          <script>
+          // Validación JS para alta de usuario
+          document.getElementById('formCrearUsuario').addEventListener('submit', function(e) {
+            let errores = [];
+            const nombre = this.nombre.value.trim();
+            const apellido = this.apellido.value.trim();
+            const usuario = this.usuario.value.trim();
+            const email = this.email.value.trim();
+            const pass = this.pass.value;
+            const pass_confirm = this.pass_confirm.value;
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(nombre)) errores.push('El nombre solo debe contener letras y espacios.');
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(apellido)) errores.push('El apellido solo debe contener letras y espacios.');
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/.test(usuario)) errores.push('El usuario solo debe contener letras, sin espacios ni números.');
+            if (nombre.length < 3 || nombre.length > 25) errores.push('El nombre debe tener entre 3 y 25 caracteres.');
+            if (apellido.length < 3 || apellido.length > 25) errores.push('El apellido debe tener entre 3 y 25 caracteres.');
+            if (usuario.length < 3 || usuario.length > 10) errores.push('El usuario debe tener entre 3 y 10 caracteres.');
+            if (!/^.+@.+\..+$/.test(email)) errores.push('El email no es válido.');
+            if (pass.length < 8 || pass.length > 32 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d])/.test(pass)) {
+              errores.push('La contraseña debe tener entre 8 y 32 caracteres, mayúscula, minúscula, número y símbolo.');
+            }
+            if (pass !== pass_confirm) {
+              errores.push('Las contraseñas no coinciden.');
+            }
+            if (errores.length > 0) {
+              e.preventDefault();
+              alert(errores.join('\n'));
+            }
+          });
+          // Validación JS para edición de usuario
+          document.getElementById('formEditarUsuario').addEventListener('submit', function(e) {
+            let errores = [];
+            const nombre = document.getElementById('edit_nombre').value.trim();
+            const apellido = document.getElementById('edit_apellido').value.trim();
+            const usuario = document.getElementById('edit_usuario').value.trim();
+            const email = document.getElementById('edit_email').value.trim();
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(nombre)) errores.push('El nombre solo debe contener letras y espacios.');
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(apellido)) errores.push('El apellido solo debe contener letras y espacios.');
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/.test(usuario)) errores.push('El usuario solo debe contener letras, sin espacios ni números.');
+            if (nombre.length < 3 || nombre.length > 25) errores.push('El nombre debe tener entre 3 y 25 caracteres.');
+            if (apellido.length < 3 || apellido.length > 25) errores.push('El apellido debe tener entre 3 y 25 caracteres.');
+            if (usuario.length < 3 || usuario.length > 10) errores.push('El usuario debe tener entre 3 y 10 caracteres.');
+            if (!/^.+@.+\..+$/.test(email)) errores.push('El email no es válido.');
+            if (errores.length > 0) {
+              e.preventDefault();
+              alert(errores.join('\n'));
+            }
+          });
+          </script>
         </div>
       </div>
     </div>
@@ -103,18 +156,32 @@
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
+              <?php if (session()->has('validation') && session()->has('edit_data')): ?>
+                <div class="alert alert-danger">
+                  <?php 
+                    $validation = session('validation');
+                    if (is_array($validation)) {
+                      foreach ($validation as $error) {
+                        echo esc($error) . '<br>';
+                      }
+                    } else {
+                      echo esc($validation);
+                    }
+                  ?>
+                </div>
+              <?php endif; ?>
               <input type="hidden" name="id" id="edit_id_usuario">
               <div class="mb-3">
                 <label class="form-label">Nombre</label>
-                <input name="nombre" id="edit_nombre" type="text" class="form-control" required>
+                <input name="nombre" id="edit_nombre" type="text" class="form-control" required minlength="3" maxlength="25" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$" title="Solo letras y espacios">
               </div>
               <div class="mb-3">
                 <label class="form-label">Apellido</label>
-                <input name="apellido" id="edit_apellido" type="text" class="form-control" required>
+                <input name="apellido" id="edit_apellido" type="text" class="form-control" required minlength="3" maxlength="25" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$" title="Solo letras y espacios">
               </div>
               <div class="mb-3">
                 <label class="form-label">Usuario</label>
-                <input name="usuario" id="edit_usuario" type="text" class="form-control" required>
+                <input name="usuario" id="edit_usuario" type="text" class="form-control" required minlength="3" maxlength="10" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" title="Solo letras, sin espacios ni números">
               </div>
               <div class="mb-3">
                 <label class="form-label">Email</label>
@@ -369,3 +436,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<?php
+// Mostrar mensaje de error y reabrir modal de edición SIEMPRE que haya edit_data y validation en sesión, sin depender de la URL.
+if (session()->has('validation') && session()->has('edit_data')): ?>
+  <div class="alert alert-danger mt-3">
+    <?php 
+      $validation = session('validation');
+      if (is_array($validation)) {
+        foreach ($validation as $error) {
+          echo esc($error) . '<br>';
+        }
+      } else {
+        echo esc($validation);
+      }
+    ?>
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      var modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
+      <?php $edit = session('edit_data'); ?>
+        document.getElementById('edit_id_usuario').value = "<?= isset($edit['id']) ? esc($edit['id']) : '' ?>";
+        document.getElementById('edit_nombre').value = "<?= isset($edit['nombre']) ? esc($edit['nombre']) : '' ?>";
+        document.getElementById('edit_apellido').value = "<?= isset($edit['apellido']) ? esc($edit['apellido']) : '' ?>";
+        document.getElementById('edit_usuario').value = "<?= isset($edit['usuario']) ? esc($edit['usuario']) : '' ?>";
+        document.getElementById('edit_email').value = "<?= isset($edit['email']) ? esc($edit['email']) : '' ?>";
+        document.getElementById('edit_perfil_id').value = "<?= isset($edit['perfil_id']) ? esc($edit['perfil_id']) : '' ?>";
+      modal.show();
+    });
+  </script>
+<?php endif; ?>

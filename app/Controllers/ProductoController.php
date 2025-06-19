@@ -43,49 +43,79 @@ class ProductoController extends Controller
 
     public function store()
     {
-        // Construimos las reglas de validación
-        $input = $this->validate([
-            'nombre_prod' => 'required|min_length[3]',
-            'categoria_id' => 'is_not_unique[categorias.id]',
-            'precio' => 'required|numeric',
-            'precio_vta' => 'required|numeric',
-            'stock' => 'required|numeric',
-            'stock_min' => 'required|numeric',
-            'imagen' => 'uploaded[imagen]'
-        ]);
+        $productoModel = new Producto_model();
+        $nombre_prod = trim($this->request->getVar('nombre_prod'));
+        $categoria_id = $this->request->getVar('categoria_id');
+        $precio = $this->request->getVar('precio');
+        $precio_vta = $this->request->getVar('precio_vta');
+        $stock = $this->request->getVar('stock');
+        $stock_min = $this->request->getVar('stock_min');
+        $img = $this->request->getFile('imagen');
+        $errores = [];
 
-        $productoModel = new Producto_model(); // Se instancia el modelo
-
-        if (!$input) {
+        // Validación de unicidad de nombre
+        if ($productoModel->where('nombre_prod', $nombre_prod)->first()) {
+            $errores[] = 'Ya existe un producto con ese nombre.';
+        }
+        // Validación de campos obligatorios y reglas
+        if (strlen($nombre_prod) < 3) {
+            $errores[] = 'El nombre debe tener al menos 3 caracteres.';
+        }
+        if (!$categoria_id) {
+            $errores[] = 'Debe seleccionar una categoría.';
+        }
+        if (!is_numeric($precio) || $precio < 0) {
+            $errores[] = 'El precio de compra debe ser un número mayor o igual a 0.';
+        }
+        if (!is_numeric($precio_vta) || $precio_vta < 0) {
+            $errores[] = 'El precio de venta debe ser un número mayor o igual a 0.';
+        }
+        if ($precio_vta < $precio) {
+            $errores[] = 'El precio de venta debe ser mayor o igual al de compra.';
+        }
+        if (!is_numeric($stock) || $stock < 0) {
+            $errores[] = 'El stock debe ser un número mayor o igual a 0.';
+        }
+        if (!is_numeric($stock_min) || $stock_min < 0) {
+            $errores[] = 'El stock mínimo debe ser un número mayor o igual a 0.';
+        }
+        if ($stock_min > $stock) {
+            $errores[] = 'El stock mínimo no puede ser mayor al stock actual.';
+        }
+        // Validación de imagen
+        if (!$img->isValid()) {
+            $errores[] = 'Debe subir una imagen válida.';
+        } else {
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!in_array($img->getMimeType(), $allowedTypes)) {
+                $errores[] = 'La imagen debe ser JPG, PNG, GIF o WEBP.';
+            }
+            if ($img->getSize() > 2*1024*1024) { // 2MB
+                $errores[] = 'La imagen no debe superar los 2MB.';
+            }
+        }
+        if (count($errores) > 0) {
             $categoria_model = new Categorias_model();
             $data['categorias'] = $categoria_model->getCategorias();
-            $data['validation'] = $this->validator;
-            $data['titulo'] = 'Alta';
-            echo view('front/head_view', $data);
-            echo view('front/nav_view');
-            echo view('back/productos/alta_producto_view', $data);
-            echo view('front/footer_view');
+            $data['errores'] = $errores;
+            $data['old'] = $this->request->getPost();
+            echo view('front/administrarProductos', $data);
             return;
         }
-
         // Procesar imagen y guardar producto SOLO si la validación es exitosa
-        $img = $this->request->getFile('imagen');
         $nombre_aleatorio = $img->getRandomName();
         $img->move(ROOTPATH . 'assets/uploads/', $nombre_aleatorio);
-
         $data = [
-            'nombre_prod' => $this->request->getVar('nombre_prod'),
-            'imagen' => $nombre_aleatorio, // Guardar el nombre aleatorio generado
-            'categoria_id' => $this->request->getVar('categoria_id'),
-            'precio' => $this->request->getVar('precio'),
-            'precio_vta' => $this->request->getVar('precio_vta'),
-            'stock' => $this->request->getVar('stock'),
-            'stock_min' => $this->request->getVar('stock_min'),
-            // 'eliminado' => 'NO' // Si tu tabla lo requiere
+            'nombre_prod' => $nombre_prod,
+            'imagen' => $nombre_aleatorio,
+            'categoria_id' => $categoria_id,
+            'precio' => $precio,
+            'precio_vta' => $precio_vta,
+            'stock' => $stock,
+            'stock_min' => $stock_min,
         ];
-
-        $productoModel = new Producto_model();
         $productoModel->insert($data);
+        session()->setFlashdata('success', 'Producto creado exitosamente.');
         return $this->response->redirect(site_url('administrarProductos'));
     }
 
@@ -93,37 +123,87 @@ class ProductoController extends Controller
     {
         $productoModel = new Producto_model();
         $producto = $productoModel->where('id', $id)->first();
+        $nombre_prod = trim($this->request->getVar('nombre_prod'));
+        $categoria_id = $this->request->getVar('categoria_id');
+        $precio = $this->request->getVar('precio');
+        $precio_vta = $this->request->getVar('precio_vta');
+        $stock = $this->request->getVar('stock');
+        $stock_min = $this->request->getVar('stock_min');
         $img = $this->request->getFile('imagen');
-
-        if ($img && $img->isValid()) {
-            // Se cargó una imagen válida correctamente
+        $errores = [];
+        // Validación de unicidad de nombre (excepto el propio)
+        $existe = $productoModel->where('nombre_prod', $nombre_prod)->where('id !=', $id)->first();
+        if ($existe) {
+            $errores[] = 'Ya existe un producto con ese nombre.';
+        }
+        if (strlen($nombre_prod) < 3) {
+            $errores[] = 'El nombre debe tener al menos 3 caracteres.';
+        }
+        if (!$categoria_id) {
+            $errores[] = 'Debe seleccionar una categoría.';
+        }
+        if (!is_numeric($precio) || $precio < 0) {
+            $errores[] = 'El precio de compra debe ser un número mayor o igual a 0.';
+        }
+        if (!is_numeric($precio_vta) || $precio_vta < 0) {
+            $errores[] = 'El precio de venta debe ser un número mayor o igual a 0.';
+        }
+        if ($precio_vta < $precio) {
+            $errores[] = 'El precio de venta debe ser mayor o igual al de compra.';
+        }
+        if (!is_numeric($stock) || $stock < 0) {
+            $errores[] = 'El stock debe ser un número mayor o igual a 0.';
+        }
+        if (!is_numeric($stock_min) || $stock_min < 0) {
+            $errores[] = 'El stock mínimo debe ser un número mayor o igual a 0.';
+        }
+        if ($stock_min > $stock) {
+            $errores[] = 'El stock mínimo no puede ser mayor al stock actual.';
+        }
+        // Validación de imagen (opcional)
+        if ($img && $img->isValid() && $img->getName() != '') {
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!in_array($img->getMimeType(), $allowedTypes)) {
+                $errores[] = 'La imagen debe ser JPG, PNG, GIF o WEBP.';
+            }
+            if ($img->getSize() > 2*1024*1024) {
+                $errores[] = 'La imagen no debe superar los 2MB.';
+            }
+        }
+        if (count($errores) > 0) {
+            $categoria_model = new Categorias_model();
+            $data['categorias'] = $categoria_model->getCategorias();
+            $data['errores'] = $errores;
+            $data['old'] = $this->request->getPost();
+            $data['edit_id'] = $id;
+            echo view('front/administrarProductos', $data);
+            return;
+        }
+        // Procesar imagen si se subió una nueva
+        if ($img && $img->isValid() && $img->getName() != '') {
             $nombre_aleatorio = $img->getRandomName();
             $img->move(ROOTPATH . 'assets/uploads/', $nombre_aleatorio);
             $data = [
-                'nombre_prod' => $this->request->getVar('nombre_prod'),
-                'imagen' => $img->getName(),
-                'categoria_id' => $this->request->getVar('categoria_id'),
-                'precio' => $this->request->getVar('precio'),
-                'precio_vta' => $this->request->getVar('precio_vta'),
-                'stock' => $this->request->getVar('stock'),
-                'stock_min' => $this->request->getVar('stock_min'),
-                // 'eliminado' => 'NO',
+                'nombre_prod' => $nombre_prod,
+                'imagen' => $nombre_aleatorio,
+                'categoria_id' => $categoria_id,
+                'precio' => $precio,
+                'precio_vta' => $precio_vta,
+                'stock' => $stock,
+                'stock_min' => $stock_min,
             ];
         } else {
-            // No se cargó una nueva imagen, solo actualiza los datos del producto sin sobrescribir la imagen
             $data = [
-                'nombre_prod' => $this->request->getVar('nombre_prod'),
-                'categoria_id' => $this->request->getVar('categoria_id'),
-                'precio' => $this->request->getVar('precio'),
-                'precio_vta' => $this->request->getVar('precio_vta'),
-                'stock' => $this->request->getVar('stock'),
-                'stock_min' => $this->request->getVar('stock_min'),
-                // 'eliminado' => 'NO',
+                'nombre_prod' => $nombre_prod,
+                'categoria_id' => $categoria_id,
+                'precio' => $precio,
+                'precio_vta' => $precio_vta,
+                'stock' => $stock,
+                'stock_min' => $stock_min,
             ];
         }
-
         $productoModel->update($id, $data);
-        session()->setFlashdata('success', 'Modificación Exitosa...');
+        session()->setFlashdata('success', 'Modificación exitosa.');
         return $this->response->redirect(site_url('administrarProductos'));
     }
 
