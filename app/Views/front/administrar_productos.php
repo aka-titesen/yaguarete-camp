@@ -1,7 +1,3 @@
-<?php // Vista de gestión de productos para el administrador ?>
-<!DOCTYPE html>
-<html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +51,6 @@
                                 <label for="categoria_id" class="form-label">Categoría</label>
                                 <select class="form-select" id="categoria_id" name="categoria_id" required>
                                     <option value="">Selecciona una categoría</option>
-                                    <!-- Aquí deberías cargar dinámicamente las categorías -->
                                     <option value="1">Camping</option>
                                     <option value="2">Pesca</option>
                                     <option value="3">Ropa</option>

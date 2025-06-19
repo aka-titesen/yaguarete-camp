@@ -1,6 +1,4 @@
 <?php
-// filepath: app/Views/front/carrito_vista.php
-// Vista para mostrar el contenido del carrito en el offcanvas o página
 $cart = \Config\Services::cart();
 $items = $cart->contents();
 $total = $cart->total();
@@ -66,4 +64,3 @@ $total = $cart->total();
     <?php endif; ?>
 </div>
 <input type="hidden" id="cartTotalHidden" value="$<?= number_format($total, 2, ',', '.') ?>">
-<!-- El script de botones del carrito lateral ahora está en navbar.php para funcionar siempre tras AJAX -->

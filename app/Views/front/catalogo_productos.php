@@ -130,7 +130,6 @@ function filtrarCatalogo() {
 filtro.addEventListener('change', filtrarCatalogo);
 buscador.addEventListener('input', filtrarCatalogo);
 
-// Event delegation for all add to cart forms in catalog
 document.addEventListener('submit', async function(e) {
     if (e.target.classList.contains('formAgregarCarrito')) {
         e.preventDefault();
@@ -145,7 +144,6 @@ document.addEventListener('submit', async function(e) {
             
             const data = await response.json();
             
-            // Create notification
             let msg = document.createElement('div');
             msg.style.position = 'fixed';
             msg.style.bottom = '20px';
@@ -169,7 +167,6 @@ document.addEventListener('submit', async function(e) {
             
             document.body.appendChild(msg);
             
-            // Update cart
             if (typeof cargarCarritoLateral === 'function') {
                 cargarCarritoLateral();
             }
@@ -177,7 +174,6 @@ document.addEventListener('submit', async function(e) {
                 actualizarContadorCarrito();
             }
             
-            // Remove notification after 3.5 seconds
             setTimeout(() => msg.remove(), 3500);
             
         } catch (error) {
