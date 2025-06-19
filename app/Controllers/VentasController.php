@@ -88,6 +88,10 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
     public function ver_factura($venta_id)
     {
         $session = session();
+        if ($session->get('perfil_id') == 2) {
+            // Si es admin, no puede ver compras como cliente
+            return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'Acceso restringido para administradores.');
+        }
         $usuario_id = $session->get('id') ?: $session->get('id_usuario');
         if (!$usuario_id) {
             $session->setFlashdata('mensaje', 'Error: No se pudo identificar el usuario. Por favor inicie sesión nuevamente.');
@@ -245,6 +249,10 @@ class Ventascontroller extends Controller{    public function registrar_venta() 
     public function mis_compras()
     {
         $session = session();
+        if ($session->get('perfil_id') == 2) {
+            // Si es admin, no puede ver compras como cliente
+            return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'Acceso restringido para administradores.');
+        }
         $usuario_id = $session->get('id');
         if (!$usuario_id) {
             $usuario_id = $session->get('id_usuario');

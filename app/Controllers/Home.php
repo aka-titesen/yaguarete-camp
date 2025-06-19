@@ -103,6 +103,12 @@ class Home extends BaseController
 
     public function a_administrarProductos(): void
     {
+        $session = session();
+        if ($session->get('perfil_id') != 2) {
+            // Si no es admin, no puede ver la administración
+            redirect()->to(base_url())->with('mensaje', 'Acceso restringido solo para administradores.');
+            exit();
+        }
         echo view("front/layouts/header");
         echo view("front/layouts/navbar");
         echo view("front/administrarProductos");
@@ -111,6 +117,15 @@ class Home extends BaseController
 
     public function a_catalogoProductos(): void
     {
+        $session = session();
+        if ($session->get('perfil_id') == 2) {
+            // Si es admin, mostrar mensaje descriptivo
+            echo view('front/layouts/header');
+            echo view('front/layouts/navbar');
+            echo '<div class="container mt-5 pt-5"><div class="alert alert-warning text-center mt-5"><h3>Acceso restringido</h3><p>El administrador no puede acceder al catálogo de productos.</p></div></div>';
+            echo view('front/layouts/footer');
+            exit();
+        }
         $productoModel = new Producto_model();
         $productos = $productoModel->getProductoAll();
         $data = ['productos' => $productos];
