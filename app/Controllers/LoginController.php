@@ -5,37 +5,15 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\UsuariosModel;
 
-/**
- * CONTROLADOR DE AUTENTICACIÓN
- * 
- * Maneja el proceso de login y logout de usuarios en el sistema.
- * Incluye validaciones de seguridad y manejo de sesiones.
- * 
- * Funcionalidades principales:
- * - Validación de credenciales de usuario
- * - Creación y destrucción de sesiones
- * - Verificación de estado de usuarios (activos/dados de baja)
- * - Protección contra ataques de fijación de sesión
- * 
- * Perfiles de usuario soportados:
- * - 1: Cliente
- * - 2: Administrador  
- * - 3: Vendedor
- * 
- * @author Proyecto Martínez González
- * @version 1.0
- */
 class LoginController extends Controller
 {    
     /**
      * Modelo de usuarios para consultas de autenticación
-     * @var UsuariosModel
      */
     protected $model;
     
     /**
      * Constructor del controlador
-     * 
      * Inicializa el modelo de usuarios para las operaciones de autenticación
      */
     public function __construct()
@@ -48,8 +26,6 @@ class LoginController extends Controller
      * 
      * Redirige a la página principal donde se encuentra el modal de login.
      * Esta redirección mantiene el layout y estilos consistentes.
-     * 
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirección a página principal
      */
     public function index(){
         // Redirigir siempre a la página principal para mantener el layout y estilos
@@ -60,21 +36,6 @@ class LoginController extends Controller
      * Procesar autenticación de usuario
      * 
      * Valida las credenciales del usuario y crea la sesión si es exitoso.
-     * 
-     * Proceso de autenticación:
-     * 1. Valida formato de email y longitud de contraseña
-     * 2. Busca el usuario por email en la base de datos
-     * 3. Verifica que el usuario no esté dado de baja
-     * 4. Compara la contraseña usando password_verify()
-     * 5. Crea la sesión con datos del usuario
-     * 6. Regenera ID de sesión por seguridad
-     * 
-     * Validaciones de seguridad:
-     * - Email debe tener formato válido y máximo 100 caracteres
-     * - Contraseña debe tener entre 3-32 caracteres
-     * - Usuario no debe estar dado de baja (campo 'baja' != 'SI')
-     * 
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirección con resultado
      */
     public function auth(){
         $session = session();
@@ -134,11 +95,8 @@ class LoginController extends Controller
     
     /**
      * Cerrar sesión de usuario
-     * 
      * Destruye completamente la sesión del usuario y redirige
-     * a la página principal.
-     * 
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirección a página principal
+     * a la página principal
      */
     public function logout(){
         $session = session();

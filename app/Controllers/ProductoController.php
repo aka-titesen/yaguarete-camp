@@ -36,8 +36,6 @@ class ProductoController extends Controller
     {
         $data['categorias'] = $this->categoriasModel->getCategorias(); // traer las categorías desde la db
         $data['producto'] = $this->productoModel->getProductoAll();
-        // Aquí puedes agregar la lógica para mostrar la vista de creación de producto
-        // echo view(...);
     }
 
     public function store()
