@@ -1,23 +1,140 @@
-<<<<<<< HEAD
-# CodeIgniter 4 Framework
+# Proyecto Martínez González - Sistema de E-commerce
 
-## What is CodeIgniter?
+## Descripción
+Sistema web de comercio electrónico desarrollado con **CodeIgniter 4** que permite la gestión integral de productos, usuarios, ventas y consultas de clientes.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Tecnologías Utilizadas
+- **Backend**: CodeIgniter 4 (PHP)
+- **Base de datos**: MySQL/MariaDB
+- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5
+- **Dependencias**: jQuery, DataTables, Font Awesome
 
-This repository holds the distributable version of the framework.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Instalación y Configuración
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### Requisitos del Sistema
+- PHP 8.1 o superior
+- MySQL 5.7+ o MariaDB 10.3+
+- Servidor web (Apache/Nginx)
+- Composer
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### Pasos de Instalación
 
-## Important Change with index.php
+1. **Clonar el repositorio**
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+   cd proyecto_Martinez_Gonzalez
+   ```
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
+2. **Instalar dependencias**
+   ```bash
+   composer install
+   ```
+
+3. **Configurar variables de entorno**
+   ```bash
+   cp env .env
+   ```
+   
+   Editar el archivo `.env` con tus configuraciones:
+   ```env
+   CI_ENVIRONMENT = development
+   app.baseURL = 'http://localhost/proyecto_Martinez_Gonzalez/'
+   
+   database.default.hostname = localhost
+   database.default.database = bd_martinez_gonzalez
+   database.default.username = root
+   database.default.password = tu_password
+   ```
+
+4. **Crear base de datos**
+   - Crear la base de datos `bd_martinez_gonzalez`
+   - Importar el script SQL incluido en el proyecto
+
+5. **Configurar permisos**
+   ```bash
+   chmod -R 755 writable/
+   ```
+
+## Estructura del Proyecto
+
+```
+proyecto_Martinez_Gonzalez/
+├── app/
+│   ├── Controllers/          # Controladores del sistema
+│   │   ├── LoginController.php      # Autenticación
+│   │   ├── UsuarioCrudController.php # Gestión de usuarios
+│   │   ├── ProductoController.php   # Gestión de productos
+│   │   ├── CarritoController.php    # Carrito de compras
+│   │   └── VentasController.php     # Gestión de ventas
+│   ├── Models/               # Modelos de datos
+│   │   ├── UsuariosModel.php        # Modelo de usuarios
+│   │   ├── ProductoModel.php        # Modelo de productos
+│   │   └── VentasCabeceraModel.php  # Modelo de ventas
+│   ├── Views/                # Vistas del sistema
+│   │   ├── front/                   # Vistas del frontend
+│   │   └── back/                    # Vistas del backend
+│   ├── Filters/              # Filtros de autenticación
+│   │   ├── Auth.php                 # Filtro para administradores
+│   │   └── Cliente.php              # Filtro para clientes
+│   └── Config/               # Configuraciones
+│       ├── Routes.php               # Definición de rutas
+│       └── Database.php             # Configuración de BD
+├── public/                   # Archivos públicos
+├── assets/                   # Recursos (CSS, JS, imágenes)
+└── writable/                 # Archivos escribibles (logs, cache)
+```
+
+## Perfiles de Usuario
+
+### 1. Cliente (perfil_id = 1)
+- **Permisos**: Navegar catálogo, realizar compras, ver historial
+- **Restricciones**: No acceso a áreas administrativas
+
+### 2. Administrador (perfil_id = 2)
+- **Permisos**: Acceso completo al sistema
+- **Funciones**: Gestión de usuarios, productos, ventas y consultas
+- **Restricciones**: No puede eliminar su propio usuario
+
+### 3. Vendedor (perfil_id = 3)
+- **Permisos**: Gestión de productos y ventas
+- **Restricciones**: No gestión de usuarios
+
+## Funcionalidades Principales
+
+### Sistema de Autenticación
+- Login seguro con hash de contraseñas
+- Filtros de autorización por perfil
+- Regeneración de sesiones por seguridad
+- Protección contra auto-eliminación de administradores
+
+### Gestión de Productos
+- CRUD completo de productos
+- Categorización de productos
+- Eliminación lógica (activar/desactivar)
+- Subida de imágenes
+
+### Carrito de Compras
+- Manejo por sesiones
+- Actualización dinámica de cantidades
+- Cálculo automático de totales
+- Persistencia durante la sesión
+
+### Sistema de Ventas
+- Registro de ventas con cabecera y detalle
+- Historial de compras por cliente
+- Administración de ventas para administradores
+- Generación de facturas
+
+## Documentación Completa
+Para información detallada sobre la implementación, estructura de código y guías de desarrollo, consultar:
+- **DOCUMENTACION.md**: Documentación técnica completa
+- Comentarios en código fuente de controladores y modelos
+
+## Licencia
+Este proyecto está bajo la Licencia MIT.
+
+---
+*Basado en CodeIgniter 4 Framework*
 for better security and separation of components.
 
 This means that you should configure your web server to "point" to your project's *public* folder, and
