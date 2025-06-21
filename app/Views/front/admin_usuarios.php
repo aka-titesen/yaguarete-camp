@@ -242,7 +242,7 @@
     </div>
   </div>
 </div>
-<style>
+    <style>
 .btn-eliminar-modal {
   background: #e74c3c !important;
   color: #fff !important;
@@ -275,6 +275,16 @@
   background: #444 !important;
   color: #fff !important;
 }
+
+/* Estilo para el usuario actual */
+.usuario-actual {
+  background-color: #f8f9fa !important;
+  border-left: 4px solid #007bff !important;
+}
+
+.usuario-actual td {
+  font-weight: 500;
+}
 </style>
 
     <!-- Listado de usuarios -->
@@ -296,9 +306,13 @@
                 </thead>
                 <tbody id="tablaUsuariosBody">
                     <?php if($users): ?>
-                        <?php foreach($users as $user): ?>
-                            <tr class="<?= ($user['baja'] === 'SI') ? 'usuario-baja' : 'usuario-activo'; ?>">
-                                <td><?= $user['id']; ?></td>
+                        <?php foreach($users as $user): ?>                            <tr class="<?= ($user['baja'] === 'SI') ? 'usuario-baja' : 'usuario-activo'; ?> <?= ($user['id'] == session()->get('id')) ? 'usuario-actual' : ''; ?>">
+                                <td>
+                                    <?= $user['id']; ?>
+                                    <?php if ($user['id'] == session()->get('id')): ?>
+                                        <span class="badge bg-info ms-1" title="Tu usuario">TÚ</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= $user['nombre'] . ' ' . $user['apellido']; ?></td>
                                 <td><?= $user['email']; ?></td>
                                 <td>
@@ -311,20 +325,24 @@
                                     }
                                     ?>
                                 </td>
-                                <td><?= $user['baja']; ?></td>
-                                <td class="text-center">
+                                <td><?= $user['baja']; ?></td>                                <td class="text-center">
                                     <?php if (isset($user['baja']) && $user['baja'] === 'SI'): ?>
                                         <a href="<?= base_url('activar/'.$user['id']);?>" class="btn btn-sm btn-outline-success" title="Activar">
                                             <i class="fas fa-undo"></i>
-                                        </a>
-                                    <?php else: ?>
+                                        </a>                                    <?php else: ?>
                                         <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-editar-usuario"
                                                 title="Editar" data-id="<?= $user['id']; ?>">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <a href="<?= base_url('deletelogico/'.$user['id']);?>" class="btn btn-sm btn-outline-danger me-1" title="Desactivar">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
+                                        <?php if ($user['id'] != session()->get('id')): ?>
+                                            <a href="<?= base_url('deletelogico/'.$user['id']);?>" class="btn btn-sm btn-outline-danger me-1" title="Desactivar usuario">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        <?php else: ?>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" disabled title="No puedes desactivar tu propio usuario" style="cursor: not-allowed;">
+                                                <i class="fas fa-ban"></i>
+                                            </button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>

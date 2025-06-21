@@ -151,12 +151,20 @@ class UsuarioCrudController extends Controller
         ];
         $this->userModel->update($id, $data);
         return redirect()->to('admin_usuarios');
-    }
-
-    // delete lógico (cambia el estado del campo baja)
+    }    // delete lógico (cambia el estado del campo baja)
     public function deleteLogico($id = null)
     {
+        // Verificar que no sea el mismo usuario logueado
+        $session = session();
+        $currentUserId = $session->get('id');
+        
+        if ($id == $currentUserId) {
+            session()->setFlashdata('msg', '<div class="alert alert-warning">No puedes desactivar tu propio usuario.</div>');
+            return redirect()->to('admin_usuarios');
+        }
+        
         $this->userModel->update($id, ['baja' => 'SI']);
+        session()->setFlashdata('msg', '<div class="alert alert-success">Usuario desactivado correctamente.</div>');
         return redirect()->to('admin_usuarios');
     }
 
