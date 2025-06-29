@@ -39,7 +39,8 @@
                     <div class="card card-producto h-100">
                         <!-- Imagen del producto -->
                         <?php if (!empty($producto['imagen'])): ?>
-                            <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" class="card-img-top" alt="<?= esc($producto['nombre_prod']) ?>">                        <?php else: ?>
+                            <img src="<?= base_url('assets/uploads/' . esc($producto['imagen'])) ?>" class="card-img-top" alt="<?= esc($producto['nombre_prod']) ?>">
+                        <?php else: ?>
                             <img src="<?= base_url('assets/img/imagenes_pagina/logo.png') ?>" class="card-img-top" alt="Sin imagen">
                         <?php endif; ?>
                         <div class="card-body">
@@ -67,8 +68,13 @@
                                     <input type="hidden" name="precio_vta" value="<?= esc($producto['precio_vta']) ?>">
                                     <input type="hidden" name="imagen" value="<?= esc($producto['imagen'] ?? '') ?>">
                                     <div class="input-group">
-                                        <input type="number" name="qty" class="form-control cantidad-selector" min="1" max="<?= esc($producto['stock']) ?>" value="1">
-                                        <button type="submit" class="btn btn-agregar-carrito">
+                                        <input type="number" name="qty" class="form-control cantidad-selector"
+                                            min="1"
+                                            max="<?= esc($producto['stock']) ?>"
+                                            value="1"
+                                            <?= ($producto['stock'] < 1) ? 'disabled' : '' ?>>
+                                        <button type="submit" class="btn btn-agregar-carrito"
+                                            <?= ($producto['stock'] < 1) ? 'disabled' : '' ?>>
                                             <i class="fas fa-cart-plus"></i>
                                         </button>
                                     </div>
@@ -84,7 +90,8 @@
             <div class="col-12">
                 <div class="alert alert-info text-center">No hay productos disponibles en este momento.</div>
             </div>
-        <?php endif; ?>    </div>
+        <?php endif; ?>    
+    </div>
 </div>
 
 <style>
