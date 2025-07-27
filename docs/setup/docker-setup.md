@@ -33,22 +33,28 @@ Yagaruete Camp utiliza una arquitectura Docker multi-contenedor diseñada para s
 git clone https://github.com/aka-titesen/yaguarete-camp.git
 cd yaguarete-camp
 
-# Windows
-scripts\setup\deploy.bat
+# Crear configuración
+copy .env.example .env    # Windows
+cp .env.example .env      # Linux/macOS
 
-# Linux/Mac
-./scripts/setup/deploy.sh
+# Levantar aplicación
+docker compose up -d --build
+
+# Configurar base de datos
+docker compose exec app php spark migrate
+docker compose exec app php spark db:seed
 ```
 
 ### Comandos Principales
 
-| Comando | Función | Windows | Linux/Mac |
-|---------|---------|---------|-----------|
-| **start** | Iniciar servicios + migraciones + seeders | `deploy.bat start` | `./deploy.sh start` |
-| **stop** | Detener servicios | `deploy.bat stop` | `./deploy.sh stop` |
-| **restart** | Reiniciar servicios | `deploy.bat restart` | `./deploy.sh restart` |
-| **logs** | Ver logs en tiempo real | `deploy.bat logs` | `./deploy.sh logs` |
-| **reset** | Reset completo | `deploy.bat reset` | `./deploy.sh reset` |
+| Comando | Función | Ejemplo |
+|---------|---------|---------|
+| **Iniciar** | Levantar todos los servicios | `docker compose up -d` |
+| **Detener** | Parar todos los servicios | `docker compose down` |
+| **Reiniciar** | Reiniciar servicios | `docker compose restart` |
+| **Logs** | Ver logs en tiempo real | `docker compose logs -f` |
+| **Rebuild** | Reconstruir imágenes | `docker compose up -d --build` |
+| **Reset** | Reset completo | `docker compose down -v && docker compose up -d --build` |
 
 ## 🌐 URLs y Accesos
 
@@ -62,15 +68,15 @@ scripts\setup\deploy.bat
 
 ### Archivos de Configuración
 
-#### Para Desarrollo (automático)
+#### Para Desarrollo
 - **Docker Compose**: `docker-compose.yml`
-- **Variables**: `.env` (generado automáticamente)
-- **Comando**: `deploy.bat` o `deploy.sh`
+- **Variables**: `.env` (copiar de `.env.example`)
+- **Comando**: `docker compose up -d`
 
-#### Para Producción (manual)
+#### Para Producción
 - **Docker Compose**: `docker-compose.prod.yml`
-- **Variables**: `.env` (basado en `.env.production.example`)
-- **Comando**: `docker-compose -f docker-compose.prod.yml up -d`
+- **Variables**: `.env` (configurar manualmente)
+- **Comando**: `docker compose -f docker-compose.prod.yml up -d`
 
 ## 🔧 Configuración de Variables de Entorno
 

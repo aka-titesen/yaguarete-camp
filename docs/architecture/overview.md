@@ -165,10 +165,6 @@ yagaruete-camp/
 │   ├── logs/                     # Logs del sistema
 │   ├── session/                  # Sesiones de archivo
 │   └── uploads/                  # Uploads temporales
-├── scripts/                      # Scripts de automatización
-│   ├── setup/                    # Scripts de instalación
-│   ├── maintenance/              # Scripts de mantenimiento
-│   └── development/              # Scripts de desarrollo
 ├── docs/                         # Documentación técnica
 ├── docker/                       # Configuración Docker
 │   ├── nginx/                    # Configuración Nginx
@@ -435,19 +431,18 @@ CREATE FULLTEXT INDEX idx_productos_search ON productos(nombre, descripcion);
 ### 1. **Development**
 
 ```bash
-# Local development with hot reload
-docker-compose up -d
-./scripts/setup/init-database.sh
-./scripts/maintenance/healthcheck.sh
+# Local development setup
+docker compose up -d --build
+docker compose exec app php spark migrate
+docker compose exec app php spark db:seed
 ```
 
 ### 2. **Staging**
 
 ```bash
 # Staging deployment
-docker-compose -f docker-compose.staging.yml up -d
-./scripts/maintenance/backup.sh --name "pre-staging"
-./scripts/setup/deploy.sh restart
+docker compose -f docker-compose.staging.yml up -d
+docker compose exec app php spark migrate
 ```
 
 ### 3. **Production**
@@ -455,8 +450,8 @@ docker-compose -f docker-compose.staging.yml up -d
 ```bash
 # Production deployment with zero downtime
 docker stack deploy -c docker-compose.prod.yml yagaruete-camp
-./scripts/maintenance/healthcheck.sh --verbose
-./scripts/maintenance/verify-data.php
+docker service logs yagaruete-camp_app
+docker compose exec app php spark migrate
 ```
 
 ## 📈 Monitoring y Logging
@@ -482,11 +477,13 @@ log_message('debug', "Operation completed in {$duration}s");
 ### Health Checks
 
 ```bash
-# Automated health monitoring
-./scripts/maintenance/healthcheck.sh --verbose > /var/log/health.log
+# Verificar estado de servicios
+docker compose ps
+docker compose logs app
+docker compose exec app php spark env
 
-# Data integrity checks
-./scripts/maintenance/verify-data.php >> /var/log/integrity.log
+# Verificar conectividad de base de datos
+docker compose exec app php -r "echo (new mysqli('db', 'root', 'dev_password_123', 'bd_yagaruete_camp'))->ping ? 'DB OK' : 'DB ERROR';"
 ```
 
 ## 🧪 Testing Strategy
@@ -516,8 +513,8 @@ class ProductModelTest extends TestCase
 
 ```bash
 # Automated testing
-docker-compose exec app vendor/bin/phpunit
-./scripts/maintenance/healthcheck.sh
+docker compose exec app vendor/bin/phpunit
+docker compose exec app php spark test
 curl -f http://localhost:8080/health || exit 1
 ```
 

@@ -7,47 +7,145 @@
 [![PHP](https://img.shields.io/badge/PHP-8.2+-purple)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange)](https://www.mysql.com/)
 
-# 🏕️ Yagaruete Camp
-
-> Sistema de E-commerce especializado en productos outdoor y camping
-
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](docker-compose.yml)
-[![CodeIgniter](https://img.shields.io/badge/CodeIgniter-4.5+-red)](https://codeigniter.com/)
-[![PHP](https://img.shields.io/badge/PHP-8.2+-purple)](https://www.php.net/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange)](https://www.mysql.com/)
-
-## 🚀 Inicio Súper Rápido
-
-**Requisito único:** Docker Desktop instalado
-
-### Para Desarrolladores - 2 pasos:
+## 🚀 Setup Rápido (Solo requiere Docker)
 
 ```bash
-# 1. Clona y entra al proyecto
+# 1. Clona el proyecto
 git clone https://github.com/aka-titesen/yaguarete-camp.git
 cd yaguarete-camp
 
-# 2. Ejecuta el script de inicio
-# Windows:
-scripts\setup\deploy.bat
+# 2. Crea el archivo de configuración
+copy .env.example .env    # Windows
+cp .env.example .env      # Linux/macOS
 
-# Linux/macOS:
-./scripts/setup/deploy.sh
+# 3. Levanta la aplicación
+docker-compose up -d --build
+
+# 4. Configura la base de datos (espera 15 segundos tras el paso 3)
+docker-compose exec app php spark migrate
+docker-compose exec app php spark db:seed
 ```
 
-**¡Eso es todo!** 🎉
+**¡Listo!** Accede a:
+- **🌐 Aplicación:** http://localhost:8080
+- **🗄️ PHPMyAdmin:** http://localhost:8081 (user: root, pass: dev_password_123)
+- **📧 MailHog:** http://localhost:8025
 
-- **Aplicación:** http://localhost:8080
-- **PHPMyAdmin:** http://localhost:8081 (user: root, pass: root)
-- **MailHog:** http://localhost:8025 (testing de emails)
+## 📋 Comandos Útiles
 
-> 📖 **[Ver guía completa de inicio rápido](QUICK-START.md)**
+```bash
+# Gestión de contenedores
+docker-compose ps              # Ver estado
+docker-compose logs -f         # Ver logs en tiempo real
+docker-compose down            # Detener aplicación
+docker-compose restart         # Reiniciar servicios
+
+# Base de datos
+docker-compose exec app php spark migrate         # Ejecutar migraciones
+docker-compose exec app php spark db:seed         # Generar datos de prueba
+docker-compose exec app php spark migrate:status  # Ver estado migraciones
+
+# Desarrollo
+docker-compose exec app bash                      # Acceder al contenedor
+docker-compose exec app php spark list            # Ver comandos de CodeIgniter
+docker-compose exec db mysql -u root -p           # Acceder a MySQL (pass: dev_password_123)
+
+# Reset completo (elimina todos los datos)
+docker-compose down -v --remove-orphans
+```
+
+## 🛠️ Tecnologías
+
+- **Backend:** CodeIgniter 4.5+, PHP 8.2+
+- **Base de Datos:** MySQL 8.0
+- **Cache:** Redis 7
+- **Web Server:** Nginx
+- **Contenedores:** Docker + Docker Compose
+- **Frontend:** Bootstrap 5, jQuery
+- **Email Testing:** MailHog
+- **Database Admin:** PHPMyAdmin
 
 ## 📋 Características
 
 - ✅ **Sistema de autenticación** con roles (Admin/Cliente)
 - ✅ **Catálogo de productos** outdoor y camping
 - ✅ **Carrito de compras** con sesiones persistentes
+- ✅ **Gestión de pedidos** completa
+- ✅ **Panel de administración** intuitivo
+- ✅ **Sistema de emails** (MailHog para desarrollo)
+- ✅ **Cache con Redis** para mejor rendimiento
+- ✅ **Base de datos MySQL** con migraciones y seeders
+
+## 🎯 Arquitectura
+
+```
+yaguarete-camp/
+├── app/                  # Aplicación CodeIgniter
+├── public/              # Assets públicos
+├── docker/              # Configuraciones Docker
+├── docs/                # Documentación técnica
+└── docker-compose.yml   # Configuración de servicios
+```
+
+## 🔧 Configuración de Producción
+
+Para usar en producción, modifica el archivo `.env`:
+
+```bash
+# Cambiar a producción
+CI_ENVIRONMENT=production
+CI_DEBUG=false
+
+# Generar claves únicas
+docker-compose exec app php spark key:generate
+
+# Configurar servidor SMTP real
+MAIL_HOST=smtp.tuproveedor.com
+MAIL_PORT=587
+MAIL_USERNAME=tu_email
+MAIL_PASSWORD=tu_password
+
+# Usar passwords seguros
+DB_PASSWORD=password_super_seguro_aqui
+```
+
+## 🆘 Solución de Problemas
+
+### Los contenedores no inician
+```bash
+# Verificar Docker
+docker --version
+docker-compose --version
+
+# Ver logs específicos
+docker-compose logs app
+docker-compose logs db
+```
+
+### Error en migraciones
+```bash
+# Verificar que la BD esté lista
+docker-compose exec db mysql -u root -p -e "SHOW DATABASES;"
+
+# Reset migraciones
+docker-compose exec app php spark migrate:rollback
+docker-compose exec app php spark migrate
+```
+
+### Problema de permisos
+```bash
+# En Linux/macOS, ajustar permisos
+sudo chmod -R 755 writable/
+sudo chown -R www-data:www-data writable/
+```
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
+
+---
+
+**¿Problemas?** Crea un [issue](https://github.com/aka-titesen/yaguarete-camp/issues) o contacta al equipo de desarrollo.
 - ✅ **Gestión de ventas** completa
 - ✅ **Panel administrativo** para gestión
 - ✅ **Sistema dockerizado** para fácil despliegue
