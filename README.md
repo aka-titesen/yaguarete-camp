@@ -9,12 +9,25 @@
 
 ## 🚀 Inicio Rápido
 
+### 🔐 1. Configuración Segura del Entorno
+
 ```bash
 # Clonar el repositorio
-git clone https://github.com/NahimMartinez/proyecto_Martinez_Gonzalez.git yagaruete-camp
-cd yagaruete-camp
+git clone https://github.com/aka-titesen/yaguarete-camp.git
+cd yaguarete-camp
 
-# Iniciar con Docker (recomendado)
+# Generar archivo .env con passwords seguros
+# Linux/Mac:
+./scripts/setup/generate-env.sh
+
+# Windows:
+scripts\setup\generate-env.bat
+```
+
+### 🐳 2. Iniciar con Docker
+
+```bash
+# Iniciar contenedores
 ./scripts/setup/deploy.sh start
 
 # Inicializar base de datos
@@ -22,6 +35,13 @@ cd yagaruete-camp
 
 # ¡Listo! Accede a http://localhost:8080
 ```
+
+### ⚠️ Importante: Seguridad
+
+- **NUNCA** uses passwords por defecto en producción
+- El archivo `.env` **NO** se sube a git (está en `.gitignore`)
+- Guarda las credenciales generadas en un lugar seguro
+- Lee la [guía de seguridad](docs/security/environment-security.md)
 
 ## 📋 Características
 
