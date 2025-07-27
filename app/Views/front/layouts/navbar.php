@@ -91,9 +91,9 @@
                     <?php 
                       $perfil = session()->get('perfil_id');
                       if ($perfil == 1) {
-                        echo 'Cliente';
-                      } elseif ($perfil == 2) {
                         echo 'Administrador';
+                      } elseif ($perfil == 2) {
+                        echo 'Cliente';
                       } elseif ($perfil == 3) {
                         echo 'Vendedor';
                       } else {

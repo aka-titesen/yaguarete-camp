@@ -106,26 +106,22 @@ $routes->get('muestro', 'CarritoController::muestro');
 /**
  * Procesamiento de compra (requiere ser cliente)
  */
-$routes->get('/carrito-comprar', 'Ventascontroller::registrarVenta',['filter' => 'cliente']);
-
-// ================================
-// VENTAS Y FACTURAS
-// ================================
+$routes->get('/carrito-comprar', 'VentasController::registrarVenta',['filter' => 'cliente']);
 
 /**
- * Área del cliente - Ver sus compras
+ * Gestión de compras del cliente
  */
-$routes->get('vista_compras/(:num)', 'Ventascontroller::verFactura/$1', ['filter' => 'cliente']);
-$routes->get('ver_factura_usuario/(:num)', 'Ventascontroller::verFacturasUsuario/$1', ['filter' => 'cliente']);
-$routes->get('mis-compras', 'Ventascontroller::misCompras', ['filter' => 'cliente']);
-$routes->get('detalle-compra/(:num)', 'Ventascontroller::verFactura/$1', ['filter' => 'cliente']);
+$routes->get('vista_compras/(:num)', 'VentasController::verFactura/$1', ['filter' => 'cliente']);
+$routes->get('ver_factura_usuario/(:num)', 'VentasController::verFacturasUsuario/$1', ['filter' => 'cliente']);
+$routes->get('mis-compras', 'VentasController::misCompras', ['filter' => 'cliente']);
+$routes->get('detalle-compra/(:num)', 'VentasController::verFactura/$1', ['filter' => 'cliente']);
 
 /**
- * Administración de ventas (Admin/Vendedor)
+ * Panel de administración de ventas
  */
-$routes->get('admin-ventas', 'Ventascontroller::administrarVentas', ['filter' => 'auth']);
-$routes->get('detalle-venta/(:num)', 'Ventascontroller::detalleVenta/$1', ['filter' => 'auth']);
-$routes->get('/ventas', 'Ventascontroller::ventas');
+$routes->get('admin-ventas', 'VentasController::administrarVentas', ['filter' => 'auth']);
+$routes->get('detalle-venta/(:num)', 'VentasController::detalleVenta/$1', ['filter' => 'auth']);
+$routes->get('/ventas', 'VentasController::ventas');
 
 // ================================
 // SISTEMA DE CONSULTAS

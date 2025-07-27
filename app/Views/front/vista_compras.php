@@ -112,9 +112,18 @@ $productos = isset($detalles) && is_array($detalles) && count($detalles) > 0 ? $
                     foreach ($productos as $i => $row) {
                         // Nombre del producto
                         $nombre = isset($row['nombre_prod']) && $row['nombre_prod'] ? $row['nombre_prod'] : 'Producto';
-                        // Imagen del producto
+                        
+                        // Imagen del producto - verificar si existe
                         $imagen = isset($row['imagen']) && $row['imagen'] ? $row['imagen'] : '';
-                        $ruta_imagen = $imagen ? 'assets/uploads/' . $imagen : 'assets/img/producto-sin-imagen.jpg';
+                        $ruta_imagen_completa = FCPATH . 'assets/uploads/' . $imagen;
+                        
+                        // Si la imagen especificada existe, usarla; si no, usar imagen por defecto
+                        if ($imagen && file_exists($ruta_imagen_completa)) {
+                            $ruta_imagen = 'assets/uploads/' . $imagen;
+                        } else {
+                            $ruta_imagen = 'assets/img/producto-sin-imagen.jpg';
+                        }
+                        
                         // Precio del producto
                         $precio = isset($row['precio']) && is_numeric($row['precio']) ? floatval($row['precio']) : (isset($row['precio_vta']) && is_numeric($row['precio_vta']) ? floatval($row['precio_vta']) : 0);
                         // Cantidad
@@ -126,7 +135,7 @@ $productos = isset($detalles) && is_array($detalles) && count($detalles) > 0 ? $
                     <div class="list-group-item list-group-item-action flex-column align-items-start p-3 border mb-2 rounded shadow-sm">
                         <div class="d-flex w-100">
                             <div class="me-3 product-image-container">
-                                <img class="product-image rounded shadow-sm" src="<?= base_url($ruta_imagen) ?>" alt="<?= esc($nombre) ?>" onerror="this.src='<?= base_url('assets/img/producto-sin-imagen.jpg') ?>'" style="width: 120px; height: 90px; object-fit: cover;">
+                                <img class="product-image rounded shadow-sm" src="<?= base_url($ruta_imagen) ?>" alt="<?= esc($nombre) ?>" style="width: 120px; height: 90px; object-fit: cover;">
                             </div>
                             <div class="flex-grow-1">
                                 <div class="d-flex justify-content-between align-items-top mb-1">

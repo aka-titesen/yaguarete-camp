@@ -6,7 +6,7 @@ use App\Models\UsuariosModel;
 use App\Models\VentasCabeceraModel;
 use App\Models\VentasDetalleModel;
 
-class Ventascontroller extends Controller {
+class VentasController extends Controller {
     protected $productoModel;
     protected $usuariosModel;
     protected $ventasCabeceraModel;
