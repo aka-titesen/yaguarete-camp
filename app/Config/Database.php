@@ -26,9 +26,9 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
+        'hostname'     => 'db',
         'username'     => 'root',
-        'password'     => '',
+        'password'     => 'root',
         'database'     => 'bd_yagaruete_camp',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',

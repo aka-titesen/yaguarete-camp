@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # Aplicación CodeIgniter 4
   app:
@@ -49,8 +47,6 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-bd_yagaruete_camp}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-      MYSQL_USER: ${DB_USERNAME:-root}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-root}
     volumes:
       - dbdata:/var/lib/mysql
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
