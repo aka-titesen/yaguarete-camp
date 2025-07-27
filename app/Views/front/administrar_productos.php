@@ -51,12 +51,10 @@
                                 <label for="categoria_id" class="form-label">Categoría</label>
                                 <select class="form-select" id="categoria_id" name="categoria_id" required>
                                     <option value="">Selecciona una categoría</option>
-                                    <option value="1">Camping</option>
-                                    <option value="2">Pesca</option>
-                                    <option value="3">Ropa</option>
-                                    <option value="4">Calzado</option>
-                                    <option value="5">Mochilas</option>
-                                    <option value="6">Accesorios</option>
+                                    <option value="2">Ropa y Accesorios Outdoor</option>
+                                    <option value="4">Deportes Outdoor</option>
+                                    <option value="7">Pesca</option>
+                                    <option value="8">Camping</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -176,12 +174,10 @@
                                 <label for="edit_categoria_id" class="form-label">Categoría</label>
                                 <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
                                     <option value="">Selecciona una categoría</option>
-                                    <option value="1">Camping</option>
-                                    <option value="2">Pesca</option>
-                                    <option value="3">Ropa</option>
-                                    <option value="4">Calzado</option>
-                                    <option value="5">Mochilas</option>
-                                    <option value="6">Accesorios</option>
+                                    <option value="2">Ropa y Accesorios Outdoor</option>
+                                    <option value="4">Deportes Outdoor</option>
+                                    <option value="7">Pesca</option>
+                                    <option value="8">Camping</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -324,12 +320,14 @@
                                         </td>
                                         <td><?= esc($producto['nombre_prod']) ?></td>
                                         <td><?= esc([
-                                                '1' => 'Camping',
-                                                '2' => 'Pesca',
-                                                '3' => 'Ropa',
-                                                '4' => 'Calzado',
-                                                '5' => 'Mochilas',
-                                                '6' => 'Accesorios',
+                                                '1' => 'Electrónicos',
+                                                '2' => 'Ropa y Accesorios',
+                                                '3' => 'Hogar y Jardín',
+                                                '4' => 'Deportes',
+                                                '5' => 'Libros y Revistas',
+                                                '6' => 'Juguetes',
+                                                '7' => 'Pesca',
+                                                '8' => 'Camping',
                                             ][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
                                         <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
                                         <td>$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></td>
@@ -358,12 +356,14 @@
                                         </td>
                                         <td><?= esc($producto['nombre_prod']) ?></td>
                                         <td><?= esc([
-                                                '1' => 'Camping',
-                                                '2' => 'Pesca',
-                                                '3' => 'Ropa',
-                                                '4' => 'Calzado',
-                                                '5' => 'Mochilas',
-                                                '6' => 'Accesorios',
+                                                '1' => 'Electrónicos',
+                                                '2' => 'Ropa y Accesorios',
+                                                '3' => 'Hogar y Jardín',
+                                                '4' => 'Deportes',
+                                                '5' => 'Libros y Revistas',
+                                                '6' => 'Juguetes',
+                                                '7' => 'Pesca',
+                                                '8' => 'Camping',
                                             ][$producto['categoria_id']] ?? $producto['categoria_id']) ?></td>
                                         <td>$<?= number_format($producto['precio'], 2, ',', '.') ?></td>
                                         <td>$<?= number_format($producto['precio_vta'], 2, ',', '.') ?></td>

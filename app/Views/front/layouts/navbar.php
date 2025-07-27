@@ -29,7 +29,7 @@
       <ul class="navbar-nav ms-auto nav-spacing">
         
         <!-- Acceso para administradores -->
-        <?php if (session()->get('perfil_id') == 2 && session()->get('isLoggedIn')): ?>        <li class="nav-item mx-1">
+        <?php if (session()->get('perfil_id') == 1 && session()->get('isLoggedIn')): ?>        <li class="nav-item mx-1">
           <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('dashboard') ?>">
             <i class="fas fa-tools me-1"></i>
             <span class="ms-1">Dashboard</span>
@@ -51,7 +51,7 @@
         </li>
         
         <!-- Enlace directo al catálogo con icono -->
-        <?php if (session()->get('perfil_id') != 2): ?>
+        <?php if (session()->get('perfil_id') != 1): ?>
         <li class="nav-item">
           <a class="nav-link text-white d-flex align-items-center" href="<?= base_url('catalogo') ?>">
             <i class="fas fa-th-large me-1"></i> Catálogo
@@ -105,7 +105,7 @@
               </li>
               <li><hr class="dropdown-divider"></li>
               <!-- Enlace a Mis Compras -->
-              <?php if (session()->get('perfil_id') != 2): ?>
+              <?php if (session()->get('perfil_id') != 1): ?>
               <li>
                 <a class="dropdown-item" href="<?= base_url('mis-compras') ?>">
                   <i class="fas fa-shopping-bag me-2"></i> Mis Compras
@@ -134,7 +134,7 @@
         </li>
 
         <li class="nav-item mx-1">
-          <?php if (session()->get('perfil_id') != 2): ?>
+          <?php if (session()->get('perfil_id') != 1): ?>
           <a class="nav-link text-white d-flex align-items-center" href="#" id="btnAbrirCarrito">
             <div class="position-relative me-1">
               <i class="fas fa-shopping-cart"></i>

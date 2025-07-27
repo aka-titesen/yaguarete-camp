@@ -1,181 +1,235 @@
-# Proyecto Martínez González - Sistema de E-commerce
+# 🏕️ Yagaruete Camp
 
-## Descripción
-Sistema web de comercio electrónico desarrollado con **CodeIgniter 4** que permite la gestión integral de productos, usuarios, ventas y consultas de clientes.
+> Sistema de E-commerce especializado en productos outdoor y camping
 
-## Tecnologías Utilizadas
-- **Backend**: CodeIgniter 4 (PHP)
-- **Base de datos**: MySQL/MariaDB
-- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5
-- **Dependencias**: jQuery, DataTables, Font Awesome
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](docker-compose.yml)
+[![CodeIgniter](https://img.shields.io/badge/CodeIgniter-4.5+-red)](https://codeigniter.com/)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-purple)](https://www.php.net/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange)](https://www.mysql.com/)
 
-## Instalación y Configuración
+## 🚀 Inicio Rápido
 
-### Requisitos del Sistema
-- PHP 8.1 o superior
-- MySQL 5.7+ o MariaDB 10.3+
-- Servidor web (Apache/Nginx)
-- Composer
+```bash
+# Clonar el repositorio
+git clone https://github.com/NahimMartinez/proyecto_Martinez_Gonzalez.git yagaruete-camp
+cd yagaruete-camp
 
-### Pasos de Instalación
+# Iniciar con Docker (recomendado)
+./scripts/setup/deploy.sh start
 
-1. **Clonar el repositorio**
-   ```bash
-   git clone [URL_DEL_REPOSITORIO]
-   cd proyecto_Martinez_Gonzalez
-   ```
+# Inicializar base de datos
+./scripts/setup/init-database.sh
 
-2. **Instalar dependencias**
-   ```bash
-   composer install
-   ```
-
-3. **Configurar variables de entorno**
-   ```bash
-   cp env .env
-   ```
-   
-   Editar el archivo `.env` con tus configuraciones:
-   ```env
-   CI_ENVIRONMENT = development
-   app.baseURL = 'http://localhost/proyecto_Martinez_Gonzalez/'
-   
-   database.default.hostname = localhost
-   database.default.database = bd_martinez_gonzalez
-   database.default.username = root
-   database.default.password = tu_password
-   ```
-
-4. **Crear base de datos**
-   - Crear la base de datos `bd_martinez_gonzalez`
-   - Importar el script SQL incluido en el proyecto
-
-5. **Configurar permisos**
-   ```bash
-   chmod -R 755 writable/
-   ```
-
-## Estructura del Proyecto
-
-```
-proyecto_Martinez_Gonzalez/
-├── app/
-│   ├── Controllers/          # Controladores del sistema
-│   │   ├── LoginController.php      # Autenticación
-│   │   ├── UsuarioCrudController.php # Gestión de usuarios
-│   │   ├── ProductoController.php   # Gestión de productos
-│   │   ├── CarritoController.php    # Carrito de compras
-│   │   └── VentasController.php     # Gestión de ventas
-│   ├── Models/               # Modelos de datos
-│   │   ├── UsuariosModel.php        # Modelo de usuarios
-│   │   ├── ProductoModel.php        # Modelo de productos
-│   │   └── VentasCabeceraModel.php  # Modelo de ventas
-│   ├── Views/                # Vistas del sistema
-│   │   ├── front/                   # Vistas del frontend
-│   │   └── back/                    # Vistas del backend
-│   ├── Filters/              # Filtros de autenticación
-│   │   ├── Auth.php                 # Filtro para administradores
-│   │   └── Cliente.php              # Filtro para clientes
-│   └── Config/               # Configuraciones
-│       ├── Routes.php               # Definición de rutas
-│       └── Database.php             # Configuración de BD
-├── public/                   # Archivos públicos
-├── assets/                   # Recursos (CSS, JS, imágenes)
-└── writable/                 # Archivos escribibles (logs, cache)
+# ¡Listo! Accede a http://localhost:8080
 ```
 
-## Perfiles de Usuario
+## 📋 Características
 
-### 1. Cliente (perfil_id = 1)
-- **Permisos**: Navegar catálogo, realizar compras, ver historial
-- **Restricciones**: No acceso a áreas administrativas
+- ✅ **Sistema de autenticación** con roles (Admin/Cliente)
+- ✅ **Catálogo de productos** outdoor y camping
+- ✅ **Carrito de compras** con sesiones persistentes
+- ✅ **Gestión de ventas** completa
+- ✅ **Panel administrativo** para gestión
+- ✅ **Sistema dockerizado** para fácil despliegue
+- ✅ **Base de datos** completamente normalizada
+- ✅ **Scripts automatizados** para mantenimiento
 
-### 2. Administrador (perfil_id = 2)
-- **Permisos**: Acceso completo al sistema
-- **Funciones**: Gestión de usuarios, productos, ventas y consultas
-- **Restricciones**: No puede eliminar su propio usuario
+## 🌐 URLs de Acceso
 
-### 3. Vendedor (perfil_id = 3)
-- **Permisos**: Gestión de productos y ventas
-- **Restricciones**: No gestión de usuarios
+Una vez instalado, tendrás acceso a:
 
-## Funcionalidades Principales
+| Servicio | URL | Credenciales |
+|----------|-----|--------------|
+| **Aplicación** | http://localhost:8080 | admin@test.com / admin123 |
+| **PHPMyAdmin** | http://localhost:8081 | root / yagaruete_password |
+| **MailHog** | http://localhost:8025 | - |
 
-### Sistema de Autenticación
-- Login seguro con hash de contraseñas
-- Filtros de autorización por perfil
-- Regeneración de sesiones por seguridad
-- Protección contra auto-eliminación de administradores
+## 🛠️ Stack Tecnológico
 
-### Gestión de Productos
-- CRUD completo de productos
-- Categorización de productos
-- Eliminación lógica (activar/desactivar)
-- Subida de imágenes
+### Backend
+- **Framework**: CodeIgniter 4.5+
+- **PHP**: 8.2+ con extensiones optimizadas
+- **Base de Datos**: MySQL 8.0
+- **Cache**: Redis 7+
 
-### Carrito de Compras
-- Manejo por sesiones
-- Actualización dinámica de cantidades
-- Cálculo automático de totales
-- Persistencia durante la sesión
+### Frontend
+- **HTML5** + **CSS3** + **Bootstrap 5**
+- **JavaScript** + **jQuery**
+- **DataTables** para tablas dinámicas
+- **Font Awesome** para iconografía
 
-### Sistema de Ventas
-- Registro de ventas con cabecera y detalle
-- Historial de compras por cliente
-- Administración de ventas para administradores
-- Generación de facturas
+### Infraestructura
+- **Docker** + **Docker Compose**
+- **Nginx** como reverse proxy
+- **PHP-FPM** para procesamiento PHP
+- **Redis** para cache y sesiones
 
-## Documentación Completa
-Para información detallada sobre la implementación, estructura de código y guías de desarrollo, consultar:
-- **DOCUMENTACION.md**: Documentación técnica completa
-- Comentarios en código fuente de controladores y modelos
+## 📁 Estructura del Proyecto
 
-## Licencia
-Este proyecto está bajo la Licencia MIT.
+```
+yagaruete-camp/
+├── 📋 scripts/           # Scripts de automatización
+│   ├── setup/            # Instalación y despliegue
+│   ├── maintenance/      # Mantenimiento y backup
+│   └── development/      # Herramientas de desarrollo
+├── 📚 docs/              # Documentación técnica
+│   ├── setup/            # Guías de instalación
+│   ├── database/         # Documentación de BD
+│   └── architecture/     # Arquitectura del sistema
+├── 🏗️ app/              # Aplicación CodeIgniter 4
+│   ├── Controllers/      # Lógica de controladores
+│   ├── Models/           # Modelos de datos
+│   ├── Views/            # Vistas y templates
+│   └── Database/         # Migraciones y seeders
+├── 🌐 public/            # Punto de entrada web
+├── 🐳 docker/            # Configuración Docker
+└── 🧪 tests/             # Tests automatizados
+```
+
+## 📚 Documentación
+
+### 🚀 Instalación
+- **[Guía de Instalación](docs/setup/README.md)** - Instalación completa paso a paso
+- **[Configuración Docker](docs/setup/docker-setup.md)** - Setup detallado con Docker
+- **[Solución de Problemas](docs/setup/troubleshooting.md)** - Troubleshooting completo
+
+### 🗄️ Base de Datos
+- **[Migraciones](docs/database/migrations.md)** - Estructura y migraciones de BD
+- **[Seeders](docs/database/seeders.md)** - Datos iniciales y de prueba
+- **[Esquema](docs/database/schema.md)** - Esquema completo de la BD
+
+### 🏛️ Arquitectura
+- **[Visión General](docs/architecture/overview.md)** - Arquitectura del sistema
+
+## 🔧 Scripts Útiles
+
+### Scripts de Setup
+```bash
+./scripts/setup/deploy.sh start      # Iniciar servicios
+./scripts/setup/deploy.sh stop       # Detener servicios
+./scripts/setup/deploy.sh restart    # Reiniciar servicios
+./scripts/setup/init-database.sh     # Inicializar BD
+```
+
+### Scripts de Mantenimiento
+```bash
+./scripts/maintenance/healthcheck.sh  # Verificar salud del sistema
+./scripts/maintenance/backup.sh       # Backup de base de datos
+./scripts/maintenance/cleanup.sh      # Limpieza del sistema
+```
+
+## 👥 Usuarios por Defecto
+
+| Rol | Email | Contraseña | Descripción |
+|-----|-------|------------|-------------|
+| **Administrador** | admin@test.com | admin123 | Acceso completo al sistema |
+| **Cliente** | cliente@test.com | cliente123 | Usuario cliente estándar |
+
+## 🛍️ Catálogo de Productos
+
+El sistema incluye un catálogo completo de productos outdoor:
+
+- 🏕️ **Tiendas y Refugios** - Carpas, toldos, refugios
+- 🎒 **Mochilas y Equipaje** - Mochilas técnicas, bolsas
+- 🥾 **Senderismo** - Bastones, GPS, equipos de trekking
+- 🧗 **Escalada** - Arneses, cascos, cuerdas técnicas
+- 🔦 **Electrónicos** - Linternas, radios, GPS
+- 👕 **Ropa Técnica** - Chaquetas, pantalones técnicos
+- 👢 **Calzado** - Botas de trekking, zapatillas approach
+
+## 📊 Funcionalidades Principales
+
+### Para Administradores
+- 📈 **Dashboard** con métricas y estadísticas
+- 🛍️ **Gestión de productos** (CRUD completo)
+- 👥 **Gestión de usuarios** y permisos
+- 💰 **Gestión de ventas** y reportes
+- 📧 **Gestión de consultas** de clientes
+
+### Para Clientes
+- 🔍 **Navegación** intuitiva del catálogo
+- 🛒 **Carrito de compras** persistente
+- 💳 **Proceso de checkout** simplificado
+- 📋 **Historial de compras**
+- 📧 **Formulario de contacto**
+
+## 🔒 Seguridad
+
+- 🔐 **Autenticación segura** con password hashing
+- 🛡️ **Autorización** basada en roles
+- 🚫 **Protección CSRF** en formularios
+- 🔒 **Validación** de entrada en todos los endpoints
+- 📝 **Logging** de accesos y operaciones
+
+## 🚀 Despliegue
+
+### Desarrollo Local
+```bash
+git clone <repo-url> yagaruete-camp
+cd yagaruete-camp
+./scripts/setup/deploy.sh start
+```
+
+### Producción
+```bash
+# Con Docker Swarm
+docker stack deploy -c docker-compose.prod.yml yagaruete-camp
+
+# Verificar deployment
+./scripts/maintenance/healthcheck.sh --verbose
+```
+
+## 🧪 Testing
+
+```bash
+# Tests automatizados
+docker-compose exec app vendor/bin/phpunit
+
+# Verificación de integridad
+./scripts/maintenance/verify-data.php --verbose
+
+# Health check completo
+./scripts/maintenance/healthcheck.sh
+```
+
+## 📈 Performance
+
+- ⚡ **Redis** para cache y sesiones
+- 🗄️ **Índices optimizados** en base de datos
+- 📦 **Assets optimizados** y comprimidos
+- 🔄 **Lazy loading** de imágenes
+- 📊 **Query optimization** en modelos
+
+## 🤝 Contribuir
+
+1. Fork el proyecto
+2. Crea una rama feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+## 📞 Soporte
+
+¿Problemas con la instalación?
+
+1. 📖 Revisa la [documentación completa](docs/)
+2. 🔧 Ejecuta el [troubleshooting](docs/setup/troubleshooting.md)
+3. 🏥 Usa el health check: `./scripts/maintenance/healthcheck.sh --verbose`
+4. 📝 Revisa los logs: `./scripts/setup/deploy.sh logs`
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
+
+## 🏆 Créditos
+
+**Yagaruete Camp** - Desarrollado como parte del proyecto académico Martínez González
+
+- 🎯 **Objetivo**: Sistema de e-commerce completo y funcional
+- 🛠️ **Tecnologías**: Stack moderno y profesional
+- 📚 **Documentación**: Completa y detallada
+- 🚀 **Deployment**: Automatizado con Docker
 
 ---
-*Basado en CodeIgniter 4 Framework*
-for better security and separation of components.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Contributing
-
-We welcome contributions from the community.
-
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
-
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-=======
-# proyectoTaller_l
->>>>>>> 5acc34908a4d8d77ff0ec42c7c6fa3289d0057ea
+**¡Bienvenido a Yagaruete Camp - Tu destino para aventuras al aire libre!** 🏕️⛰️🏕️

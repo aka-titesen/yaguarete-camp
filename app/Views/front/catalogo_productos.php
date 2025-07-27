@@ -49,7 +49,16 @@
                                 <span class="categoria-badge">
                                     <i class="fas fa-tag me-2"></i>
                                     <?php
-                                    $cats = [1=>'Camping',2=>'Pesca',3=>'Ropa',4=>'Calzado',5=>'Mochilas',6=>'Accesorios'];
+                                    $cats = [
+                                        1=>'Electrónicos',
+                                        2=>'Ropa y Accesorios',
+                                        3=>'Hogar y Jardín',
+                                        4=>'Deportes',
+                                        5=>'Libros y Revistas',
+                                        6=>'Juguetes',
+                                        7=>'Pesca',
+                                        8=>'Camping'
+                                    ];
                                     echo esc($cats[$producto['categoria_id']] ?? $producto['categoria_id']);
                                     ?>
                                 </span>
@@ -61,7 +70,7 @@
                                 <a href="<?= base_url('producto/' . $producto['id']) ?>" target="_blank" class="btn btn-ver-producto flex-fill mb-2 mb-md-0">
                                     <i class="fas fa-eye me-1"></i> Ver
                                 </a>
-                                <?php if (session()->get('perfil_id') != 2): ?>
+                                <?php if (session()->get('perfil_id') != 1): ?>
                                 <form class="formAgregarCarrito flex-fill" method="post" action="<?= base_url('carrito/add') ?>">
                                     <input type="hidden" name="id" value="<?= esc($producto['id']) ?>">
                                     <input type="hidden" name="nombre_prod" value="<?= esc($producto['nombre_prod']) ?>">

@@ -11,12 +11,11 @@ use CodeIgniter\Filters\FilterInterface;
  * 
  * Este filtro protege las rutas administrativas del sistema,
  * permitiendo acceso únicamente a usuarios autenticados con
- * perfil de administrador (perfil_id = 2).
+ * perfil de administrador (perfil_id = 1).
  * 
  * Estructura de perfiles en la base de datos:
- * - perfil_id = 1: Cliente (acceso limitado al sitio público)
- * - perfil_id = 2: Administrador (acceso completo al sistema)
- * - perfil_id = 3: Vendedor (acceso limitado al sitio público)
+ * - perfil_id = 1: Administrador (acceso completo al sistema)
+ * - perfil_id = 2: Cliente (acceso limitado al sitio público)
  * 
  * Rutas protegidas por este filtro:
  * - /admin_usuarios (gestión de usuarios)
@@ -34,7 +33,7 @@ class Auth implements FilterInterface
      * 
      * Valida dos condiciones:
      * 1. Usuario debe estar autenticado (isLoggedIn = true)
-     * 2. Usuario debe tener perfil de administrador (perfil_id = 2)
+     * 2. Usuario debe tener perfil de administrador (perfil_id = 1)
      * 
      * @param RequestInterface $request Objeto de solicitud HTTP
      * @param mixed $arguments Argumentos adicionales del filtro
@@ -53,8 +52,8 @@ class Auth implements FilterInterface
             ]);
         }
         
-        // Solo permitir acceso a administradores (perfil_id == 2 según la BD)
-        if ($session->get('perfil_id') != 2) {
+        // Solo permitir acceso a administradores (perfil_id == 1 según la BD)
+        if ($session->get('perfil_id') != 1) {
             return redirect()->to('/')->with('msg', [
                 'type' => 'warning',
                 'body' => 'No tienes permisos de administrador'

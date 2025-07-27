@@ -25,8 +25,8 @@ class CarritoController extends BaseController{
         $cart = \Config\Services::Cart();
         $request = \Config\Services::request();
         $session = session();
-        // Restringir administrador
-        if ($session->get('perfil_id') == 2) {
+        // Restringir administrador (perfil_id = 1)
+        if ($session->get('perfil_id') == 1) {
             return $this->response->setJSON(['status'=>'error','msg'=>'El administrador no puede agregar productos al carrito.']);
         }
         $producto_id = $request->getPost('id');
@@ -176,8 +176,8 @@ class CarritoController extends BaseController{
     public function muestro()
     {
         $session = session();
-        if ($session->get('perfil_id') == 2) {
-            // Redirigir o mostrar mensaje si es administrador
+        if ($session->get('perfil_id') == 1) {
+            // Redirigir o mostrar mensaje si es administrador (perfil_id = 1)
             return redirect()->to(base_url('/'))->with('msg', ['type'=>'danger','body'=>'El administrador no tiene acceso al carrito.']);
         }
         $cart = \Config\Services::cart();

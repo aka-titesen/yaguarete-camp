@@ -100,8 +100,8 @@ class Ventascontroller extends Controller {
     public function verFactura($venta_id)
     {
         $session = session();
-        if ($session->get('perfil_id') == 2) {
-            // Si es admin, no puede ver compras como cliente
+        if ($session->get('perfil_id') == 1) {
+            // Si es admin (perfil_id = 1), no puede ver compras como cliente
             return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'Acceso restringido para administradores.');
         }
         $usuario_id = $session->get('id') ?: $session->get('id_usuario');
@@ -144,7 +144,7 @@ class Ventascontroller extends Controller {
     public function detalleVenta($venta_id)
     {
         $session = session();
-        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 1) {
             return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'No tiene permisos para ver el detalle de ventas.');
         }
         $cabecera = $this->ventasCabeceraModel->db->table('ventas_cabecera')
@@ -230,7 +230,7 @@ class Ventascontroller extends Controller {
         // Obtener lista de clientes para el filtro
         $db = \Config\Database::connect();
         $builder = $db->table('usuarios');
-        $builder->where('perfil_id !=', 2); // Excluir administradores
+        $builder->where('perfil_id !=', 1); // Excluir administradores (mostrar solo clientes)
         $query = $builder->get();
         $data['clientes'] = $query->getResultArray();
         
@@ -250,8 +250,8 @@ class Ventascontroller extends Controller {
     public function misCompras()
     {
         $session = session();
-        if ($session->get('perfil_id') == 2) {
-            // Si es admin, no puede ver compras como cliente
+        if ($session->get('perfil_id') == 1) {
+            // Si es admin (perfil_id = 1), no puede ver compras como cliente
             return redirect()->to(base_url('admin-ventas'))->with('mensaje', 'Acceso restringido para administradores.');
         }
         $usuario_id = $session->get('id');
@@ -344,7 +344,7 @@ class Ventascontroller extends Controller {
         
         // Verificar que el usuario tenga permisos (debe ser administrador)
         $session = session();
-        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 1) {
             echo "Error: No tiene permisos para acceder a este diagnóstico";
             return;
         }

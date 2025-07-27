@@ -1,6 +1,6 @@
 <?php
 $session = session();
-$perfil_id = $session->get('perfil_id'); // 2 = admin, otro = cliente
+$perfil_id = $session->get('perfil_id'); // 1 = admin, 2 = cliente
 $fecha_compra = '';
 $nro_orden = '';
 $total_venta = null;
@@ -17,8 +17,8 @@ $productos = isset($detalles) && is_array($detalles) && count($detalles) > 0 ? $
 ?>
 <div class="container mt-5 pt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <a href="<?= base_url($perfil_id == 2 ? 'admin-ventas' : 'mis-compras') ?>" class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-arrow-left me-2"></i> Volver a <?= $perfil_id == 2 ? 'ventas' : 'mis compras' ?>
+        <a href="<?= base_url($perfil_id == 1 ? 'admin-ventas' : 'mis-compras') ?>" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-2"></i> Volver a <?= $perfil_id == 1 ? 'ventas' : 'mis compras' ?>
         </a>
         <?php if (!empty($fecha_compra)): ?>
         <div class="text-muted">
@@ -59,7 +59,7 @@ $productos = isset($detalles) && is_array($detalles) && count($detalles) > 0 ? $
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-verde-selva text-white d-flex justify-content-between align-items-center">
                 <h2 class="mb-0">
-                    <i class="fas fa-file-invoice-dollar me-2"></i> Detalle de <?= $perfil_id == 2 ? 'venta' : 'compra' ?> #<?= $nro_orden ?>
+                    <i class="fas fa-file-invoice-dollar me-2"></i> Detalle de <?= $perfil_id == 1 ? 'venta' : 'compra' ?> #<?= $nro_orden ?>
                 </h2>
                 <span class="badge bg-light text-dark">Completada</span>
             </div>
@@ -69,7 +69,7 @@ $productos = isset($detalles) && is_array($detalles) && count($detalles) > 0 ? $
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <h5 class="text-muted mb-2">Información de la <?= $perfil_id == 2 ? 'venta' : 'compra' ?></h5>
+                            <h5 class="text-muted mb-2">Información de la <?= $perfil_id == 1 ? 'venta' : 'compra' ?></h5>
                             <div class="d-flex mb-2">
                                 <div class="me-3 text-muted" style="width: 120px;">
                                     <i class="fas fa-receipt me-2"></i> Orden:
@@ -164,7 +164,7 @@ $productos = isset($detalles) && is_array($detalles) && count($detalles) > 0 ? $
             </div>
             
             <div class="card-footer text-center py-3">
-                <?php if ($perfil_id != 2): ?>
+                <?php if ($perfil_id != 1): ?>
                     <div class="mb-2">
                         <i class="fas fa-check-circle text-success me-2"></i>
                         <span class="text-success fw-bold">Compra realizada con éxito</span>

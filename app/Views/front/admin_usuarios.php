@@ -80,8 +80,8 @@
                 <label class="form-label">Perfil</label>
                 <select name="perfil_id" class="form-control" required>
                   <option value="">Seleccione un perfil</option>
-                  <option value="1">Cliente</option>
-                  <option value="2">Administrador</option>
+                  <option value="1">Administrador</option>
+                  <option value="2">Cliente</option>
                   <option value="3">Vendedor</option>
                 </select>
                 <?php if($validation->getError('perfil_id')): ?>
@@ -191,8 +191,8 @@
                 <label class="form-label">Perfil</label>
                 <select name="perfil_id" id="edit_perfil_id" class="form-control" required>
                   <option value="">Seleccione un perfil</option>
-                  <option value="1">Cliente</option>
-                  <option value="2">Administrador</option>
+                  <option value="1">Administrador</option>
+                  <option value="2">Cliente</option>
                   <option value="3">Vendedor</option>
                 </select>
               </div>
@@ -318,8 +318,8 @@
                                 <td>
                                     <?php
                                     switch($user['perfil_id']) {
-                                        case 1: echo 'Cliente'; break;
-                                        case 2: echo 'Administrador'; break;
+                                        case 1: echo 'Administrador'; break;
+                                        case 2: echo 'Cliente'; break;
                                         case 3: echo 'Vendedor'; break;
                                         default: echo $user['perfil_id'];
                                     }

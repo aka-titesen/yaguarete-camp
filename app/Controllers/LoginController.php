@@ -74,7 +74,7 @@ class LoginController extends Controller
                     'apellido' => $data['apellido'],   // Apellido del usuario
                     'email' => $data['email'],         // Email del usuario
                     'usuario' => $data['usuario'],     // Username del usuario
-                    'perfil_id' => $data['perfil_id'], // Tipo de perfil (1=Cliente, 2=Admin, 3=Vendedor)
+                    'perfil_id' => $data['perfil_id'], // Tipo de perfil (1=Admin, 2=Cliente)
                     'isLoggedIn' => TRUE               // Flag de autenticación
                 ];
                 

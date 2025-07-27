@@ -56,7 +56,7 @@ class UsuarioController extends Controller
                 'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
                 'perfil_id' => $perfil_id
             ]);            session()->setFlashdata('success', 'Usuario registrado con exito');
-            if ($perfil_id == 2) { // Si es administrador según BD
+            if ($perfil_id == 1) { // Si es administrador según BD (perfil_id = 1)
                 // Si es administrador, iniciar sesión y redirigir al dashboard
                 $session = session();
                 $usuario = $this->formModel->where('email', $this->request->getVar('email'))->first();                $session->set([

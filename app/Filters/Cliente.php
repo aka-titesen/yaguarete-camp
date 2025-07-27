@@ -8,9 +8,8 @@ use CodeIgniter\Filters\FilterInterface;
  * Filtro de autenticación para usuarios (clientes)
  * 
  * Estructura de perfiles en BD:
- * - perfil_id = 1: Cliente (acceso al sitio principal)
- * - perfil_id = 2: Administrador (acceso completo incluido dashboard)
- * - perfil_id = 3: Vendedor (acceso al sitio principal)
+ * - perfil_id = 1: Administrador (acceso completo incluido dashboard)
+ * - perfil_id = 2: Cliente (acceso al sitio principal)
  */
 class Cliente implements FilterInterface
 {

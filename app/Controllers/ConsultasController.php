@@ -62,8 +62,8 @@ class ConsultasController extends Controller
     {
         $session = session();
         
-        // Verificar si el usuario es administrador
-        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+        // Verificar si el usuario es administrador (perfil_id = 1)
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 1) {
             $session->setFlashdata('mensaje', 'Acceso no autorizado - Se requiere permiso de administrador');
             return redirect()->to(base_url('/'));
         }
@@ -98,8 +98,8 @@ class ConsultasController extends Controller
     {
         $session = session();
         
-        // Verificar si el usuario es administrador
-        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 2) {
+        // Verificar si el usuario es administrador (perfil_id = 1)
+        if (!$session->get('isLoggedIn') || $session->get('perfil_id') != 1) {
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Acceso no autorizado'

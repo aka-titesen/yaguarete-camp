@@ -12,8 +12,8 @@ class Home extends BaseController
     }
     public function index(): void
     {
-        // Traer productos de la categoría Pesca (id=2), solo activos
-        $destacadosPesca = $this->productoModel->where('categoria_id', 2)
+        // Traer productos de la categoría Pesca (id=7), solo activos
+        $destacadosPesca = $this->productoModel->where('categoria_id', 7)
             ->where('eliminado !=', 'SI')
             ->orderBy('id', 'DESC')
             ->limit(6)
@@ -21,8 +21,8 @@ class Home extends BaseController
         $data = [
             'destacadosPesca' => $destacadosPesca
         ];
-        // Ofertas relámpago: productos de Camping (id=1)
-        $ofertasCamping = $this->productoModel->where('categoria_id', 1)
+        // Ofertas relámpago: productos de Camping (id=8)
+        $ofertasCamping = $this->productoModel->where('categoria_id', 8)
             ->where('eliminado !=', 'SI')
             ->orderBy('id', 'DESC')
             ->limit(4)
@@ -107,8 +107,8 @@ class Home extends BaseController
     public function aAdministrarProductos(): void
     {
         $session = session();
-        if ($session->get('perfil_id') != 2) {
-            // Si no es admin, no puede ver la administración
+        if ($session->get('perfil_id') != 1) {
+            // Si no es admin (perfil_id = 1), no puede ver la administración
             redirect()->to(base_url())->with('mensaje', 'Acceso restringido solo para administradores.');
             exit();
         }
@@ -121,8 +121,8 @@ class Home extends BaseController
     public function aCatalogoProductos(): void
     {
         $session = session();
-        if ($session->get('perfil_id') == 2) {
-            // Si es admin, mostrar mensaje descriptivo
+        if ($session->get('perfil_id') == 1) {
+            // Si es admin (perfil_id = 1), mostrar mensaje descriptivo
             echo view('front/layouts/header');
             echo view('front/layouts/navbar');
             echo '<div class="container mt-5 pt-5"><div class="alert alert-warning text-center mt-5"><h3>Acceso restringido</h3><p>El administrador no puede acceder al catálogo de productos.</p></div></div>';

@@ -1,0 +1,35 @@
+{
+  "name": "martinez-gonzalez-frontend",
+  "version": "1.0.0",
+  "description": "Frontend assets for Martínez González E-commerce",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "serve": "webpack serve --mode development",
+    "lint": "eslint assets/js --ext .js",
+    "format": "prettier --write assets/js/**/*.js assets/css/**/*.css"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "babel-loader": "^9.1.0",
+    "css-loader": "^6.8.0",
+    "eslint": "^8.42.0",
+    "mini-css-extract-plugin": "^2.7.0",
+    "postcss": "^8.4.24",
+    "postcss-loader": "^7.3.0",
+    "prettier": "^2.8.8",
+    "sass": "^1.63.0",
+    "sass-loader": "^13.3.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-dev-server": "^4.15.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "jquery": "^3.7.0",
+    "datatables.net": "^1.13.4",
+    "datatables.net-bs5": "^1.13.4"
+  }
+}
