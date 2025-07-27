@@ -1,44 +1,71 @@
 #!/bin/bash
 
-# Script para generar archivo .env seguro
-# Uso: ./scripts/setup/generate-env.sh
+# =============================================================================
+# YAGARUETE CAMP - GENERADOR .ENV SIMPLE
+# =============================================================================
+# Descripción: Genera archivo .env básico para desarrollo
+# Uso: ./generate-env.sh
+# =============================================================================
 
-echo "🔐 Generando archivo .env seguro..."
+echo "� Generando archivo .env para desarrollo..."
+echo
 
-# Función para generar password aleatorio
-generate_password() {
-    openssl rand -base64 32 | tr -d "=+/" | cut -c1-32
-}
+if [[ -f ".env" ]]; then
+    echo "⚠️  El archivo .env ya existe"
+    read -p "¿Sobrescribir? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Operación cancelada"
+        exit 0
+    fi
+fi
 
-# Función para generar clave secreta
-generate_secret() {
-    openssl rand -hex 32
-}
+# Crear archivo .env básico
+cat > .env << EOF
+# =============================================================================
+# YAGARUETE CAMP - CONFIGURACIÓN DE DESARROLLO
+# =============================================================================
+# IMPORTANTE: Este archivo NO se sube a git
+# Para producción, crear un .env separado con passwords seguros
+# =============================================================================
 
-# Copiar template
-cp .env.example .env
+# Entorno
+CI_ENVIRONMENT=development
 
-# Generar passwords seguros
-DB_ROOT_PASS=$(generate_password)
-DB_APP_PASS=$(generate_password)
-APP_SECRET=$(generate_secret)
-JWT_SECRET=$(generate_secret)
+# Base de datos (Docker - Solo desarrollo)
+DB_DATABASE=bd_yagaruete_camp
+DB_USERNAME=root
+DB_PASSWORD=dev_password_123
+DB_HOSTNAME=db
+DB_PORT=3306
 
-# Reemplazar valores en .env
-sed -i "s/CHANGE_ME_STRONG_PASSWORD/$DB_ROOT_PASS/g" .env
-sed -i "s/CHANGE_ME_APP_PASSWORD/$DB_APP_PASS/g" .env
-sed -i "s/CHANGE_ME_ROOT_PASSWORD/$DB_ROOT_PASS/g" .env
-sed -i "s/CHANGE_ME_32_CHAR_SECRET_KEY/$APP_SECRET/g" .env
-sed -i "s/CHANGE_ME_JWT_SECRET_KEY/$JWT_SECRET/g" .env
+# URLs
+APP_URL=http://localhost:8080
 
-echo "✅ Archivo .env generado con passwords seguros"
-echo "📋 Passwords generados:"
-echo "   - DB Root: $DB_ROOT_PASS"
-echo "   - DB App: $DB_APP_PASS"
-echo ""
-echo "⚠️  IMPORTANTE:"
-echo "   - Guarda estos passwords en un lugar seguro"
-echo "   - NO los compartas en chat/email"
-echo "   - El archivo .env NO se subirá a git"
-echo ""
-echo "🚀 Ahora puedes ejecutar: docker-compose up -d"
+# Redis
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# Email (MailHog para desarrollo)
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=
+MAIL_PASSWORD=
+
+# Claves de aplicación (generar nuevas para producción)
+APP_KEY=dev_key_32_characters_long_abc123
+JWT_SECRET=dev_jwt_secret_key_for_tokens_xyz789
+
+# Debug (solo desarrollo)
+CI_DEBUG=true
+
+# =============================================================================
+# PARA PRODUCCIÓN: Copiar a .env.production.example
+# =============================================================================
+EOF
+
+echo "✅ Archivo .env creado correctamente"
+echo
+echo "📋 Configuración básica lista para desarrollo"
+echo "🚀 Ejecuta: ./deploy.sh start"
+echo

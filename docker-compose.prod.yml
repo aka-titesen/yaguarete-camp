@@ -41,15 +41,16 @@ services:
     container_name: yagaruete_camp_mysql_prod
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: bd_yagaruete_camp
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_USER: ${DB_USER}
+      MYSQL_DATABASE: ${DB_DATABASE:-bd_yagaruete_camp}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - dbdata_prod:/var/lib/mysql
       - ./docker/mysql/prod.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - app-network
+    # NO exponer puerto 3306 en producción por seguridad
 
   # Cache Redis - Producción
   redis:

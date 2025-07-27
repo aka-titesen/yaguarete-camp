@@ -1,45 +1,65 @@
 #!/bin/bash
 
+# ===========================================================create_env_if_missing() {
+    if [[ ! -f ".env" ]]; then
+        print_info "Creando archivo .env básico..."
+        cat > .env << EOF
+# Yagaruete Camp - Configuración Docker
+CI_ENVIRONMENT=development
+
+# Base de datos (Docker)
+DB_DATABASE=bd_yagaruete_camp
+DB_USERNAME=root
+DB_PASSWORD=root
+DB_HOSTNAME=db
+DB_PORT=3306
+
+# URLs
+APP_URL=http://localhost:8080
+
+# Redis
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# Email (MailHog para desarrollo)
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+EOF
+        print_success "Archivo .env creado"
+    fi
+}# YAGARUETE CAMP - INICIO RÁPIDO PARA DESARROLLADORES
 # =============================================================================
-# YAGARUETE CAMP - SCRIPT DE DESPLIEGUE PRINCIPAL
-# =============================================================================
-# Descripción: Script principal para desplegar la aplicación Yagaruete Camp
-# Autor: Proyecto Martínez González
-# Versión: 2.0
-# Fecha: $(date '+%Y-%m-%d')
+# Descripción: Script simple para desarrolladores - Solo requiere Docker
+# Uso: ./deploy.sh [start|stop|restart|logs|reset]
 # =============================================================================
 
 set -e
 
-# Configuración de colores para output
-readonly RED='\033[0;31m'
+# Configuración de colores
 readonly GREEN='\033[0;32m'
-readonly YELLOW='\033[1;33m'
+readonly RED='\033[0;31m'
 readonly BLUE='\033[0;34m'
-readonly CYAN='\033[0;36m'
-readonly NC='\033[0m' # No Color
+readonly NC='\033[0m'
 
 # Configuración del proyecto
-readonly PROJECT_NAME="yagaruete-camp"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-
-# Variables de configuración
-VERBOSE=false
-SKIP_DEPENDENCIES=false
-ENVIRONMENT="development"
+readonly COMMAND="${1:-start}"
 
 # =============================================================================
-# FUNCIONES AUXILIARES
+# FUNCIONES
 # =============================================================================
 
 print_banner() {
-    echo -e "${CYAN}"
-    echo "╔══════════════════════════════════════════════════════════════╗"
-    echo "║                    YAGARUETE CAMP                            ║"
-    echo "║              Script de Despliegue v2.0                      ║"
-    echo "╚══════════════════════════════════════════════════════════════╝"
+    echo -e "${BLUE}"
+    echo "╔═══════════════════════════════════════════════════════════════╗"
+    echo "║                    🦎 YAGARUETE CAMP                         ║"
+    echo "║              Inicio Rápido para Desarrolladores              ║"
+    echo "╚═══════════════════════════════════════════════════════════════╝"
     echo -e "${NC}"
+    echo "📋 Requisitos: Solo Docker y Docker Compose instalados"
+    echo "🚀 Uso: $0 [start|stop|restart|logs|reset]"
+    echo
 }
 
 print_info() {
@@ -47,7 +67,160 @@ print_info() {
 }
 
 print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+    echo -e "${GREEN}[✅]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[❌]${NC} $1"
+}
+
+check_docker() {
+    if ! command -v docker &> /dev/null; then
+        print_error "Docker no está instalado"
+        echo
+        echo "📥 Instala Docker desde: https://docs.docker.com/get-docker/"
+        echo "   Después reinicia y ejecuta este script nuevamente"
+        exit 1
+    fi
+
+    if ! docker info &> /dev/null; then
+        print_error "Docker no está corriendo"
+        echo
+        echo "🔄 Inicia Docker e intenta nuevamente"
+        exit 1
+    fi
+
+    if ! command -v docker-compose &> /dev/null; then
+        print_error "Docker Compose no está instalado"
+        echo
+        echo "📥 Instala Docker Compose desde: https://docs.docker.com/compose/install/"
+        exit 1
+    fi
+
+    print_success "Docker está listo"
+}
+
+create_env_if_missing() {
+    if [[ ! -f ".env" ]]; then
+        print_info "Creando archivo .env básico..."
+        cat > .env << EOF
+# Yagaruete Camp - Configuración Docker
+CI_ENVIRONMENT=development
+
+# Base de datos
+DB_DATABASE=bd_yagaruete_camp
+DB_USERNAME=root
+DB_PASSWORD=root
+DB_HOSTNAME=db
+DB_PORT=3306
+
+# URLs
+APP_URL=http://localhost:8080
+EOF
+        print_success "Archivo .env creado"
+    fi
+}
+
+start_application() {
+    print_info "🚀 Iniciando Yagaruete Camp..."
+    echo
+
+    print_info "Construyendo contenedores..."
+    docker-compose up -d --build
+
+    print_info "Esperando a que los servicios estén listos..."
+    sleep 15
+
+    print_info "Ejecutando migraciones..."
+    docker-compose exec -T app php spark migrate
+
+    print_info "Ejecutando seeders..."
+    docker-compose exec -T app php spark db:seed
+
+    echo
+    print_success "¡Aplicación lista!"
+    echo
+    echo "🌐 Accede a tu aplicación en: http://localhost:8080"
+    echo "🗄️  PHPMyAdmin en: http://localhost:8081"
+    echo
+}
+
+stop_application() {
+    print_info "🛑 Deteniendo aplicación..."
+    docker-compose down
+    print_success "Aplicación detenida"
+}
+
+restart_application() {
+    print_info "🔄 Reiniciando aplicación..."
+    docker-compose restart
+    print_success "Aplicación reiniciada"
+}
+
+show_logs() {
+    print_info "📋 Mostrando logs..."
+    docker-compose logs -f
+}
+
+reset_application() {
+    print_info "🗑️  Reset completo de la aplicación..."
+    echo
+    echo "⚠️  Esto eliminará TODOS los datos y contenedores"
+    read -p "¿Continuar? (y/N): " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        docker-compose down -v --remove-orphans
+        docker system prune -f
+        print_success "Reset completado. Ejecuta './deploy.sh start' para iniciar nuevamente"
+    else
+        print_info "Operación cancelada"
+    fi
+}
+
+# =============================================================================
+# EJECUCIÓN PRINCIPAL
+# =============================================================================
+
+print_banner
+
+cd "$PROJECT_ROOT"
+
+# Verificar Docker
+check_docker
+
+# Crear .env si no existe
+create_env_if_missing
+
+# Ejecutar comando
+case "$COMMAND" in
+    start)
+        start_application
+        ;;
+    stop)
+        stop_application
+        ;;
+    restart)
+        restart_application
+        ;;
+    logs)
+        show_logs
+        ;;
+    reset)
+        reset_application
+        ;;
+    *)
+        print_error "Comando desconocido: $COMMAND"
+        echo
+        echo "💡 Comandos disponibles:"
+        echo "   start   - Iniciar aplicación"
+        echo "   stop    - Detener aplicación"
+        echo "   restart - Reiniciar aplicación"
+        echo "   logs    - Ver logs"
+        echo "   reset   - Reset completo"
+        exit 1
+        ;;
+esac
 }
 
 print_warning() {

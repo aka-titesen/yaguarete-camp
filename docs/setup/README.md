@@ -4,36 +4,58 @@
 
 **Yagaruete Camp** es un sistema de e-commerce especializado en productos de camping y actividades al aire libre, desarrollado con CodeIgniter 4. Ofrece una plataforma completa para la gestión de productos, usuarios, ventas y experiencias de cliente.
 
-## 🚀 Instalación Rápida con Docker
+# 🏕️ Yagaruete Camp - Guía de Instalación
 
-La forma más sencilla de poner en marcha el proyecto es usando Docker:
+## 📋 Descripción General
+
+**Yagaruete Camp** es un sistema de e-commerce especializado en productos de camping y actividades al aire libre, desarrollado con CodeIgniter 4. Ofrece una plataforma completa para la gestión de productos, usuarios, ventas y experiencias de cliente.
+
+## 🚀 Instalación Súper Rápida (Solo Docker)
+
+**Requisito único:** Docker Desktop instalado
+
+### Para Desarrolladores - 2 pasos:
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/NahimMartinez/proyecto_Martinez_Gonzalez.git
-cd yagaruete-camp
+# 1. Clonar el proyecto
+git clone https://github.com/aka-titesen/yaguarete-camp.git
+cd yaguarete-camp
 
-# Iniciar el proyecto
-./scripts/setup/deploy.sh start
+# 2. Ejecutar script de inicio
+# Windows:
+scripts\setup\deploy.bat
 
-# Inicializar la base de datos
-./scripts/setup/init-database.sh
+# Linux/macOS:
+./scripts/setup/deploy.sh
 ```
 
-¡Y listo! La aplicación estará disponible en:
-- **Aplicación**: http://localhost:8080
-- **PHPMyAdmin**: http://localhost:8081
-- **MailHog**: http://localhost:8025
+**¡Eso es todo!** 🎉
+
+- **Aplicación:** http://localhost:8080
+- **PHPMyAdmin:** http://localhost:8081 (user: root, pass: dev_password_123)
+- **MailHog:** http://localhost:8025 (testing de emails)
+
+> 📖 **[Ver guía completa de inicio rápido](../../QUICK-START.md)**
+
+## 📋 Lo que hace el script automáticamente:
+
+1. ✅ Verifica que Docker esté instalado y corriendo
+2. ✅ Crea archivo `.env` con configuración básica para desarrollo
+3. ✅ Construye e inicia los contenedores Docker
+4. ✅ Ejecuta las migraciones de base de datos
+5. ✅ Carga los datos iniciales (seeders)
 
 ## 📋 Requisitos del Sistema
 
-### Opción 1: Docker (Recomendado)
-- Docker Desktop 4.0+
-- Docker Compose 2.0+
+### ✅ Solo Docker (Recomendado)
+- **Docker Desktop** (incluye Docker Compose)
+  - Windows: [Descargar aquí](https://docs.docker.com/desktop/windows/)
+  - macOS: [Descargar aquí](https://docs.docker.com/desktop/mac/)
+  - Linux: [Instalar Docker](https://docs.docker.com/engine/install/)
 - 4GB RAM disponible
 - 2GB espacio en disco
 
-### Opción 2: Instalación Manual
+### ⚠️ Instalación Manual (No recomendado)
 - PHP 8.1 o superior
 - MySQL 5.7+ o MariaDB 10.3+
 - Composer 2.0+
@@ -41,12 +63,43 @@ cd yagaruete-camp
 
 ## 🐳 Instalación con Docker
 
-### 1. Preparar el Entorno
+### Comandos Disponibles
 
 ```bash
-# Clonar el proyecto
-git clone https://github.com/NahimMartinez/proyecto_Martinez_Gonzalez.git
-cd yagaruete-camp
+# Windows
+scripts\setup\deploy.bat start    # Iniciar aplicación (incluye migraciones y seeders)
+scripts\setup\deploy.bat stop     # Detener aplicación
+scripts\setup\deploy.bat restart  # Reiniciar aplicación
+scripts\setup\deploy.bat logs     # Ver logs en tiempo real
+scripts\setup\deploy.bat reset    # Reset completo (elimina datos)
+
+# Linux/macOS
+./scripts/setup/deploy.sh start    # Iniciar aplicación (incluye migraciones y seeders)
+./scripts/setup/deploy.sh stop     # Detener aplicación
+./scripts/setup/deploy.sh restart  # Reiniciar aplicación
+./scripts/setup/deploy.sh logs     # Ver logs en tiempo real
+./scripts/setup/deploy.sh reset    # Reset completo (elimina datos)
+```
+
+### Configuración de Entorno
+
+El script crea automáticamente un archivo `.env` con configuración básica:
+
+```bash
+# Variables para desarrollo
+CI_ENVIRONMENT=development
+DB_DATABASE=bd_yagaruete_camp
+DB_USERNAME=root
+DB_PASSWORD=dev_password_123
+DB_HOSTNAME=db
+APP_URL=http://localhost:8080
+```
+
+**🔒 Buenas prácticas de .env:**
+- ✅ El `.env` NO se sube a git (está en .gitignore)
+- ✅ Cada entorno tiene su propio `.env`
+- ✅ Para producción, cambiar passwords por seguros
+- ✅ Docker lee automáticamente las variables del `.env`
 
 # Copiar configuración (opcional)
 cp docker-compose.override.yml.example docker-compose.override.yml

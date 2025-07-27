@@ -4,50 +4,105 @@
 
 Yagaruete Camp utiliza una arquitectura Docker multi-contenedor diseñada para ser robusta, escalable y fácil de mantener.
 
-### 🏗️ Servicios Incluidos
+### 🏗️ Servicios de Desarrollo
+
+| Servicio | Imagen | Puerto | Descripción | Credenciales |
+|----------|--------|--------|-------------|--------------|
+| **app** | PHP 8.2-FPM | 9000 | Aplicación CodeIgniter 4 | - |
+| **nginx** | nginx:alpine | 8080 | Servidor web y proxy reverso | - |
+| **db** | mysql:8.0 | 3306 | Base de datos principal | user: root, pass: dev_password_123 |
+| **redis** | redis:alpine | 6379 | Cache y gestión de sesiones | - |
+| **phpmyadmin** | phpmyadmin | 8081 | Administrador web de BD | user: root, pass: dev_password_123 |
+| **mailhog** | mailhog | 8025 | Servidor SMTP de desarrollo | - |
+
+### 🏢 Servicios de Producción
 
 | Servicio | Imagen | Puerto | Descripción |
 |----------|--------|--------|-------------|
 | **app** | PHP 8.2-FPM | 9000 | Aplicación CodeIgniter 4 |
-| **nginx** | nginx:alpine | 80 → 8080 | Servidor web y proxy reverso |
-| **mysql** | mysql:8.0 | 3306 | Base de datos principal |
-| **redis** | redis:alpine | 6379 | Cache y gestión de sesiones |
-| **phpmyadmin** | phpmyadmin | 80 → 8081 | Administrador web de BD |
-| **mailhog** | mailhog | 1025/8025 → 8025 | Servidor SMTP de desarrollo |
+| **nginx** | nginx:alpine | 80, 443 | Servidor web con SSL |
+| **db** | mysql:8.0 | (interno) | Base de datos (sin exposición) |
+| **redis** | redis:alpine | (interno) | Cache y sesiones |
 
-## 🚀 Despliegue con Scripts
+## 🚀 Despliegue Simplificado
 
-### Inicio Rápido
+### Inicio Súper Rápido
 
 ```bash
 # Clonar e iniciar
-git clone <repo-url> yagaruete-camp
-cd yagaruete-camp
-
-# Linux/Mac
-./scripts/setup/deploy.sh start
+git clone https://github.com/aka-titesen/yaguarete-camp.git
+cd yaguarete-camp
 
 # Windows
-scripts\setup\deploy.bat start
+scripts\setup\deploy.bat
+
+# Linux/Mac
+./scripts/setup/deploy.sh
 ```
 
 ### Comandos Principales
 
-| Comando | Función | Ejemplo |
-|---------|---------|---------|
-| `start` | Iniciar todos los servicios | `./scripts/setup/deploy.sh start` |
-| `stop` | Detener servicios | `./scripts/setup/deploy.sh stop` |
-| `restart` | Reiniciar servicios | `./scripts/setup/deploy.sh restart` |
-| `status` | Estado de contenedores | `./scripts/setup/deploy.sh status` |
-| `logs` | Ver logs del sistema | `./scripts/setup/deploy.sh logs app` |
-| `clean` | Limpiar contenedores | `./scripts/setup/deploy.sh clean` |
-| `reset` | Reset completo | `./scripts/setup/deploy.sh reset` |
+| Comando | Función | Windows | Linux/Mac |
+|---------|---------|---------|-----------|
+| **start** | Iniciar servicios + migraciones + seeders | `deploy.bat start` | `./deploy.sh start` |
+| **stop** | Detener servicios | `deploy.bat stop` | `./deploy.sh stop` |
+| **restart** | Reiniciar servicios | `deploy.bat restart` | `./deploy.sh restart` |
+| **logs** | Ver logs en tiempo real | `deploy.bat logs` | `./deploy.sh logs` |
+| **reset** | Reset completo | `deploy.bat reset` | `./deploy.sh reset` |
 
 ## 🌐 URLs y Accesos
 
-### Servicios Web
+### Servicios Web de Desarrollo
 
 | Servicio | URL | Credenciales | Descripción |
+|----------|-----|--------------|-------------|
+| **Aplicación** | http://localhost:8080 | - | Sitio web principal |
+| **PHPMyAdmin** | http://localhost:8081 | user: `root`<br>pass: `dev_password_123` | Administrador de BD |
+| **MailHog** | http://localhost:8025 | - | Testing de emails |
+
+### Archivos de Configuración
+
+#### Para Desarrollo (automático)
+- **Docker Compose**: `docker-compose.yml`
+- **Variables**: `.env` (generado automáticamente)
+- **Comando**: `deploy.bat` o `deploy.sh`
+
+#### Para Producción (manual)
+- **Docker Compose**: `docker-compose.prod.yml`
+- **Variables**: `.env` (basado en `.env.production.example`)
+- **Comando**: `docker-compose -f docker-compose.prod.yml up -d`
+
+## 🔧 Configuración de Variables de Entorno
+
+### Archivo .env (Desarrollo)
+
+El script genera automáticamente:
+
+```bash
+# Variables para desarrollo
+CI_ENVIRONMENT=development
+DB_DATABASE=bd_yagaruete_camp
+DB_USERNAME=root
+DB_PASSWORD=dev_password_123
+DB_HOSTNAME=db
+APP_URL=http://localhost:8080
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+```
+
+### Archivo .env (Producción)
+
+Para producción, copia `.env.production.example` a `.env` y modifica:
+
+```bash
+# Variables para producción
+CI_ENVIRONMENT=production
+DB_USERNAME=yagaruete_user
+DB_PASSWORD=CAMBIAR_POR_PASSWORD_SUPER_SEGURO_123!
+APP_URL=https://tu-dominio.com
+MAIL_HOST=smtp.tu-proveedor.com
+CI_DEBUG=false
+```
 |----------|-----|--------------|-------------|
 | **Aplicación** | http://localhost:8080 | Ver [usuarios por defecto](#usuarios) | Sitio principal |
 | **PHPMyAdmin** | http://localhost:8081 | root / yagaruete_password | Admin de BD |

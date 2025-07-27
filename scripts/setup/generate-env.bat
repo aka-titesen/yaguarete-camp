@@ -1,35 +1,72 @@
 @echo off
-REM Script para generar archivo .env seguro en Windows
-REM Uso: scripts\setup\generate-env.bat
 
-echo 🔐 Generando archivo .env seguro...
+REM =============================================================================
+REM YAGARUETE CAMP - GENERADOR .ENV SIMPLE
+REM =============================================================================
+REM Descripción: Genera archivo .env básico para desarrollo
+REM Uso: generate-env.bat
+REM =============================================================================
 
-REM Copiar template
-copy .env.example .env > nul
-
-REM Generar passwords aleatorios (simplificado para Windows)
-set DB_ROOT_PASS=Root_%RANDOM%%RANDOM%_Pass
-set DB_APP_PASS=App_%RANDOM%%RANDOM%_Pass
-set APP_SECRET=%RANDOM%%RANDOM%%RANDOM%%RANDOM%
-set JWT_SECRET=%RANDOM%%RANDOM%%RANDOM%%RANDOM%
-
-REM Reemplazar valores en .env usando PowerShell
-powershell -Command "(Get-Content .env) -replace 'CHANGE_ME_STRONG_PASSWORD', '%DB_ROOT_PASS%' | Set-Content .env"
-powershell -Command "(Get-Content .env) -replace 'CHANGE_ME_APP_PASSWORD', '%DB_APP_PASS%' | Set-Content .env"
-powershell -Command "(Get-Content .env) -replace 'CHANGE_ME_ROOT_PASSWORD', '%DB_ROOT_PASS%' | Set-Content .env"
-powershell -Command "(Get-Content .env) -replace 'CHANGE_ME_32_CHAR_SECRET_KEY', '%APP_SECRET%' | Set-Content .env"
-powershell -Command "(Get-Content .env) -replace 'CHANGE_ME_JWT_SECRET_KEY', '%JWT_SECRET%' | Set-Content .env"
-
-echo ✅ Archivo .env generado con passwords seguros
-echo 📋 Passwords generados:
-echo    - DB Root: %DB_ROOT_PASS%
-echo    - DB App: %DB_APP_PASS%
+echo � Generando archivo .env para desarrollo...
 echo.
-echo ⚠️  IMPORTANTE:
-echo    - Guarda estos passwords en un lugar seguro
-echo    - NO los compartas en chat/email
-echo    - El archivo .env NO se subirá a git
-echo.
-echo 🚀 Ahora puedes ejecutar: docker-compose up -d
 
+if exist ".env" (
+    echo ⚠️  El archivo .env ya existe
+    set /p overwrite="¿Sobrescribir? (y/N): "
+    if /i not "%overwrite%"=="y" (
+        echo Operación cancelada
+        pause
+        exit /b 0
+    )
+)
+
+REM Crear archivo .env básico
+(
+    echo # =============================================================================
+    echo # YAGARUETE CAMP - CONFIGURACIÓN DE DESARROLLO
+    echo # =============================================================================
+    echo # IMPORTANTE: Este archivo NO se sube a git
+    echo # Para producción, crear un .env separado con passwords seguros
+    echo # =============================================================================
+    echo.
+    echo # Entorno
+    echo CI_ENVIRONMENT=development
+    echo.
+    echo # Base de datos ^(Docker - Solo desarrollo^)
+    echo DB_DATABASE=bd_yagaruete_camp
+    echo DB_USERNAME=root
+    echo DB_PASSWORD=dev_password_123
+    echo DB_HOSTNAME=db
+    echo DB_PORT=3306
+    echo.
+    echo # URLs
+    echo APP_URL=http://localhost:8080
+    echo.
+    echo # Redis
+    echo REDIS_HOST=redis
+    echo REDIS_PORT=6379
+    echo.
+    echo # Email ^(MailHog para desarrollo^)
+    echo MAIL_HOST=mailhog
+    echo MAIL_PORT=1025
+    echo MAIL_USERNAME=
+    echo MAIL_PASSWORD=
+    echo.
+    echo # Claves de aplicación ^(generar nuevas para producción^)
+    echo APP_KEY=dev_key_32_characters_long_abc123
+    echo JWT_SECRET=dev_jwt_secret_key_for_tokens_xyz789
+    echo.
+    echo # Debug ^(solo desarrollo^)
+    echo CI_DEBUG=true
+    echo.
+    echo # =============================================================================
+    echo # PARA PRODUCCIÓN: Copiar a .env.production.example
+    echo # =============================================================================
+) > .env
+
+echo ✅ Archivo .env creado correctamente
+echo.
+echo 📋 Configuración básica lista para desarrollo
+echo 🚀 Ejecuta: deploy.bat start
+echo.
 pause

@@ -2,50 +2,90 @@
 
 ## 🚨 Problemas Comunes y Soluciones
 
+### � Problemas con Scripts
+
+#### El comando deploy.bat/deploy.sh no funciona
+
+**Síntomas:**
+- "Command not found"
+- "Permission denied"
+- "No such file or directory"
+
+**Soluciones:**
+
+```bash
+# Windows - Ejecutar desde PowerShell o CMD
+cd yagaruete-camp
+scripts\setup\deploy.bat start
+
+# Linux/Mac - Dar permisos
+chmod +x scripts/setup/deploy.sh
+./scripts/setup/deploy.sh start
+
+# Si nada funciona - Docker directo
+docker-compose up -d
+```
+
+#### Docker no está instalado o corriendo
+
+**Síntomas:**
+- "Docker not found"
+- "Docker daemon not running"
+- Scripts se detienen con error de Docker
+
+**Soluciones:**
+1. **Instalar Docker Desktop:**
+   - Windows/Mac: [Descargar aquí](https://docs.docker.com/desktop/)
+   - Linux: `sudo apt install docker.io docker-compose`
+
+2. **Iniciar Docker:**
+   - Abrir Docker Desktop
+   - Esperar que aparezca "Docker is running"
+   - Verificar: `docker --version`
+
 ### 🐳 Problemas de Docker
 
 #### Puerto ya en uso
 
 **Síntomas:**
 - Error: "Port 8080 is already in use"
-- Contenedores no inician
-- Bind for 0.0.0.0:8080 failed
+- "bind: address already in use"
 
 **Soluciones:**
 
 ```bash
 # 1. Verificar qué proceso usa el puerto
-# Linux/Mac
-sudo lsof -i :8080
-sudo netstat -tlnp | grep :8080
-
 # Windows
 netstat -ano | findstr :8080
-tasklist /FI "PID eq XXXX"
-```
 
-```bash
-# 2. Matar proceso que ocupa el puerto
 # Linux/Mac
-sudo kill -9 <PID>
-
-# Windows
-taskkill /PID <PID> /F
+sudo lsof -i :8080
 ```
 
 ```bash
-# 3. Cambiar puerto en configuración
-# Crear docker-compose.override.yml
-cat > docker-compose.override.yml << EOF
-version: '3.8'
-services:
-  nginx:
-    ports:
-      - "8090:80"  # Cambiar de 8080 a 8090
-EOF
+# 2. Cambiar puerto en .env (crear si no existe)
+echo "NGINX_PORT=8090" >> .env
+
+# O editar docker-compose.yml temporalmente
+# Cambiar "8080:80" por "8090:80"
 ```
 
-#### Contenedores no inician
+#### Error de permisos
+
+**Síntomas:**
+- "Permission denied"
+- "Cannot connect to Docker daemon"
+
+**Soluciones:**
+
+```bash
+# Linux - Añadir usuario al grupo docker
+sudo usermod -aG docker $USER
+# Logout y login nuevamente
+
+# Windows - Ejecutar como Administrador
+# Clic derecho en PowerShell > "Ejecutar como administrador"
+```
 
 **Síntomas:**
 - Docker containers exit immediately
@@ -477,14 +517,60 @@ Si los problemas persisten:
 
 ## 📋 Checklist de Diagnóstico
 
-- [ ] ¿Docker está ejecutándose correctamente?
-- [ ] ¿Los puertos están disponibles?
-- [ ] ¿Los contenedores están healthy?
-- [ ] ¿La base de datos está conectada?
-- [ ] ¿Los permisos de archivos son correctos?
-- [ ] ¿Los logs muestran errores específicos?
-- [ ] ¿Se han ejecutado las migraciones?
-- [ ] ¿Los datos son consistentes?
+### 🔄 Comandos de Recuperación Rápida
+
+#### Reset Completo (Recomendado)
+
+```bash
+# Windows
+scripts\setup\deploy.bat reset
+
+# Linux/Mac
+./scripts/setup/deploy.sh reset
+```
+
+#### Comandos de Emergencia
+
+```bash
+# Parar todo y limpiar
+docker-compose down -v
+docker system prune -f
+
+# Reconstruir desde cero
+docker-compose up -d --build --force-recreate
+
+# Ver estado detallado
+docker-compose ps
+docker-compose logs --tail=50
+```
+
+### 📋 Checklist de Diagnóstico
+
+Antes de reportar un problema, verifica:
+
+- [ ] ¿Docker Desktop está instalado y corriendo?
+- [ ] ¿Ejecutaste `deploy.bat` o `deploy.sh` desde la carpeta correcta?
+- [ ] ¿Los puertos 8080 y 8081 están disponibles?
+- [ ] ¿Los contenedores están corriendo? (`docker-compose ps`)
+- [ ] ¿Los logs muestran errores específicos? (`deploy.sh logs`)
+- [ ] ¿Probaste hacer reset completo? (`deploy.sh reset`)
+
+### 📞 Obtener Ayuda
+
+Si nada funciona:
+
+1. **Ejecuta diagnóstico:**
+   ```bash
+   docker --version
+   docker-compose --version
+   docker-compose ps
+   docker-compose logs --tail=50
+   ```
+
+2. **Crea un issue:** [GitHub Issues](https://github.com/aka-titesen/yaguarete-camp/issues)
+   - Incluye el output de los comandos de arriba
+   - Describe qué estabas intentando hacer
+   - Especifica tu sistema operativo (Windows/Mac/Linux)
 
 ---
 

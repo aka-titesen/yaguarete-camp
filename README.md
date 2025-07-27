@@ -7,41 +7,41 @@
 [![PHP](https://img.shields.io/badge/PHP-8.2+-purple)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange)](https://www.mysql.com/)
 
-## 🚀 Inicio Rápido
+# 🏕️ Yagaruete Camp
 
-### 🔐 1. Configuración Segura del Entorno
+> Sistema de E-commerce especializado en productos outdoor y camping
+
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](docker-compose.yml)
+[![CodeIgniter](https://img.shields.io/badge/CodeIgniter-4.5+-red)](https://codeigniter.com/)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-purple)](https://www.php.net/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange)](https://www.mysql.com/)
+
+## 🚀 Inicio Súper Rápido
+
+**Requisito único:** Docker Desktop instalado
+
+### Para Desarrolladores - 2 pasos:
 
 ```bash
-# Clonar el repositorio
+# 1. Clona y entra al proyecto
 git clone https://github.com/aka-titesen/yaguarete-camp.git
 cd yaguarete-camp
 
-# Generar archivo .env con passwords seguros
-# Linux/Mac:
-./scripts/setup/generate-env.sh
-
+# 2. Ejecuta el script de inicio
 # Windows:
-scripts\setup\generate-env.bat
+scripts\setup\deploy.bat
+
+# Linux/macOS:
+./scripts/setup/deploy.sh
 ```
 
-### 🐳 2. Iniciar con Docker
+**¡Eso es todo!** 🎉
 
-```bash
-# Iniciar contenedores
-./scripts/setup/deploy.sh start
+- **Aplicación:** http://localhost:8080
+- **PHPMyAdmin:** http://localhost:8081 (user: root, pass: root)
+- **MailHog:** http://localhost:8025 (testing de emails)
 
-# Inicializar base de datos
-./scripts/setup/init-database.sh
-
-# ¡Listo! Accede a http://localhost:8080
-```
-
-### ⚠️ Importante: Seguridad
-
-- **NUNCA** uses passwords por defecto en producción
-- El archivo `.env` **NO** se sube a git (está en `.gitignore`)
-- Guarda las credenciales generadas en un lugar seguro
-- Lee la [guía de seguridad](docs/security/environment-security.md)
+> 📖 **[Ver guía completa de inicio rápido](QUICK-START.md)**
 
 ## 📋 Características
 
@@ -89,12 +89,11 @@ Una vez instalado, tendrás acceso a:
 ```
 yagaruete-camp/
 ├── 📋 scripts/           # Scripts de automatización
-│   ├── setup/            # Instalación y despliegue
-│   ├── maintenance/      # Mantenimiento y backup
-│   └── development/      # Herramientas de desarrollo
-├── 📚 docs/              # Documentación técnica
-│   ├── setup/            # Guías de instalación
+│   └── setup/            # deploy.bat, deploy.sh, generate-env.*
+├── 📚 docs/              # Documentación técnica completa
+│   ├── setup/            # Guías de instalación y troubleshooting
 │   ├── database/         # Documentación de BD
+│   ├── security/         # Buenas prácticas de .env
 │   └── architecture/     # Arquitectura del sistema
 ├── 🏗️ app/              # Aplicación CodeIgniter 4
 │   ├── Controllers/      # Lógica de controladores
@@ -199,43 +198,21 @@ docker stack deploy -c docker-compose.prod.yml yagaruete-camp
 ./scripts/maintenance/healthcheck.sh --verbose
 ```
 
-## 🧪 Testing
-
-```bash
-# Tests automatizados
-docker-compose exec app vendor/bin/phpunit
-
-# Verificación de integridad
-./scripts/maintenance/verify-data.php --verbose
-
-# Health check completo
-./scripts/maintenance/healthcheck.sh
-```
-
-## 📈 Performance
-
-- ⚡ **Redis** para cache y sesiones
-- 🗄️ **Índices optimizados** en base de datos
-- 📦 **Assets optimizados** y comprimidos
-- 🔄 **Lazy loading** de imágenes
-- 📊 **Query optimization** en modelos
-
-## 🤝 Contribuir
-
-1. Fork el proyecto
-2. Crea una rama feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
 ## 📞 Soporte
 
 ¿Problemas con la instalación?
 
-1. 📖 Revisa la [documentación completa](docs/)
-2. 🔧 Ejecuta el [troubleshooting](docs/setup/troubleshooting.md)
-3. 🏥 Usa el health check: `./scripts/maintenance/healthcheck.sh --verbose`
-4. 📝 Revisa los logs: `./scripts/setup/deploy.sh logs`
+1. 📖 Revisa la [guía rápida](QUICK-START.md)
+2. 🔧 Consulta [solución de problemas](docs/setup/troubleshooting.md)
+3. 📝 Revisa los logs: `deploy.bat logs` o `./deploy.sh logs`
+4. � Ve la [documentación completa](docs/)
+
+## 📚 Documentación
+
+- **[Inicio Rápido](QUICK-START.md)** - Para desarrolladores nuevos
+- **[Comandos Útiles](COMMANDS.md)** - Referencia de comandos
+- **[Documentación Completa](docs/)** - Guías detalladas
+- **[Configuración de Seguridad](docs/security/environment-security.md)** - Buenas prácticas
 
 ## 📄 Licencia
 
