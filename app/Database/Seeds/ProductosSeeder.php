@@ -8,24 +8,21 @@ class ProductosSeeder extends Seeder
 {
     public function run()
     {
-        // Deshabilitar temporalmente las foreign key constraints
+        // Deshabilitar llaves foráneas temporalmente
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         
-        // Limpiar ventas_detalle primero
-        $this->db->table('ventas_detalle')->truncate();
-        
-        // Luego limpiar productos
+        // Limpiar tabla primero
         $this->db->table('productos')->truncate();
         
-        // Rehabilitar foreign key constraints
+        // Habilitar llaves foráneas nuevamente
         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
         
-        // Productos de Pesca (categoria_id = 7)
-        $productsPesca = [
+        $productos = [
+            // === PRODUCTOS DE PESCA (categoria_id = 4 - Deportes) ===
             [
                 'nombre_prod' => 'Caña de Pescar Telescópica 3.6m',
                 'imagen' => 'cana-pescar-telescopica.jpg',
-                'categoria_id' => 7,
+                'categoria_id' => 4,
                 'precio' => 15000.00,
                 'precio_vta' => 22500.00,
                 'stock' => 12,
@@ -35,7 +32,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Reel Spinning Shimano 2500',
                 'imagen' => 'reel-shimano-2500.jpg',
-                'categoria_id' => 7,
+                'categoria_id' => 4,
                 'precio' => 25000.00,
                 'precio_vta' => 37500.00,
                 'stock' => 8,
@@ -45,7 +42,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Caja de Señuelos Variados x50',
                 'imagen' => 'caja-senuelos-50.jpg',
-                'categoria_id' => 7,
+                'categoria_id' => 4,
                 'precio' => 8500.00,
                 'precio_vta' => 12750.00,
                 'stock' => 15,
@@ -55,7 +52,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Línea de Pesca Monofilamento 0.35mm',
                 'imagen' => 'linea-monofilamento.jpg',
-                'categoria_id' => 7,
+                'categoria_id' => 4,
                 'precio' => 3200.00,
                 'precio_vta' => 4800.00,
                 'stock' => 25,
@@ -65,7 +62,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Red de Aterrizaje Plegable',
                 'imagen' => 'red-aterrizaje.jpg',
-                'categoria_id' => 7,
+                'categoria_id' => 4,
                 'precio' => 7500.00,
                 'precio_vta' => 11250.00,
                 'stock' => 10,
@@ -75,21 +72,19 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Kit Anzuelos Profesional x100',
                 'imagen' => 'kit-anzuelos-100.jpg',
-                'categoria_id' => 7,
+                'categoria_id' => 4,
                 'precio' => 4500.00,
                 'precio_vta' => 6750.00,
                 'stock' => 20,
                 'stock_min' => 8,
                 'eliminado' => 'NO'
-            ]
-        ];
-
-        // Productos de Camping (categoria_id = 8)
-        $productsCamping = [
+            ],
+            
+            // === PRODUCTOS DE CAMPING (categoria_id = 4 - Deportes) ===
             [
                 'nombre_prod' => 'Carpa Familiar 6 Personas Impermeable',
                 'imagen' => 'carpa-familiar-6p.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 45000.00,
                 'precio_vta' => 67500.00,
                 'stock' => 5,
@@ -99,7 +94,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Bolsa de Dormir -10°C',
                 'imagen' => 'bolsa-dormir-10c.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 18000.00,
                 'precio_vta' => 27000.00,
                 'stock' => 12,
@@ -109,7 +104,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Linterna LED Recargable 1000 Lúmenes',
                 'imagen' => 'linterna-led-1000.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 6500.00,
                 'precio_vta' => 9750.00,
                 'stock' => 18,
@@ -119,7 +114,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Cocina Portátil a Gas con Cartucho',
                 'imagen' => 'cocina-portatil-gas.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 12000.00,
                 'precio_vta' => 18000.00,
                 'stock' => 8,
@@ -129,7 +124,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Mesa Plegable Aluminio 120x60cm',
                 'imagen' => 'mesa-plegable-aluminio.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 22000.00,
                 'precio_vta' => 33000.00,
                 'stock' => 6,
@@ -139,7 +134,7 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Sillas Camping Plegables x4',
                 'imagen' => 'sillas-camping-4.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 16000.00,
                 'precio_vta' => 24000.00,
                 'stock' => 10,
@@ -149,17 +144,15 @@ class ProductosSeeder extends Seeder
             [
                 'nombre_prod' => 'Cooler Termoeléctrico 40L',
                 'imagen' => 'cooler-termico-40l.jpg',
-                'categoria_id' => 8,
+                'categoria_id' => 4,
                 'precio' => 35000.00,
                 'precio_vta' => 52500.00,
                 'stock' => 4,
                 'stock_min' => 1,
                 'eliminado' => 'NO'
-            ]
-        ];
-
-        // Productos de Ropa y Accesorios Outdoor (categoria_id = 2)
-        $productsRopa = [
+            ],
+            
+            // === PRODUCTOS DE ROPA Y ACCESORIOS OUTDOOR (categoria_id = 2) ===
             [
                 'nombre_prod' => 'Campera Impermeable Trekking Hombre',
                 'imagen' => 'campera-impermeable-hombre.jpg',
@@ -229,11 +222,9 @@ class ProductosSeeder extends Seeder
                 'stock' => 15,
                 'stock_min' => 5,
                 'eliminado' => 'NO'
-            ]
-        ];
-
-        // Productos Deportivos Outdoor (categoria_id = 4)
-        $productsDeportes = [
+            ],
+            
+            // === PRODUCTOS DEPORTIVOS OUTDOOR (categoria_id = 4) ===
             [
                 'nombre_prod' => 'Bicicleta Mountain Bike 29"',
                 'imagen' => 'mtb-29-pulgadas.jpg',
@@ -266,13 +257,7 @@ class ProductosSeeder extends Seeder
             ]
         ];
 
-        // Insertar todos los productos
-        $allProducts = array_merge($productsPesca, $productsCamping, $productsRopa, $productsDeportes);
-        
-        foreach ($allProducts as $product) {
-            $this->db->table('productos')->insert($product);
-        }
-        
-        echo "Seeder ProductosSeeder ejecutado: " . count($allProducts) . " productos outdoor insertados.\n";
+        $this->db->table('productos')->insertBatch($productos);
+        echo "✅ " . count($productos) . " productos insertados correctamente\n";
     }
 }

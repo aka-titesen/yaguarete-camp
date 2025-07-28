@@ -46,10 +46,10 @@ class DatabaseSeeder extends Seeder
             echo "🎉 POBLACIÓN DE BASE DE DATOS COMPLETADA EXITOSAMENTE\n";
             echo "=" . str_repeat("=", 60) . "\n";
             echo "📊 Resumen:\n";
-            echo "   - Categorías: 4 categorías base\n";
+            echo "   - Categorías: 6 categorías base\n";
             echo "   - Usuarios: 2 administradores + 7 clientes\n";
             echo "   - Productos: 23 productos outdoor temáticos\n";
-            echo "   - Ventas: 5 ventas de ejemplo con detalles\n\n";
+            echo "   - Ventas: Ventas de ejemplo con detalles\n\n";
             echo "🔑 Credenciales de administrador:\n";
             echo "   Email: admin@yagaruete.com\n";
             echo "   Contraseña: Admin123!\n\n";

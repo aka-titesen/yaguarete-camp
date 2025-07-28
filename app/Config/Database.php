@@ -33,7 +33,7 @@ class Database extends Config
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
-        'DBDebug'      => (ENVIRONMENT !== 'production'),
+        'DBDebug'      => true,
         'charset'      => 'utf8mb4',
         'DBCollat'     => 'utf8mb4_general_ci',
         'swapPre'      => '',
@@ -192,6 +192,13 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+
+        // Cargar configuración desde variables de entorno
+        $this->default['hostname'] = env('DB_HOSTNAME', $this->default['hostname']);
+        $this->default['username'] = env('DB_USERNAME', $this->default['username']);
+        $this->default['password'] = env('DB_PASSWORD', $this->default['password']);
+        $this->default['database'] = env('DB_DATABASE', $this->default['database']);
+        $this->default['port']     = (int) env('DB_PORT', $this->default['port']); // Convertir a entero
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
