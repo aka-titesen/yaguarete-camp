@@ -406,7 +406,7 @@ Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detal
 
 ## 🏆 Créditos
 
-**Yagaruete Camp** - Desarrollado como parte del proyecto académico Martínez González
+**Yagaruete Camp** - Desarrollado como parte del proyecto académico de Taller de Programación 1.
 
 - 🎯 **Objetivo**: Sistema de e-commerce completo y funcional
 - 🛠️ **Tecnologías**: Stack moderno y profesional
