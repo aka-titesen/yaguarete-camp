@@ -184,8 +184,12 @@ class Home extends BaseController
             'detalles' => $detalles
         ];
         
-        // Mostrar la vista de depuración
-        echo view('debug_compra', $data);
+        // Mostrar la información de debug
+        echo "<h2>Debug de Compra - ID: $id</h2>";
+        echo "<h3>Cabecera:</h3>";
+        echo "<pre>" . print_r($cabecera, true) . "</pre>";
+        echo "<h3>Detalles:</h3>";
+        echo "<pre>" . print_r($detalles, true) . "</pre>";
     }
 
 }
