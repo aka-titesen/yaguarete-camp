@@ -17,7 +17,7 @@ git --version             # >= 2.30
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-usuario/yaguarete-camp.git
+git clone https://github.com/aka-titesen/yaguarete-camp.git
 cd yaguarete-camp
 
 # Configurar variables de entorno

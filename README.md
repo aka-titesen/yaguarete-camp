@@ -1,6 +1,13 @@
 # 🏕️ Yagaruete Camp
 
-> Sistema de E-commerce especializado en productos outdoor y camping con **optimizaciones de alto rendimiento**
+> Sistema**¡Listo!** Accede a una aplicación **ultra-rápida** con:
+
+- **🌐 Aplicación:** http://localhost:8080 _(60-80% más rápida con OPcache)_
+- **🗄️ PHPMyAdmin:** http://localhost:8081 (user: root, pass: dev_password_123)
+- **📧 MailHog:** http://localhost:8025
+- **🔴 Redis Cache:** Activo en puerto 6379
+
+## 🚀 Optimizaciones de Rendimientommerce especializado en productos outdoor y camping con **optimizaciones de alto rendimiento**
 
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](docker-compose.yml)
 [![CodeIgniter](https://img.shields.io/badge/CodeIgniter-4.5+-red)](https://codeigniter.com/)
@@ -84,36 +91,21 @@ docker-compose restart         # Reiniciar servicios
 
 # Base de datos
 docker-compose exec app php spark migrate         # Ejecutar migraciones
-docker-compose exec app php spark db:seed         # Generar datos de prueba
-docker-compose exec app php spark migrate:status  # Ver estado migraciones
+docker-compose exec app php spark db:seed DatabaseSeeder     # Generar datos de prueba
+docker-compose exec app php spark migrate:status            # Ver estado migraciones
 
 # Cache y Rendimiento
-docker-compose exec redis redis-cli ping          # Verificar Redis
-docker-compose exec redis redis-cli info          # Stats de Redis
-docker-compose exec app php -i | grep opcache     # Verificar OPcache
+docker-compose exec redis redis-cli ping                    # Verificar Redis
+docker-compose exec redis redis-cli info                    # Stats de Redis
+docker-compose exec app php -i | grep opcache               # Verificar OPcache
 
 # Desarrollo
-docker-compose exec app bash                      # Acceder al contenedor
-docker-compose exec app php spark list            # Ver comandos de CodeIgniter
-docker-compose exec db mysql -u root -p           # Acceder a MySQL (pass: dev_password_123)
+docker-compose exec app bash                                # Acceder al contenedor
+docker-compose exec app php spark list                      # Ver comandos de CodeIgniter
+docker-compose exec db mysql -u root -p                     # Acceder a MySQL (pass: dev_password_123)
 
 # Reset completo (elimina todos los datos)
 docker-compose down -v --remove-orphans
-```
-
-docker-compose exec app php spark db:seed # Generar datos de prueba
-docker-compose exec app php spark migrate:status # Ver estado migraciones
-
-# Desarrollo
-
-docker-compose exec app bash # Acceder al contenedor
-docker-compose exec app php spark list # Ver comandos de CodeIgniter
-docker-compose exec db mysql -u root -p # Acceder a MySQL (pass: dev_password_123)
-
-# Reset completo (elimina todos los datos)
-
-docker-compose down -v --remove-orphans
-
 ```
 
 ## 🛠️ Tecnologías
@@ -145,15 +137,13 @@ docker-compose down -v --remove-orphans
 ## 🎯 Arquitectura
 
 ```
-
 yaguarete-camp/
-├── app/ # Aplicación CodeIgniter
-├── public/ # Assets públicos
-├── docker/ # Configuraciones Docker
-├── docs/ # Documentación técnica
-└── docker-compose.yml # Configuración de servicios
-
-````
+├── app/                  # Aplicación CodeIgniter
+├── public/               # Assets públicos
+├── docker/               # Configuraciones Docker
+├── docs/                 # Documentación técnica
+└── docker-compose.yml    # Configuración de servicios
+```
 
 ## 🔧 Configuración de Producción
 
@@ -175,7 +165,7 @@ MAIL_PASSWORD=tu_password
 
 # Usar passwords seguros
 DB_PASSWORD=password_super_seguro_aqui
-````
+```
 
 ## 🆘 Solución de Problemas
 

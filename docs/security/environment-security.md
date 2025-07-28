@@ -1,10 +1,9 @@
 # 🔐 Buenas Prácticas de Seguridad .env
 
-# 🔐 Buenas Prácticas de Seguridad .env
-
 ## ✅ Estado Actual
 
 ### Implementado Correctamente:
+
 - ✅ `.gitignore` configurado para excluir archivos `.env`
 - ✅ `.env.example` y `.env.production.example` como templates públicos
 - ✅ Scripts generan `.env` automáticamente para desarrollo
@@ -16,6 +15,7 @@
 ### 1. Archivos de Entorno
 
 #### Estructura Actual:
+
 ```
 .env.example              # ✅ Template básico (en git)
 .env.production.example   # ✅ Template de producción (en git)
@@ -24,29 +24,32 @@
 
 #### Variables de Desarrollo vs Producción:
 
-| Variable | Desarrollo | Producción |
-|----------|------------|------------|
-| `CI_ENVIRONMENT` | `development` | `production` |
-| `DB_PASSWORD` | `dev_password_123` | Password seguro |
-| `CI_DEBUG` | `true` | `false` |
-| `APP_URL` | `http://localhost:8080` | `https://dominio.com` |
-| `MAIL_HOST` | `mailhog` | SMTP real |
+| Variable         | Desarrollo              | Producción            |
+| ---------------- | ----------------------- | --------------------- |
+| `CI_ENVIRONMENT` | `development`           | `production`          |
+| `DB_PASSWORD`    | `dev_password_123`      | Password seguro       |
+| `CI_DEBUG`       | `true`                  | `false`               |
+| `APP_URL`        | `http://localhost:8080` | `https://dominio.com` |
+| `MAIL_HOST`      | `mailhog`               | SMTP real             |
 
 ### 2. Contraseñas Seguras
 
 #### ❌ Contraseñas de Desarrollo (OK para desarrollo):
+
 ```bash
 dev_password_123          # Simple, identificable como desarrollo
 root                      # Simple para desarrollo local
 ```
 
 #### ✅ Contraseñas de Producción (ejemplo):
+
 ```bash
 SuperSeguroPassword123!   # Complejo, aleatorio
 Kx9#mP2$vL8@qR5!wN3&     # Generado automáticamente
 ```
 
 #### Herramientas para generar passwords seguros:
+
 ```bash
 # Generar password seguro
 openssl rand -base64 24
@@ -61,6 +64,7 @@ openssl rand -base64 64
 ### 3. Variables Críticas
 
 #### Variables que SIEMPRE deben cambiarse en producción:
+
 - `DB_PASSWORD` - Password de base de datos
 - `APP_KEY` - Clave de cifrado de la aplicación
 - `JWT_SECRET` - Clave para tokens JWT
@@ -69,12 +73,14 @@ openssl rand -base64 64
 #### Flujo de configuración:
 
 **Para desarrollo:**
+
 ```bash
 # Automático - El script genera todo
 ./deploy.sh start
 ```
 
 **Para producción:**
+
 ```bash
 # 1. Copiar template
 cp .env.production.example .env
@@ -112,6 +118,7 @@ docker-compose -f docker-compose.prod.yml up -d
 ### 4. Configuración por Entorno
 
 #### Desarrollo Local (.env):
+
 ```bash
 CI_ENVIRONMENT=development
 DEBUG_MODE=true
@@ -119,6 +126,7 @@ LOG_LEVEL=debug
 ```
 
 #### Producción (.env.production):
+
 ```bash
 CI_ENVIRONMENT=production
 DEBUG_MODE=false
@@ -128,11 +136,13 @@ LOG_LEVEL=error
 ## 🚀 Scripts de Generación
 
 ### Linux/Mac:
+
 ```bash
 ./scripts/setup/generate-env.sh
 ```
 
 ### Windows:
+
 ```batch
 scripts\setup\generate-env.bat
 ```
@@ -148,12 +158,14 @@ scripts\setup\generate-env.bat
 ## 🔍 Verificación de Seguridad
 
 ### Comando para verificar que .env no está en git:
+
 ```bash
 git ls-files | grep ".env$"
 # No debe retornar nada
 ```
 
 ### Verificar .gitignore:
+
 ```bash
 git check-ignore .env
 # Debe retornar: .env

@@ -6,23 +6,23 @@ Yagaruete Camp utiliza una arquitectura Docker multi-contenedor diseñada para s
 
 ### 🏗️ Servicios de Desarrollo
 
-| Servicio | Imagen | Puerto | Descripción | Credenciales |
-|----------|--------|--------|-------------|--------------|
-| **app** | PHP 8.2-FPM | 9000 | Aplicación CodeIgniter 4 | - |
-| **nginx** | nginx:alpine | 8080 | Servidor web y proxy reverso | - |
-| **db** | mysql:8.0 | 3306 | Base de datos principal | user: root, pass: dev_password_123 |
-| **redis** | redis:alpine | 6379 | Cache y gestión de sesiones | - |
-| **phpmyadmin** | phpmyadmin | 8081 | Administrador web de BD | user: root, pass: dev_password_123 |
-| **mailhog** | mailhog | 8025 | Servidor SMTP de desarrollo | - |
+| Servicio       | Imagen       | Puerto | Descripción                  | Credenciales                       |
+| -------------- | ------------ | ------ | ---------------------------- | ---------------------------------- |
+| **app**        | PHP 8.2-FPM  | 9000   | Aplicación CodeIgniter 4     | -                                  |
+| **nginx**      | nginx:alpine | 8080   | Servidor web y proxy reverso | -                                  |
+| **db**         | mysql:8.0    | 3306   | Base de datos principal      | user: root, pass: dev_password_123 |
+| **redis**      | redis:alpine | 6379   | Cache y gestión de sesiones  | -                                  |
+| **phpmyadmin** | phpmyadmin   | 8081   | Administrador web de BD      | user: root, pass: dev_password_123 |
+| **mailhog**    | mailhog      | 8025   | Servidor SMTP de desarrollo  | -                                  |
 
 ### 🏢 Servicios de Producción
 
-| Servicio | Imagen | Puerto | Descripción |
-|----------|--------|--------|-------------|
-| **app** | PHP 8.2-FPM | 9000 | Aplicación CodeIgniter 4 |
-| **nginx** | nginx:alpine | 80, 443 | Servidor web con SSL |
-| **db** | mysql:8.0 | (interno) | Base de datos (sin exposición) |
-| **redis** | redis:alpine | (interno) | Cache y sesiones |
+| Servicio  | Imagen       | Puerto    | Descripción                    |
+| --------- | ------------ | --------- | ------------------------------ |
+| **app**   | PHP 8.2-FPM  | 9000      | Aplicación CodeIgniter 4       |
+| **nginx** | nginx:alpine | 80, 443   | Servidor web con SSL           |
+| **db**    | mysql:8.0    | (interno) | Base de datos (sin exposición) |
+| **redis** | redis:alpine | (interno) | Cache y sesiones               |
 
 ## 🚀 Despliegue Simplificado
 
@@ -47,33 +47,35 @@ docker compose exec app php spark db:seed
 
 ### Comandos Principales
 
-| Comando | Función | Ejemplo |
-|---------|---------|---------|
-| **Iniciar** | Levantar todos los servicios | `docker compose up -d` |
-| **Detener** | Parar todos los servicios | `docker compose down` |
-| **Reiniciar** | Reiniciar servicios | `docker compose restart` |
-| **Logs** | Ver logs en tiempo real | `docker compose logs -f` |
-| **Rebuild** | Reconstruir imágenes | `docker compose up -d --build` |
-| **Reset** | Reset completo | `docker compose down -v && docker compose up -d --build` |
+| Comando       | Función                      | Ejemplo                                                  |
+| ------------- | ---------------------------- | -------------------------------------------------------- |
+| **Iniciar**   | Levantar todos los servicios | `docker compose up -d`                                   |
+| **Detener**   | Parar todos los servicios    | `docker compose down`                                    |
+| **Reiniciar** | Reiniciar servicios          | `docker compose restart`                                 |
+| **Logs**      | Ver logs en tiempo real      | `docker compose logs -f`                                 |
+| **Rebuild**   | Reconstruir imágenes         | `docker compose up -d --build`                           |
+| **Reset**     | Reset completo               | `docker compose down -v && docker compose up -d --build` |
 
 ## 🌐 URLs y Accesos
 
 ### Servicios Web de Desarrollo
 
-| Servicio | URL | Credenciales | Descripción |
-|----------|-----|--------------|-------------|
-| **Aplicación** | http://localhost:8080 | - | Sitio web principal |
+| Servicio       | URL                   | Credenciales                             | Descripción         |
+| -------------- | --------------------- | ---------------------------------------- | ------------------- |
+| **Aplicación** | http://localhost:8080 | -                                        | Sitio web principal |
 | **PHPMyAdmin** | http://localhost:8081 | user: `root`<br>pass: `dev_password_123` | Administrador de BD |
-| **MailHog** | http://localhost:8025 | - | Testing de emails |
+| **MailHog**    | http://localhost:8025 | -                                        | Testing de emails   |
 
 ### Archivos de Configuración
 
 #### Para Desarrollo
+
 - **Docker Compose**: `docker-compose.yml`
 - **Variables**: `.env` (copiar de `.env.example`)
 - **Comando**: `docker compose up -d`
 
 #### Para Producción
+
 - **Docker Compose**: `docker-compose.prod.yml`
 - **Variables**: `.env` (configurar manualmente)
 - **Comando**: `docker compose -f docker-compose.prod.yml up -d`
@@ -109,6 +111,7 @@ APP_URL=https://tu-dominio.com
 MAIL_HOST=smtp.tu-proveedor.com
 CI_DEBUG=false
 ```
+
 |----------|-----|--------------|-------------|
 | **Aplicación** | http://localhost:8080 | Ver [usuarios por defecto](#usuarios) | Sitio principal |
 | **PHPMyAdmin** | http://localhost:8081 | root / yagaruete_password | Admin de BD |
@@ -116,10 +119,10 @@ CI_DEBUG=false
 
 ### <a name="usuarios"></a>👥 Usuarios por Defecto
 
-| Rol | Email | Contraseña | Perfil ID |
-|-----|-------|------------|-----------|
-| Administrador | admin@test.com | admin123 | 1 |
-| Cliente | cliente@test.com | cliente123 | 2 |
+| Rol           | Email            | Contraseña | Perfil ID |
+| ------------- | ---------------- | ---------- | --------- |
+| Administrador | admin@test.com   | admin123   | 1         |
+| Cliente       | cliente@test.com | cliente123 | 2         |
 
 ## ⚙️ Configuración de Entorno
 
@@ -148,19 +151,19 @@ MAIL_PASSWORD=
 Crear `docker-compose.override.yml`:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   nginx:
     ports:
-      - "8090:80"  # Cambiar puerto de la app
-  
+      - "8090:80" # Cambiar puerto de la app
+
   phpmyadmin:
     ports:
-      - "8082:80"  # Cambiar puerto de PHPMyAdmin
-  
+      - "8082:80" # Cambiar puerto de PHPMyAdmin
+
   mailhog:
     ports:
-      - "8026:8025"  # Cambiar puerto de MailHog
+      - "8026:8025" # Cambiar puerto de MailHog
 ```
 
 ## 📁 Estructura de Archivos Docker
@@ -192,12 +195,14 @@ docker/
 ### PHP-FPM (Aplicación)
 
 **Características:**
+
 - PHP 8.2 con extensiones optimizadas
 - Composer preinstalado
 - Xdebug habilitado para desarrollo
 - Supervisor para gestión de procesos
 
 **Extensiones incluidas:**
+
 - pdo_mysql, mysqli, redis
 - gd, zip, curl, mbstring
 - intl, opcache, xdebug
@@ -205,12 +210,14 @@ docker/
 ### Nginx (Servidor Web)
 
 **Configuración optimizada:**
+
 - Gzip habilitado
 - Headers de seguridad
 - Cache de archivos estáticos
 - Proxy pass a PHP-FPM
 
 **Performance:**
+
 - Worker processes auto
 - Keepalive habilitado
 - Buffer sizes optimizados
@@ -218,18 +225,21 @@ docker/
 ### MySQL (Base de Datos)
 
 **Configuración:**
+
 - MySQL 8.0 con innodb optimizado
 - Buffer pool size: 256M
 - Max connections: 200
 - Character set: utf8mb4
 
 **Bases de datos:**
+
 - `yagaruete_camp` (principal)
 - `yagaruete_camp_test` (testing)
 
 ### Redis (Cache)
 
 **Uso:**
+
 - Cache de sesiones de CodeIgniter
 - Cache de datos de aplicación
 - Queue de trabajos (futuro)
@@ -255,11 +265,13 @@ docker-compose exec mysql mysql -u root -p
 ### Hot Reload y Debugging
 
 **Archivos sincronizados automáticamente:**
+
 - `app/` → `/var/www/html/app/`
 - `public/` → `/var/www/html/public/`
 - `writable/` → `/var/www/html/writable/`
 
 **Xdebug configurado:**
+
 - Puerto: 9003
 - IDE Key: PHPSTORM
 - Auto start habilitado
@@ -281,7 +293,7 @@ docker-compose exec mysql mysql -u root -p
 
 ```yaml
 # docker-compose.prod.yml
-version: '3.8'
+version: "3.8"
 services:
   app:
     environment:
@@ -289,7 +301,7 @@ services:
       - APP_FORCE_HTTPS=true
     volumes:
       - ./docker/php/php-prod.ini:/usr/local/etc/php/conf.d/99-custom.ini
-  
+
   nginx:
     volumes:
       - ./docker/nginx/prod.conf:/etc/nginx/conf.d/default.conf
@@ -435,6 +447,7 @@ docker run --rm \
 ### Problemas Comunes
 
 **Puerto ya en uso:**
+
 ```bash
 # Ver qué proceso usa el puerto
 netstat -tlnp | grep :8080
@@ -444,6 +457,7 @@ sudo lsof -i :8080
 ```
 
 **Contenedores no inician:**
+
 ```bash
 # Ver logs detallados
 docker-compose logs app
@@ -454,6 +468,7 @@ docker-compose logs app
 ```
 
 **Base de datos no conecta:**
+
 ```bash
 # Verificar estado MySQL
 docker-compose ps mysql
@@ -464,6 +479,7 @@ docker-compose logs mysql
 ```
 
 **Permisos de archivos:**
+
 ```bash
 # Linux/Mac
 sudo chown -R $USER:$USER writable/

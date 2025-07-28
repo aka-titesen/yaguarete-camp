@@ -1,60 +1,320 @@
-# Running Application Tests
+# 🧪 Tests - Yagaruete Camp
 
-This is the quick-start to CodeIgniter testing. Its intent is to describe what
-it takes to set up your application and get it ready to run unit tests.
-It is not intended to be a full description of the test features that you can
-use to test your application. Those details can be found in the documentation.
+> Guía para ejecutar y escribir tests en el sistema de e-commerce Yagaruete Camp
 
-## Resources
+## 📋 Descripción General
 
-* [CodeIgniter 4 User Guide on Testing](https://codeigniter.com/user_guide/testing/index.html)
-* [PHPUnit docs](https://phpunit.de/documentation.html)
-* [Any tutorials on Unit testing in CI4?](https://forum.codeigniter.com/showthread.php?tid=81830)
+Este directorio contiene las pruebas automatizadas para el sistema Yagaruete Camp, diseñadas para garantizar la calidad y estabilidad del código mediante tests unitarios, de integración y funcionales.
 
-## Requirements
+## 🛠️ Configuración y Requisitos
 
-It is recommended to use the latest version of PHPUnit. At the time of this
-writing, we are running version 9.x. Support for this has been built into the
-**composer.json** file that ships with CodeIgniter and can easily be installed
-via [Composer](https://getcomposer.org/) if you don't already have it installed globally.
+### Dependencias
 
-```console
-> composer install
+- **PHPUnit 9.x+** - Framework de testing
+- **CodeIgniter 4.5+** - Framework base con soporte de testing
+- **Composer** - Gestión de dependencias
+- **Docker** - Entorno de desarrollo
+
+### Instalación
+
+```bash
+# Instalar dependencias de testing
+docker-compose exec app composer install
+
+# Verificar instalación de PHPUnit
+docker-compose exec app vendor/bin/phpunit --version
 ```
 
-If running under macOS or Linux, you can create a symbolic link to make running tests a touch nicer.
+## 📊 Estructura de Tests
 
-```console
-> ln -s ./vendor/bin/phpunit ./phpunit
+```
+tests/
+├── unit/                 # Tests unitarios
+│   ├── Models/          # Tests de modelos
+│   ├── Controllers/     # Tests de controladores
+│   └── Helpers/         # Tests de helpers
+├── integration/         # Tests de integración
+├── functional/          # Tests funcionales/E2E
+├── _support/           # Soporte y fixtures
+│   ├── Database/       # Seeders de testing
+│   └── Models/         # Modelos de test
+└── README.md           # Esta documentación
 ```
 
-You also need to install [XDebug](https://xdebug.org/docs/install) in order
-for code coverage to be calculated successfully. After installing `XDebug`, you must add `xdebug.mode=coverage` in the **php.ini** file to enable code coverage.
+## 🚀 Ejecutar Tests
 
-## Setting Up
+### Comandos Básicos
 
-A number of the tests use a running database.
-In order to set up the database edit the details for the `tests` group in
-**app/Config/Database.php** or **.env**.
-Make sure that you provide a database engine that is currently running on your machine.
-More details on a test database setup are in the
-[Testing Your Database](https://codeigniter.com/user_guide/testing/database.html) section of the documentation.
+```bash
+# Ejecutar todos los tests
+docker-compose exec app vendor/bin/phpunit
 
-## Running the tests
+# Tests específicos por directorio
+docker-compose exec app vendor/bin/phpunit tests/unit/
+docker-compose exec app vendor/bin/phpunit tests/integration/
 
-The entire test suite can be run by simply typing one command-line command from the main directory.
+# Test específico
+docker-compose exec app vendor/bin/phpunit tests/unit/Models/ProductModelTest.php
 
-```console
-> ./phpunit
+# Con reporte de cobertura
+docker-compose exec app vendor/bin/phpunit --coverage-html coverage/
 ```
 
-If you are using Windows, use the following command.
+### Configuración de Base de Datos
 
-```console
-> vendor\bin\phpunit
+Los tests utilizan una base de datos separada configurada en `app/Config/Database.php`:
+
+```php
+// Configuración para testing
+public array $tests = [
+    'DSN'      => '',
+    'hostname' => 'db',
+    'username' => 'yaguarete_user',
+    'password' => 'secure_password_123',
+    'database' => 'yaguarete_camp_test',
+    'DBDriver' => 'MySQLi',
+    'DBPrefix' => '',
+    'pConnect' => false,
+    'DBDebug'  => true,
+    'charset'  => 'utf8mb4',
+    'DBCollat' => 'utf8mb4_general_ci',
+];
 ```
 
-You can limit tests to those within a single test directory by specifying the
+### Preparación del Entorno de Tests
+
+```bash
+# Crear base de datos de tests
+docker-compose exec db mysql -u root -p -e "
+CREATE DATABASE IF NOT EXISTS yaguarete_camp_test;
+GRANT ALL PRIVILEGES ON yaguarete_camp_test.* TO 'yaguarete_user'@'%';
+FLUSH PRIVILEGES;
+"
+
+# Ejecutar migraciones para tests
+docker-compose exec app php spark migrate --environment testing
+
+# Cargar datos de prueba
+docker-compose exec app php spark db:seed TestDataSeeder --environment testing
+```
+
+## 📝 Escribir Tests
+
+### Ejemplo de Test de Modelo
+
+```php
+<?php
+
+namespace Tests\Unit\Models;
+
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
+use App\Models\ProductModel;
+
+class ProductModelTest extends CIUnitTestCase
+{
+    use DatabaseTestTrait;
+
+    protected $migrate = true;
+    protected $migrateOnce = false;
+    protected $seed = 'TestProductSeeder';
+
+    public function testCanFindActiveProducts()
+    {
+        $model = new ProductModel();
+        $products = $model->where('status', 'active')->findAll();
+
+        $this->assertIsArray($products);
+        $this->assertGreaterThan(0, count($products));
+    }
+
+    public function testCanCreateProduct()
+    {
+        $model = new ProductModel();
+        $data = [
+            'name' => 'Test Product',
+            'category_id' => 1,
+            'price' => 99.99,
+            'stock' => 10,
+            'status' => 'active'
+        ];
+
+        $id = $model->insert($data);
+        $this->assertIsNumeric($id);
+
+        $product = $model->find($id);
+        $this->assertEquals('Test Product', $product['name']);
+    }
+}
+```
+
+### Ejemplo de Test de Controlador
+
+```php
+<?php
+
+namespace Tests\Integration\Controllers;
+
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\ControllerTestTrait;
+use CodeIgniter\Test\DatabaseTestTrait;
+
+class ProductControllerTest extends CIUnitTestCase
+{
+    use ControllerTestTrait, DatabaseTestTrait;
+
+    protected $migrate = true;
+    protected $seed = 'TestProductSeeder';
+
+    public function testProductsPageLoads()
+    {
+        $result = $this->withURI('http://localhost:8080/productos')
+                       ->controller('App\Controllers\ProductController')
+                       ->execute('index');
+
+        $this->assertTrue($result->isOK());
+        $this->assertStringContainsString('productos', $result->getBody());
+    }
+
+    public function testProductDetailPage()
+    {
+        $result = $this->withURI('http://localhost:8080/productos/1')
+                       ->controller('App\Controllers\ProductController')
+                       ->execute('show', 1);
+
+        $this->assertTrue($result->isOK());
+    }
+}
+```
+
+## 📊 Cobertura de Código
+
+### Generar Reportes
+
+```bash
+# Reporte HTML (recomendado)
+docker-compose exec app vendor/bin/phpunit --coverage-html coverage/
+
+# Reporte en texto
+docker-compose exec app vendor/bin/phpunit --coverage-text
+
+# Reporte Clover XML (para CI/CD)
+docker-compose exec app vendor/bin/phpunit --coverage-clover coverage.xml
+```
+
+### Configuración XDebug
+
+Para habilitar cobertura de código, agregar en `docker/php/php.ini`:
+
+```ini
+[xdebug]
+xdebug.mode = coverage,debug
+xdebug.start_with_request = yes
+xdebug.client_host = host.docker.internal
+xdebug.client_port = 9003
+```
+
+## 🎯 Tests por Categoría
+
+### Tests Unitarios (Unit Tests)
+
+Prueban funciones y métodos aislados:
+
+- **Modelos**: Validaciones, métodos de consulta
+- **Helpers**: Funciones utilitarias
+- **Libraries**: Clases de negocio
+- **Validators**: Reglas de validación personalizadas
+
+### Tests de Integración
+
+Prueban la interacción entre componentes:
+
+- **Controller + Model**: Flujo completo de datos
+- **API Endpoints**: Respuestas de API
+- **Database Operations**: CRUD operations
+- **Cache Integration**: Funcionamiento del cache
+
+### Tests Funcionales/E2E
+
+Prueban flujos completos del usuario:
+
+- **Registro y Login**: Autenticación completa
+- **Carrito de Compras**: Flujo de compra
+- **Gestión de Productos**: CRUD admin
+- **Formularios**: Envío y validación
+
+## 🔧 Configuración Avanzada
+
+### PHPUnit Configuration
+
+```xml
+<!-- phpunit.xml -->
+<phpunit bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/integration</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>tests/functional</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">app/</directory>
+            <exclude>
+                <directory>app/Views/</directory>
+                <file>app/Config/Routes.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
+```
+
+### CI/CD Integration
+
+```yaml
+# .github/workflows/tests.yml
+name: Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Environment
+        run: |
+          cp .env.example .env
+          docker-compose up -d
+
+      - name: Install Dependencies
+        run: docker-compose exec app composer install
+
+      - name: Run Tests
+        run: docker-compose exec app vendor/bin/phpunit --coverage-clover coverage.xml
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+```
+
+## 📚 Recursos
+
+- **[CodeIgniter 4 Testing Guide](https://codeigniter.com/user_guide/testing/index.html)** - Documentación oficial
+- **[PHPUnit Documentation](https://phpunit.de/documentation.html)** - Manual de PHPUnit
+- **[Database Testing](https://codeigniter.com/user_guide/testing/database.html)** - Testing con base de datos
+- **[Testing Best Practices](https://phpunit.de/documentation.html)** - Mejores prácticas
+
+---
+
+**Yagaruete Camp Tests** - Testing completo para calidad de código
+_Documentación actualizada: 28 de Julio, 2025_ 🧪✅
 directory name after phpunit.
 
 ```console
@@ -80,20 +340,21 @@ The HTML files can be viewed by opening **tests/coverage/index.html** in your fa
 
 ## PHPUnit XML Configuration
 
-The repository has a ``phpunit.xml.dist`` file in the project root that's used for
+The repository has a `phpunit.xml.dist` file in the project root that's used for
 PHPUnit configuration. This is used to provide a default configuration if you
 do not have your own configuration file in the project root.
 
-The normal practice would be to copy ``phpunit.xml.dist`` to ``phpunit.xml``
+The normal practice would be to copy `phpunit.xml.dist` to `phpunit.xml`
 (which is git ignored), and to tailor it as you see fit.
 For instance, you might wish to exclude database tests, or automatically generate
 HTML code coverage reports.
 
 ## Test Cases
 
-Every test needs a *test case*, or class that your tests extend. CodeIgniter 4
+Every test needs a _test case_, or class that your tests extend. CodeIgniter 4
 provides one class that you may use directly:
-* `CodeIgniter\Test\CIUnitTestCase`
+
+- `CodeIgniter\Test\CIUnitTestCase`
 
 Most of the time you will want to write your own test cases that extend `CIUnitTestCase`
 to hold functions and services common to your test suites.
