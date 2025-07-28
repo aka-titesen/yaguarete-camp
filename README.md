@@ -22,11 +22,15 @@ cp .env.example .env      # Linux/macOS
 docker-compose up -d --build
 
 # 4. Configura la base de datos (espera 15 segundos tras el paso 3)
+# 4.1 Migración
 docker-compose exec app php spark migrate
-docker-compose exec app php spark db:seed
+
+# 4.2 Generá todas las tablas de la BD con datos de prueba (Seeders)
+docker-compose exec app php spark db:seed DatabaseSeeder
 ```
 
 **¡Listo!** Accede a:
+
 - **🌐 Aplicación:** http://localhost:8080
 - **🗄️ PHPMyAdmin:** http://localhost:8081 (user: root, pass: dev_password_123)
 - **📧 MailHog:** http://localhost:8025
@@ -112,6 +116,7 @@ DB_PASSWORD=password_super_seguro_aqui
 ## 🆘 Solución de Problemas
 
 ### Los contenedores no inician
+
 ```bash
 # Verificar Docker
 docker --version
@@ -123,6 +128,7 @@ docker-compose logs db
 ```
 
 ### Error en migraciones
+
 ```bash
 # Verificar que la BD esté lista
 docker-compose exec db mysql -u root -p -e "SHOW DATABASES;"
@@ -133,6 +139,7 @@ docker-compose exec app php spark migrate
 ```
 
 ### Problema de permisos
+
 ```bash
 # En Linux/macOS, ajustar permisos
 sudo chmod -R 755 writable/
@@ -146,6 +153,7 @@ Este proyecto está bajo la licencia MIT. Ver [LICENSE](LICENSE) para más detal
 ---
 
 **¿Problemas?** Crea un [issue](https://github.com/aka-titesen/yaguarete-camp/issues) o contacta al equipo de desarrollo.
+
 - ✅ **Gestión de ventas** completa
 - ✅ **Panel administrativo** para gestión
 - ✅ **Sistema dockerizado** para fácil despliegue
@@ -156,27 +164,30 @@ Este proyecto está bajo la licencia MIT. Ver [LICENSE](LICENSE) para más detal
 
 Una vez instalado, tendrás acceso a:
 
-| Servicio | URL | Credenciales |
-|----------|-----|--------------|
+| Servicio       | URL                   | Credenciales              |
+| -------------- | --------------------- | ------------------------- |
 | **Aplicación** | http://localhost:8080 | admin@test.com / admin123 |
 | **PHPMyAdmin** | http://localhost:8081 | root / yagaruete_password |
-| **MailHog** | http://localhost:8025 | - |
+| **MailHog**    | http://localhost:8025 | -                         |
 
 ## 🛠️ Stack Tecnológico
 
 ### Backend
+
 - **Framework**: CodeIgniter 4.5+
 - **PHP**: 8.2+ con extensiones optimizadas
 - **Base de Datos**: MySQL 8.0
 - **Cache**: Redis 7+
 
 ### Frontend
+
 - **HTML5** + **CSS3** + **Bootstrap 5**
 - **JavaScript** + **jQuery**
 - **DataTables** para tablas dinámicas
 - **Font Awesome** para iconografía
 
 ### Infraestructura
+
 - **Docker** + **Docker Compose**
 - **Nginx** como reverse proxy
 - **PHP-FPM** para procesamiento PHP
@@ -206,21 +217,25 @@ yagaruete-camp/
 ## 📚 Documentación
 
 ### 🚀 Instalación
+
 - **[Guía de Instalación](docs/setup/README.md)** - Instalación completa paso a paso
 - **[Configuración Docker](docs/setup/docker-setup.md)** - Setup detallado con Docker
 - **[Solución de Problemas](docs/setup/troubleshooting.md)** - Troubleshooting completo
 
 ### 🗄️ Base de Datos
+
 - **[Migraciones](docs/database/migrations.md)** - Estructura y migraciones de BD
 - **[Seeders](docs/database/seeders.md)** - Datos iniciales y de prueba
 - **[Esquema](docs/database/schema.md)** - Esquema completo de la BD
 
 ### 🏛️ Arquitectura
+
 - **[Visión General](docs/architecture/overview.md)** - Arquitectura del sistema
 
 ## 🔧 Scripts Útiles
 
 ### Scripts de Setup
+
 ```bash
 ./scripts/setup/deploy.sh start      # Iniciar servicios
 ./scripts/setup/deploy.sh stop       # Detener servicios
@@ -229,6 +244,7 @@ yagaruete-camp/
 ```
 
 ### Scripts de Mantenimiento
+
 ```bash
 ./scripts/maintenance/healthcheck.sh  # Verificar salud del sistema
 ./scripts/maintenance/backup.sh       # Backup de base de datos
@@ -237,10 +253,10 @@ yagaruete-camp/
 
 ## 👥 Usuarios por Defecto
 
-| Rol | Email | Contraseña | Descripción |
-|-----|-------|------------|-------------|
-| **Administrador** | admin@test.com | admin123 | Acceso completo al sistema |
-| **Cliente** | cliente@test.com | cliente123 | Usuario cliente estándar |
+| Rol               | Email            | Contraseña | Descripción                |
+| ----------------- | ---------------- | ---------- | -------------------------- |
+| **Administrador** | admin@test.com   | admin123   | Acceso completo al sistema |
+| **Cliente**       | cliente@test.com | cliente123 | Usuario cliente estándar   |
 
 ## 🛍️ Catálogo de Productos
 
@@ -257,6 +273,7 @@ El sistema incluye un catálogo completo de productos outdoor:
 ## 📊 Funcionalidades Principales
 
 ### Para Administradores
+
 - 📈 **Dashboard** con métricas y estadísticas
 - 🛍️ **Gestión de productos** (CRUD completo)
 - 👥 **Gestión de usuarios** y permisos
@@ -264,6 +281,7 @@ El sistema incluye un catálogo completo de productos outdoor:
 - 📧 **Gestión de consultas** de clientes
 
 ### Para Clientes
+
 - 🔍 **Navegación** intuitiva del catálogo
 - 🛒 **Carrito de compras** persistente
 - 💳 **Proceso de checkout** simplificado
@@ -281,6 +299,7 @@ El sistema incluye un catálogo completo de productos outdoor:
 ## 🚀 Despliegue
 
 ### Desarrollo Local
+
 ```bash
 git clone <repo-url> yagaruete-camp
 cd yagaruete-camp
@@ -288,6 +307,7 @@ cd yagaruete-camp
 ```
 
 ### Producción
+
 ```bash
 # Con Docker Swarm
 docker stack deploy -c docker-compose.prod.yml yagaruete-camp
