@@ -3,6 +3,7 @@ FROM php:8.2-fpm-alpine AS base
 
 # Instalar dependencias del sistema
 RUN apk add --no-cache \
+    autoconf \
     bash \
     curl \
     freetype-dev \
@@ -36,6 +37,10 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         pdo_mysql \
         xml \
         zip
+
+# Instalar extensión Redis
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
