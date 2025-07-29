@@ -28,14 +28,14 @@ copy .env.example .env    # Windows
 cp .env.example .env      # Linux/macOS
 
 # 3. Levanta la aplicación (optimizada con cache Redis y OPcache)
-docker-compose up -d --build
+docker compose up -d --build
 
 # 4. Configura la base de datos (espera 15 segundos tras el paso 3)
 # 4.1 Migración
-docker-compose exec app php spark migrate
+docker compose exec app php spark migrate
 
 # 4.2 Generá todas las tablas de la BD con datos de prueba (Seeders)
-docker-compose exec app php spark db:seed DatabaseSeeder
+docker compose exec app php spark db:seed DatabaseSeeder
 ```
 
 **¡Listo!** Accede a una aplicación **ultra-rápida** con:
