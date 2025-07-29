@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'db',
-        'username'     => 'root',
-        'password'     => 'root',
-        'database'     => 'bd_yagaruete_camp',
+        'hostname'     => 'localhost',  // Genérico
+        'username'     => 'root',       // Genérico  
+        'password'     => '',           // Vacío por seguridad
+        'database'     => 'database',   // Genérico
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
