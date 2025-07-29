@@ -72,8 +72,8 @@ COPY docker/php/php-dev.ini /usr/local/etc/php/conf.d/app.ini
 # Copiar archivos de la aplicación
 COPY --chown=www:www . .
 
-# Usar configuración de base de datos para Docker
-RUN cp app/Config/Database.docker.php app/Config/Database.php
+# La configuración de Database.php ya lee del .env, no necesitamos copiar Database.docker.php
+# RUN cp app/Config/Database.docker.php app/Config/Database.php
 
 # Configurar git como safe directory
 RUN git config --global --add safe.directory /var/www/html
@@ -108,8 +108,8 @@ COPY docker/php/php-prod.ini /usr/local/etc/php/conf.d/app.ini
 # Copiar archivos de la aplicación
 COPY --chown=www:www . .
 
-# Usar configuración de base de datos para Docker
-RUN cp app/Config/Database.docker.php app/Config/Database.php
+# La configuración de Database.php ya lee del .env, no necesitamos copiar Database.docker.php
+# RUN cp app/Config/Database.docker.php app/Config/Database.php
 
 # Instalar dependencias solo de producción
 RUN composer install --no-dev --no-cache --optimize-autoloader --classmap-authoritative
