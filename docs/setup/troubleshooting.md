@@ -7,12 +7,15 @@
 #### Docker no está instalado o corriendo
 
 **Síntomas:**
+
 - "Docker not found"
 - "Docker daemon not running"
 - Comandos de Docker fallan
 
 **Soluciones:**
+
 1. **Instalar Docker Desktop:**
+
    - Windows/Mac: [Descargar aquí](https://docs.docker.com/desktop/)
    - Linux: `sudo apt install docker.io docker-compose`
 
@@ -24,6 +27,7 @@
 #### Puerto ya en uso
 
 **Síntomas:**
+
 - Error: "Port 8080 is already in use"
 - "bind: address already in use"
 
@@ -39,8 +43,8 @@ sudo lsof -i :8080
 ```
 
 ```bash
-# 2. Cambiar puerto en .env
-echo "NGINX_PORT=8090" >> .env
+# 2. Cambiar puerto en .env si el 8080 está ocupado
+echo "APACHE_PORT=8090" >> .env
 
 # O detener el servicio que usa el puerto
 docker compose down
@@ -49,6 +53,7 @@ docker compose down
 #### Error de permisos
 
 **Síntomas:**
+
 - "Permission denied"
 - "Cannot connect to Docker daemon"
 
@@ -66,11 +71,13 @@ sudo usermod -aG docker $USER
 #### Contenedores se reinician constantemente
 
 **Síntomas:**
+
 - Docker containers exit immediately
 - Services keep restarting
 - Health checks failing
 
 **Diagnóstico:**
+
 ```bash
 # Ver estado detallado
 docker compose ps
@@ -97,10 +104,12 @@ docker compose up -d --build
 #### Archivo .env no existe
 
 **Síntomas:**
+
 - Variables de entorno no definidas
 - Errores de configuración
 
 **Solución:**
+
 ```bash
 # Copiar archivo de ejemplo
 copy .env.example .env    # Windows
@@ -110,10 +119,12 @@ cp .env.example .env      # Linux/macOS
 #### Problemas de permisos en archivos
 
 **Síntomas:**
+
 - "Permission denied" al escribir archivos
 - Logs no se generan
 
 **Solución:**
+
 ```bash
 # Asegurar permisos correctos
 docker compose exec app chown -R www:www /var/www/html/writable
@@ -125,6 +136,7 @@ docker compose exec app chmod -R 755 /var/www/html/writable
 #### No se puede conectar a la base de datos
 
 **Síntomas:**
+
 - "Connection refused"
 - "Access denied for user"
 
@@ -148,10 +160,12 @@ docker compose up -d
 #### Tablas no existen
 
 **Síntomas:**
+
 - "Table doesn't exist" errors
 - Base de datos vacía
 
 **Solución:**
+
 ```bash
 # Ejecutar migraciones
 docker compose exec app php spark migrate
@@ -163,10 +177,12 @@ docker compose exec app php spark db:seed
 #### Error en migraciones
 
 **Síntomas:**
+
 - Migration failed
 - Duplicate column errors
 
 **Solución:**
+
 ```bash
 # Reset completo de base de datos
 docker compose exec app php spark migrate:rollback
@@ -179,34 +195,37 @@ docker compose exec app php spark db:seed
 #### No se puede acceder a localhost:8080
 
 **Síntomas:**
+
 - "This site can't be reached"
 - Timeout errors
 
 **Diagnóstico:**
+
 ```bash
-# Verificar que nginx esté corriendo
-docker compose ps nginx
+# Verificar que apache esté corriendo
+docker compose ps apache
 
 # Verificar logs
-docker compose logs nginx
+docker compose logs apache
 ```
 
 **Soluciones:**
 
 ```bash
-# 1. Reiniciar nginx
-docker compose restart nginx
+# 1. Reiniciar apache
+docker compose restart apache
 
 # 2. Verificar puerto en .env
-cat .env | grep NGINX_PORT
+cat .env | grep APP_URL
 
 # 3. Probar puerto alternativo
-# Editar .env y cambiar NGINX_PORT=8090
+# Editar .env y cambiar puerto en docker-compose.yml
 ```
 
 #### PhpMyAdmin no carga
 
 **Soluciones:**
+
 ```bash
 # Verificar servicio
 docker compose ps phpmyadmin
@@ -261,17 +280,20 @@ docker compose exec app php spark db:seed
 Si los problemas persisten:
 
 1. **Verificar logs detallados:**
+
    ```bash
    docker compose logs --follow
    ```
 
 2. **Revisar configuración de Docker:**
+
    ```bash
    docker version
    docker compose version
    ```
 
 3. **Consultar documentación:**
+
    - [README.md principal](../../README.md)
    - [Docker setup](docker-setup.md)
 

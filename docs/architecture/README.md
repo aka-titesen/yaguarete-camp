@@ -11,12 +11,12 @@ graph TB
     end
 
     subgraph "Load Balancer (Futuro)"
-        C[Nginx LB]
+        C[Apache LB]
     end
 
     subgraph "Web Tier"
-        D[Nginx Web Server]
-        E[FastCGI Cache]
+        D[Apache Web Server]
+        E[mod_rewrite]
         F[Static Assets]
     end
 
@@ -67,7 +67,7 @@ graph TB
 
 ### 1. **Separación de Responsabilidades**
 
-- **Presentación**: Nginx + Assets estáticos
+- **Presentación**: Apache + Assets estáticos
 - **Lógica de Negocio**: CodeIgniter + Controllers
 - **Datos**: MySQL con optimizaciones
 - **Cache**: Redis distribuido
@@ -89,14 +89,13 @@ graph TB
 
 ### 🌐 Capa de Presentación
 
-#### Nginx Web Server
+#### Apache Web Server
 
-```nginx
+```apache
 # Configuración optimizada para rendimiento
-server {
-    listen 80;
-    root /var/www/html/public;
-    index index.php;
+<VirtualHost *:80>
+    DocumentRoot /var/www/html/public
+    DirectoryIndex index.php
 
     # FastCGI optimizations
     fastcgi_buffer_size 128k;
@@ -349,7 +348,7 @@ class CacheFactory
 
 | Componente  | Métrica         | Objetivo        | Monitoreo              |
 | ----------- | --------------- | --------------- | ---------------------- |
-| **Nginx**   | Response Time   | < 50ms          | `nginx status`         |
+| **Apache**  | Response Time   | < 50ms          | `apache status`        |
 | **PHP-FPM** | Memory Usage    | < 128MB/process | `php-fpm status`       |
 | **OPcache** | Hit Rate        | > 95%           | `opcache_get_status()` |
 | **Redis**   | Hit Rate        | > 90%           | `INFO commandstats`    |

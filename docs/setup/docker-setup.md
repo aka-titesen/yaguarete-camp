@@ -9,7 +9,7 @@ Yagaruete Camp utiliza una arquitectura Docker multi-contenedor diseñada para s
 | Servicio       | Imagen       | Puerto | Descripción                  | Credenciales                       |
 | -------------- | ------------ | ------ | ---------------------------- | ---------------------------------- |
 | **app**        | PHP 8.2-FPM  | 9000   | Aplicación CodeIgniter 4     | -                                  |
-| **nginx**      | nginx:alpine | 8080   | Servidor web y proxy reverso | -                                  |
+| **apache**     | httpd:alpine | 8080   | Servidor web y proxy reverso | -                                  |
 | **db**         | mysql:8.0    | 3306   | Base de datos principal      | user: root, pass: dev_password_123 |
 | **redis**      | redis:alpine | 6379   | Cache y gestión de sesiones  | -                                  |
 | **phpmyadmin** | phpmyadmin   | 8081   | Administrador web de BD      | user: root, pass: dev_password_123 |
@@ -17,12 +17,12 @@ Yagaruete Camp utiliza una arquitectura Docker multi-contenedor diseñada para s
 
 ### 🏢 Servicios de Producción
 
-| Servicio  | Imagen       | Puerto    | Descripción                    |
-| --------- | ------------ | --------- | ------------------------------ |
-| **app**   | PHP 8.2-FPM  | 9000      | Aplicación CodeIgniter 4       |
-| **nginx** | nginx:alpine | 80, 443   | Servidor web con SSL           |
-| **db**    | mysql:8.0    | (interno) | Base de datos (sin exposición) |
-| **redis** | redis:alpine | (interno) | Cache y sesiones               |
+| Servicio   | Imagen       | Puerto    | Descripción                    |
+| ---------- | ------------ | --------- | ------------------------------ |
+| **app**    | PHP 8.2-FPM  | 9000      | Aplicación CodeIgniter 4       |
+| **apache** | httpd:alpine | 80, 443   | Servidor web con SSL           |
+| **db**     | mysql:8.0    | (interno) | Base de datos (sin exposición) |
+| **redis**  | redis:alpine | (interno) | Cache y sesiones               |
 
 ## 🚀 Despliegue Simplificado
 
@@ -153,7 +153,7 @@ Crear `docker-compose.override.yml`:
 ```yaml
 version: "3.8"
 services:
-  nginx:
+  apache:
     ports:
       - "8090:80" # Cambiar puerto de la app
 
@@ -170,9 +170,9 @@ services:
 
 ```
 docker/
-├── nginx/
-│   ├── nginx.conf              # Configuración principal
-│   ├── default.conf            # Virtual host para la app
+├── apache/
+│   ├── Dockerfile              # Imagen personalizada Apache
+│   ├── vhosts.conf             # Virtual host para la app
 │   └── snippets/
 │       ├── ssl.conf            # Configuración SSL
 │       └── security.conf       # Headers de seguridad
@@ -207,11 +207,11 @@ docker/
 - gd, zip, curl, mbstring
 - intl, opcache, xdebug
 
-### Nginx (Servidor Web)
+### Apache (Servidor Web)
 
 **Configuración optimizada:**
 
-- Gzip habilitado
+- mod_deflate habilitado
 - Headers de seguridad
 - Cache de archivos estáticos
 - Proxy pass a PHP-FPM
@@ -302,10 +302,10 @@ services:
     volumes:
       - ./docker/php/php-prod.ini:/usr/local/etc/php/conf.d/99-custom.ini
 
-  nginx:
+  apache:
     volumes:
-      - ./docker/nginx/prod.conf:/etc/nginx/conf.d/default.conf
-      - ./ssl:/etc/nginx/ssl
+      - ./docker/apache/vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+      - ./ssl:/etc/apache2/ssl
 ```
 
 ### Variables de Producción
@@ -329,10 +329,10 @@ APP_DEBUG=false
 
 ```bash
 # Generar certificados (desarrollo)
-mkdir -p docker/nginx/ssl
+mkdir -p docker/apache/ssl
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout docker/nginx/ssl/nginx.key \
-  -out docker/nginx/ssl/nginx.crt
+  -keyout docker/apache/ssl/apache.key \
+  -out docker/apache/ssl/apache.crt
 ```
 
 ## 📊 Monitoreo y Debugging
@@ -345,7 +345,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 # Servicio específico
 ./scripts/setup/deploy.sh logs app
-./scripts/setup/deploy.sh logs nginx
+./scripts/setup/deploy.sh logs apache
 ./scripts/setup/deploy.sh logs mysql
 
 # Seguir logs en tiempo real
@@ -391,7 +391,7 @@ docker-compose exec mysql mysql -u yagaruete_user -p yagaruete_camp
 
 - **Variables de entorno seguras** sin valores por defecto
 - **SSL/TLS obligatorio** para todas las conexiones
-- **Headers de seguridad** configurados en Nginx
+- **Headers de seguridad** configurados en Apache
 - **Logs mínimos** para mejor rendimiento
 - **OPcache habilitado** para mejor performance
 
@@ -508,7 +508,7 @@ docker-compose config
 
 - [Docker Compose Reference](https://docs.docker.com/compose/)
 - [CodeIgniter 4 Documentation](https://codeigniter.com/user_guide/)
-- [Nginx Configuration](https://nginx.org/en/docs/)
+- [Apache HTTP Server Documentation](https://httpd.apache.org/docs/current/)
 - [MySQL 8.0 Reference](https://dev.mysql.com/doc/refman/8.0/en/)
 
 ---

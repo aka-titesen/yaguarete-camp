@@ -26,7 +26,7 @@ docker-compose logs --tail=50 app
 docker-compose exec app php -r "var_dump(opcache_get_status()['opcache_enabled']);"
 
 # B. Reiniciar servicios si es necesario
-docker-compose restart app nginx
+docker-compose restart app apache
 
 # C. Limpiar cache si hay problemas
 docker-compose exec redis redis-cli FLUSHALL

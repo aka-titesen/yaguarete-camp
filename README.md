@@ -67,11 +67,12 @@ Este proyecto incluye **optimizaciones de alto rendimiento** que lo hacen **60-8
 - **Buffer pool aumentado** a 512MB
 - **Timeouts optimizados** y configuración InnoDB mejorada
 
-### 🌐 Nginx Performance
+### 🌐 Apache Performance
 
-- **FastCGI buffers aumentados** para mejor throughput
+- **PHP-FPM proxy configurado** para mejor throughput
 - **Keep-alive connections** habilitadas
-- **Compression gzip** para assets estáticos
+- **Compression deflate** para assets estáticos
+- **Cache headers** optimizados para archivos estáticos
 
 ### 📊 Métricas de Rendimiento
 
@@ -113,7 +114,7 @@ docker-compose down -v --remove-orphans
 - **Backend:** CodeIgniter 4.5+, PHP 8.2+ **con OPcache**
 - **Base de Datos:** MySQL 8.0 **optimizado con query cache**
 - **Cache:** Redis 7.2+ **para máximo rendimiento**
-- **Web Server:** Nginx **con FastCGI optimizado**
+- **Web Server:** Apache **con PHP-FPM optimizado**
 - **Contenedores:** Docker + Docker Compose
 - **Frontend:** Bootstrap 5, jQuery
 - **Email Testing:** MailHog
@@ -131,7 +132,7 @@ docker-compose down -v --remove-orphans
 - ✅ **Base de datos MySQL** con migraciones y seeders
 - 🚀 **OPcache PHP** para rendimiento extremo
 - 🚀 **MySQL Query Cache** para consultas rápidas
-- 🚀 **Nginx optimizado** con buffers aumentados
+- 🚀 **Apache optimizado** con módulos de rendimiento
 - 🚀 **Arquitectura escalable** con contenedores Docker
 
 ## 🎯 Arquitectura
@@ -243,7 +244,7 @@ Una vez instalado, tendrás acceso a:
 ### Infraestructura
 
 - **Docker** + **Docker Compose**
-- **Nginx** como reverse proxy
+- **Apache** como servidor web
 - **PHP-FPM** para procesamiento PHP
 - **Redis** para cache y sesiones
 

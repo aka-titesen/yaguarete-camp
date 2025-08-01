@@ -125,20 +125,22 @@ services:
         reservations:
           memory: 256M
 
-  nginx:
-    image: nginx:1.24-alpine
-    container_name: yaguarete_nginx
+  apache:
+    build:
+      context: .
+      dockerfile: docker/apache/Dockerfile
+    container_name: yaguarete_apache
     restart: unless-stopped
     ports:
       - "8080:80"
     volumes:
       - ./:/var/www/html
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/apache/vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
     depends_on:
       - app
     networks:
       - yaguarete_network
-    # Nginx optimizations
+    # Apache optimizations
     deploy:
       resources:
         limits:
@@ -358,14 +360,13 @@ binlog_format = ROW
 expire_logs_days = 7
 ```
 
-### Nginx Optimizado (docker/nginx/default.conf)
+### Apache Optimizado (docker/apache/vhosts.conf)
 
-```nginx
-server {
-    listen 80;
-    server_name localhost;
-    root /var/www/html/public;
-    index index.php index.html;
+```apache
+<VirtualHost *:80>
+    ServerName localhost
+    DocumentRoot /var/www/html/public
+    DirectoryIndex index.php index.html
 
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -584,7 +585,7 @@ docker-compose restart redis
 ```bash
 # Ver logs en tiempo real
 docker-compose logs -f app
-docker-compose logs -f nginx
+docker-compose logs -f apache
 docker-compose logs -f db
 docker-compose logs -f redis
 
@@ -641,15 +642,17 @@ services:
           memory: 512M
           cpus: "0.5"
 
-  nginx:
-    image: nginx:1.24-alpine
+  apache:
+    build:
+      context: .
+      dockerfile: docker/apache/Dockerfile
     restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/ssl:/etc/nginx/ssl
+      - ./docker/apache/vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+      - ./docker/ssl:/etc/ssl/certs
     deploy:
       resources:
         limits:

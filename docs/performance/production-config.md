@@ -205,107 +205,88 @@ zset-max-ziplist-value 64
 tcp-keepalive 300
 ```
 
-## 🌐 Configuración Nginx Producción
+## 🌐 Configuración Apache Producción
 
-### 📝 docker/nginx/nginx-prod.conf
+### 📝 docker/apache/httpd-prod.conf
 
-```nginx
-user nginx;
-worker_processes auto;                   # Un worker por CPU core
-worker_rlimit_nofile 65535;             # Límite de archivos abiertos
-error_log /var/log/nginx/error.log warn;
-pid /var/run/nginx.pid;
+```apache
+# Apache PRODUCCIÓN - Máximo rendimiento
+ServerRoot "/usr/local/apache2"
+Listen 80
+Listen 443 ssl
 
-events {
-    worker_connections 4096;             # 4x más conexiones
-    use epoll;                           # Linux optimal
-    multi_accept on;                     # Aceptar múltiples conexiones
-    accept_mutex off;                    # Mejor para alta carga
-}
+# Módulos necesarios
+LoadModule mpm_event_module modules/mod_mpm_event.so
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule ssl_module modules/mod_ssl.so
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so
+LoadModule deflate_module modules/mod_deflate.so
+LoadModule expires_module modules/mod_expires.so
+LoadModule headers_module modules/mod_headers.so
 
-http {
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
+# Performance settings
+StartServers 3
+MinSpareThreads 75
+MaxSpareThreads 250
+ThreadsPerChild 25
+MaxRequestWorkers 400
+# Configuración de compresión
+<IfModule mod_deflate.c>
+    SetOutputFilter DEFLATE
+    SetEnvIfNoCase Request_URI \
+        \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \
+        \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
 
-    # Logging optimizado
-    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-                    '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$http_x_forwarded_for" '
-                    '$request_time $upstream_response_time';
+# Configuración de headers de seguridad
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+</IfModule>
 
-    access_log /var/log/nginx/access.log main buffer=64k flush=5s;
-
-    # Performance settings - PRODUCCIÓN
-    sendfile on;
-    sendfile_max_chunk 1m;
-    tcp_nopush on;
-    tcp_nodelay on;
-    keepalive_timeout 30;                # Timeout balanceado
-    keepalive_requests 1000;             # Más requests por conexión
-    types_hash_max_size 2048;
-    server_tokens off;                   # Ocultar versión
-
-    # Buffer sizes - OPTIMIZADOS PARA PRODUCCIÓN
-    client_body_buffer_size 256k;
-    client_header_buffer_size 64k;
-    client_max_body_size 20m;
-    large_client_header_buffers 8 64k;
-
-    # Timeouts - PRODUCCIÓN
-    client_body_timeout 30s;
-    client_header_timeout 30s;
-    send_timeout 30s;
-    proxy_connect_timeout 30s;
-    proxy_send_timeout 30s;
-    proxy_read_timeout 30s;
-
-    # Gzip - MÁXIMA COMPRESIÓN
-    gzip on;
-    gzip_vary on;
-    gzip_min_length 1000;
-    gzip_proxied any;
-    gzip_comp_level 9;                   # Máxima compresión
-    gzip_types
-        text/plain
-        text/css
-        text/xml
-        text/javascript
-        application/json
-        application/javascript
-        application/xml+rss
-        application/atom+xml
-        image/svg+xml
-        application/x-font-ttf
-        application/vnd.ms-fontobject
-        font/opentype;
-
-    # Rate limiting - SEGURIDAD
-    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
-    limit_req_zone $binary_remote_addr zone=login:10m rate=1r/s;
-
-    # Cache zones
-    proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=app_cache:100m
-                     max_size=1g inactive=60m use_temp_path=off;
-
-    include /etc/nginx/conf.d/*.conf;
-}
+# Configuración de cache
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/ico "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>
 ```
 
-### 📝 docker/nginx/app-prod.conf
+### 📝 docker/apache/vhosts-prod.conf
 
-```nginx
-server {
-    listen 80;
-    server_name tu-dominio.com www.tu-dominio.com;
-    root /var/www/html/public;
-    index index.php index.html;
+```apache
+# VirtualHost principal para producción
+<VirtualHost *:80>
+    ServerName tu-dominio.com
+    ServerAlias www.tu-dominio.com
+    DocumentRoot /var/www/html/public
+    DirectoryIndex index.php index.html
 
-    # Security headers - PRODUCCIÓN
-    add_header X-Frame-Options "DENY" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" always;
+    # Headers de seguridad para producción
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
     # Rate limiting en rutas críticas
     location /login {

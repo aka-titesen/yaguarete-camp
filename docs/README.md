@@ -23,9 +23,9 @@ El sistema Yagaruete Camp incluye **optimizaciones avanzadas** que proporcionan:
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│     Nginx       │    │    PHP-FPM      │    │     MySQL       │
+│     Apache      │    │    PHP-FPM      │    │     MySQL       │
 │   (Web Server)  │────│   (CodeIgniter) │────│   (Database)    │
-│  + FastCGI      │    │   + OPcache     │    │  + Query Cache  │
+│  + mod_rewrite  │    │   + OPcache     │    │  + Query Cache  │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
           │                       │                       │
           │              ┌─────────────────┐              │
@@ -39,7 +39,7 @@ El sistema Yagaruete Camp incluye **optimizaciones avanzadas** que proporcionan:
 
 | Componente      | Tecnología       | Optimización Principal      |
 | --------------- | ---------------- | --------------------------- |
-| **Web Server**  | Nginx 1.24+      | FastCGI buffers aumentados  |
+| **Web Server**  | Apache 2.4+      | mod_rewrite + PHP-FPM proxy |
 | **PHP Runtime** | PHP 8.2+         | OPcache habilitado          |
 | **Framework**   | CodeIgniter 4.5+ | Cache Redis integrado       |
 | **Database**    | MySQL 8.0+       | Query cache + Buffer pool   |
@@ -102,7 +102,7 @@ El sistema Yagaruete Camp incluye **optimizaciones avanzadas** que proporcionan:
 ```yaml
 # Servicios incluidos:
 - app: # PHP 8.2 + CodeIgniter + OPcache
-- nginx: # Web server optimizado
+- apache: # Web server optimizado
 - db: # MySQL 8.0 + Query cache
 - redis: # Cache distribuido
 - phpmyadmin: # Administración BD
@@ -147,7 +147,7 @@ docker stats --no-stream
 - **OPcache PHP** para cache de bytecode
 - **Redis Cache** para consultas frecuentes
 - **MySQL Query Cache** para optimización DB
-- **Nginx FastCGI** con buffers optimizados
+- **Apache mod_rewrite** con PHP-FPM proxy
 
 ### 🔄 En Consideración (Futuro)
 
@@ -196,7 +196,7 @@ docker-compose logs --tail=100 >> support-info.txt
 - **[PHP OPcache Manual](https://www.php.net/manual/en/book.opcache.php)** - Optimización PHP
 - **[Redis Documentation](https://redis.io/documentation)** - Cache distribuido
 - **[MySQL Performance Tuning](https://dev.mysql.com/doc/refman/8.0/en/optimization.html)** - Optimización BD
-- **[Nginx Performance Guide](https://nginx.org/en/docs/http/ngx_http_core_module.html)** - Web server
+- **[Apache HTTP Server Documentation](https://httpd.apache.org/docs/current/)** - Web server
 
 ### Recursos de Aprendizaje
 

@@ -39,12 +39,12 @@
                       │ HTTP/HTTPS
                       │
 ┌─────────────────────▼───────────────────────────────────────────┐
-│                     NGINX (Reverse Proxy)                       │
-│                   - Load Balancing                              │
-│                   - SSL Termination                             │
+│                     APACHE (Web Server)                         │
+│                   - URL Rewriting                               │
+│                   - SSL Support                                 │
 │                   - Static Files                                │
 └─────────────────────┬───────────────────────────────────────────┘
-                      │ FastCGI
+                      │ PHP-FPM Proxy
                       │
 ┌─────────────────────▼───────────────────────────────────────────┐
 │                   PHP-FPM (Application Layer)                   │
@@ -91,7 +91,7 @@
 - **PHP**: 8.2+ con extensiones optimizadas
 - **Base de Datos**: MySQL 8.0
 - **Cache**: Redis 7+
-- **HTTP Server**: Nginx + PHP-FPM
+- **HTTP Server**: Apache + PHP-FPM
 
 ### Frontend
 
@@ -105,7 +105,7 @@
 
 - **Containerización**: Docker + Docker Compose
 - **Orquestación**: Docker Swarm (producción)
-- **Reverse Proxy**: Nginx
+- **Web Server**: Apache
 - **Process Management**: Supervisor
 
 ### Herramientas de Desarrollo
@@ -167,7 +167,7 @@ yagaruete-camp/
 │   └── uploads/                  # Uploads temporales
 ├── docs/                         # Documentación técnica
 ├── docker/                       # Configuración Docker
-│   ├── nginx/                    # Configuración Nginx
+│   ├── apache/                   # Configuración Apache
 │   ├── php/                      # Configuración PHP
 │   ├── mysql/                    # Configuración MySQL
 │   └── redis/                    # Configuración Redis
@@ -181,9 +181,9 @@ yagaruete-camp/
 ### 1. **Request Lifecycle**
 
 ```
-Usuario → Nginx → PHP-FPM → CodeIgniter → Controller → Model → Database
-                                      ↓
-Usuario ← Nginx ← PHP-FPM ← CodeIgniter ← View ← Controller ← Model
+Usuario → Apache → PHP-FPM → CodeIgniter → Controller → Model → Database
+                                       ↓
+Usuario ← Apache ← PHP-FPM ← CodeIgniter ← View ← Controller ← Model
 ```
 
 ### 2. **Autenticación Flow**
@@ -191,8 +191,8 @@ Usuario ← Nginx ← PHP-FPM ← CodeIgniter ← View ← Controller ← Model
 ```mermaid
 sequenceDiagram
     participant U as Usuario
-    participant N as Nginx
-    participant A as App
+    participant A as Apache
+    participant P as App
     participant R as Redis
     participant D as Database
 

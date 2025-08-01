@@ -9,7 +9,7 @@
 | **PHP**        | OPcache habilitado              | 60-80% más rápido                  |
 | **Database**   | Query Cache + Buffer optimizado | 30-50% consultas más rápidas       |
 | **Cache**      | Redis como handler principal    | Consultas repetitivas instantáneas |
-| **Web Server** | Nginx FastCGI optimizado        | Mejor throughput y latencia        |
+| **Web Server** | Apache mod_rewrite optimizado   | Mejor throughput y latencia        |
 
 ## ⚡ OPcache - Optimizaciones PHP
 
@@ -105,33 +105,35 @@ wait_timeout = 600
 - ✅ **Menos acceso a disco** con datos en memoria
 - ✅ **Conexiones más estables** y rápidas
 
-## 🌐 Nginx - Optimizaciones Web Server
+## 🌐 Apache - Optimizaciones Web Server
 
 ### ✅ Configuración Aplicada
 
-```nginx
-# FastCGI Optimizado - docker/nginx/default.conf
-fastcgi_buffer_size 256k;
-fastcgi_buffers 8 256k;
-fastcgi_busy_buffers_size 512k;
-fastcgi_temp_file_write_size 512k;
-fastcgi_read_timeout 120;
-fastcgi_connect_timeout 30;
-fastcgi_send_timeout 30;
-fastcgi_keep_conn on;
+```apache
+# mod_rewrite y PHP-FPM Optimizado - docker/apache/vhosts.conf
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+# PHP-FPM Proxy optimizado
+ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://app:9000/var/www/html/public/$1
+ProxyTimeout 120
 ```
 
 ### 🎯 Mejoras de Rendimiento
 
-- **Buffers aumentados** para mejor throughput
-- **Keep-alive connections** para reutilización de conexiones
+- **mod_rewrite habilitado** para URL amigables
+- **PHP-FPM proxy** para mejor comunicación
 - **Timeouts balanceados** para estabilidad
-- **Gzip compression** para assets estáticos
+- **mod_deflate compression** para assets estáticos
 
 ### 📈 Impacto
 
 - ✅ **Mejor handling** de requests concurrentes
-- ✅ **Menor latencia** entre Nginx y PHP-FPM
+- ✅ **Menor latencia** entre Apache y PHP-FPM
 - ✅ **Archivos estáticos optimizados** con cache headers
 
 ## 📊 Monitoreo de Rendimiento
@@ -240,7 +242,7 @@ docker-compose exec app php spark db:optimize
 - **[OPcache Documentation](https://www.php.net/manual/en/book.opcache.php)** - Documentación oficial PHP OPcache
 - **[Redis Documentation](https://redis.io/documentation)** - Guía completa de Redis
 - **[MySQL Performance Tuning](https://dev.mysql.com/doc/refman/8.0/en/optimization.html)** - Optimización MySQL oficial
-- **[Nginx Performance](https://nginx.org/en/docs/http/ngx_http_core_module.html)** - Documentación Nginx
+- **[Apache HTTP Server Performance](https://httpd.apache.org/docs/current/misc/perf-tuning.html)** - Documentación Apache
 
 ---
 

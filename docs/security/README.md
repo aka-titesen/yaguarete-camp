@@ -24,7 +24,7 @@
 
 - ✅ **Environment Variables** para datos sensibles
 - ✅ **Database User** con permisos mínimos necesarios
-- ✅ **Secure Headers** configurados en Nginx
+- ✅ **Secure Headers** configurados en Apache
 - ✅ **Error Handling** sin exposición de datos sensibles
 
 ## 🔐 Configuración de Autenticación
@@ -266,28 +266,28 @@ email.SMTPPass = password-email-seguro
 email.SMTPCrypto = tls
 ```
 
-## 🌐 Configuración de Nginx Segura
+## 🌐 Configuración de Apache Segura
 
 ### Security Headers
 
-```nginx
-# docker/nginx/default.conf
-server {
-    listen 80;
-    server_name localhost;
+```apache
+# docker/apache/vhosts.conf
+<VirtualHost *:80>
+    ServerName localhost
+    DocumentRoot /var/www/html/public
 
     # Security Headers
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header Referrer-Policy "no-referrer-when-downgrade" always;
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;" always;
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "no-referrer-when-downgrade"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;"
 
-    # Ocultar versión de Nginx
-    server_tokens off;
+    # Ocultar información del servidor
+    ServerTokens Prod
+    ServerSignature Off
 
-    # Protección contra ataques de fuerza bruta
-    location /login {
+    # Protección de directorios sensibles
         limit_req zone=login burst=5 nodelay;
         try_files $uri $uri/ /index.php?$query_string;
     }
@@ -320,31 +320,37 @@ http {
 
 ### SSL/TLS Configuration (Producción)
 
-```nginx
+```apache
 # Configuración HTTPS para producción
-server {
-    listen 443 ssl http2;
-    server_name tudominio.com;
+<VirtualHost *:443>
+    ServerName tudominio.com
+    DocumentRoot /var/www/html/public
 
-    # Certificados SSL
-    ssl_certificate /etc/nginx/ssl/cert.pem;
-    ssl_certificate_key /etc/nginx/ssl/key.pem;
+    # Habilitar SSL
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/cert.pem
+    SSLCertificateKeyFile /etc/apache2/ssl/key.pem
 
     # Configuración SSL moderna
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
-    ssl_prefer_server_ciphers off;
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_tickets off;
+    SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+    SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384
+    SSLHonorCipherOrder off
+    SSLSessionCache shmcb:/var/cache/apache2/ssl_gcache_data(512000)
+    SSLSessionTickets off
 
     # HSTS (HTTP Strict Transport Security)
-    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
-    # Redirección HTTP a HTTPS
-    if ($scheme != "https") {
-        return 301 https://$host$request_uri;
-    }
-}
+    # Incluir configuración PHP-FPM
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://app:9000/var/www/html/public/$1
+    DirectoryIndex index.php index.html
+</VirtualHost>
+
+# Redirección HTTP a HTTPS
+<VirtualHost *:80>
+    ServerName tudominio.com
+    Redirect permanent / https://tudominio.com/
+</VirtualHost>
 ```
 
 ## 🔍 Auditoría y Logging

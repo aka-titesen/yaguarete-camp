@@ -64,7 +64,7 @@ Este setup incluye automáticamente:
 - ⚡ **OPcache** habilitado (60-80% más rápido)
 - 🔴 **Redis Cache** activo
 - 🗄️ **MySQL Query Cache** optimizado
-- 🌐 **Nginx FastCGI** buffers aumentados
+- 🌐 **Apache mod_rewrite** con PHP-FPM proxy
 
 ## 🆘 ¿Problemas?
 

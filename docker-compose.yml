@@ -19,19 +19,18 @@ services:
       - db
       - redis
 
-  # Servidor web Nginx
-  nginx:
-    image: nginx:alpine
-    container_name: yagaruete_camp_nginx
+  # Servidor web Apache
+  apache:
+    build:
+      context: .
+      dockerfile: docker/apache/Dockerfile
+    container_name: yagaruete_camp_apache
     restart: unless-stopped
     ports:
       - "8080:80"
-      - "8443:443"
     volumes:
       - ./:/var/www/html
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/nginx/ssl:/etc/nginx/ssl
+      - ./docker/apache/vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
     networks:
       - app-network
     depends_on:
