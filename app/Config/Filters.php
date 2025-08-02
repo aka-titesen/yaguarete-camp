@@ -35,6 +35,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => \App\Filters\Auth::class,
         'cliente'       => \App\Filters\Cliente::class,
+        'jwt'           => \App\Filters\JWTFilter::class,
     ];
 
     /**

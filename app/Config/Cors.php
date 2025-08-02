@@ -34,7 +34,12 @@ class Cors extends BaseConfig
          *   - ['http://localhost:8080']
          *   - ['https://www.example.com']
          */
-        'allowedOrigins' => [],
+        'allowedOrigins' => [
+            'http://localhost:5173',  // Frontend development
+            'http://localhost:3000',  // Alternative frontend port
+            'http://127.0.0.1:5173',
+            'http://127.0.0.1:3000',
+        ],
 
         /**
          * Origin regex patterns for the `Access-Control-Allow-Origin` header.
@@ -47,7 +52,9 @@ class Cors extends BaseConfig
          * E.g.:
          *   - ['https://\w+\.example\.com']
          */
-        'allowedOriginsPatterns' => [],
+        'allowedOriginsPatterns' => [
+            'https://.*\.yaguarete-camp\.com',  // Production domains
+        ],
 
         /**
          * Weather to send the `Access-Control-Allow-Credentials` header.
@@ -57,7 +64,7 @@ class Cors extends BaseConfig
          *
          * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
          */
-        'supportsCredentials' => false,
+        'supportsCredentials' => true,
 
         /**
          * Set headers to allow.
@@ -68,7 +75,15 @@ class Cors extends BaseConfig
          *
          * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
          */
-        'allowedHeaders' => [],
+        'allowedHeaders' => [
+            'Content-Type',
+            'Authorization',
+            'X-Requested-With',
+            'Accept',
+            'Origin',
+            'Cache-Control',
+            'Pragma',
+        ],
 
         /**
          * Set headers to expose.
@@ -79,7 +94,12 @@ class Cors extends BaseConfig
          *
          * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
          */
-        'exposedHeaders' => [],
+        'exposedHeaders' => [
+            'Authorization',
+            'X-Total-Count',
+            'X-Pagination-Page',
+            'X-Pagination-Limit',
+        ],
 
         /**
          * Set methods to allow.
@@ -93,7 +113,15 @@ class Cors extends BaseConfig
          *
          * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
          */
-        'allowedMethods' => [],
+        'allowedMethods' => [
+            'GET',
+            'POST',
+            'PUT',
+            'PATCH',
+            'DELETE',
+            'OPTIONS',
+            'HEAD',
+        ],
 
         /**
          * Set how many seconds the results of a preflight request can be cached.

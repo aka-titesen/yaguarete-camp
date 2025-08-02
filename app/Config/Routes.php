@@ -133,3 +133,73 @@ $routes->get('/ventas', 'VentasController::ventas');
 $routes->post('enviar-consulta', 'ConsultasController::enviarConsulta');        // Enviar consulta (público)
 $routes->get('admin-consultas', 'ConsultasController::administrarConsultas', ['filter' => 'auth']); // Ver consultas (admin)
 $routes->post('responder-consulta', 'ConsultasController::responderConsulta'); // Responder consulta (admin)
+
+// ================================
+// API REST ENDPOINTS
+// ================================
+
+/**
+ * Grupo de rutas API con prefijo /api
+ */
+$routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
+    
+    // ================================
+    // AUTENTICACIÓN API
+    // ================================
+    $routes->post('auth/login', 'AuthController::login');
+    $routes->post('auth/registro', 'AuthController::registro');
+    $routes->post('auth/refresh', 'AuthController::refresh', ['filter' => 'jwt']);
+    $routes->post('auth/logout', 'AuthController::logout', ['filter' => 'jwt']);
+    
+    // ================================
+    // PRODUCTOS API
+    // ================================
+    $routes->get('productos', 'ProductosController::index');                    // Listar productos con filtros
+    $routes->get('productos/(:num)', 'ProductosController::show/$1');           // Detalle de producto específico
+    $routes->get('productos/destacados', 'ProductosController::destacados');    // Productos destacados
+    $routes->get('productos/relacionados/(:num)', 'ProductosController::relacionados/$1'); // Productos relacionados
+    $routes->get('productos/buscar', 'ProductosController::buscar');            // Búsqueda de productos
+    
+    // Gestión de productos (requiere autenticación)
+    $routes->post('productos', 'ProductosController::create', ['filter' => 'jwt']);
+    $routes->put('productos/(:num)', 'ProductosController::update/$1', ['filter' => 'jwt']);
+    $routes->delete('productos/(:num)', 'ProductosController::delete/$1', ['filter' => 'jwt']);
+    
+    // ================================
+    // CATEGORÍAS API
+    // ================================
+    $routes->get('categorias', 'CategoriasController::index');                  // Listar todas las categorías
+    $routes->get('categorias/(:num)', 'CategoriasController::show/$1');         // Detalle de categoría
+    $routes->get('categorias/(:num)/productos', 'CategoriasController::productos/$1'); // Productos de una categoría
+    
+    // ================================
+    // USUARIO API (Requieren autenticación JWT)
+    // ================================
+    $routes->get('usuario/perfil', 'UsuariosController::perfil', ['filter' => 'jwt']);
+    $routes->put('usuario/perfil', 'UsuariosController::actualizarPerfil', ['filter' => 'jwt']);
+    $routes->get('usuario/pedidos', 'UsuariosController::pedidos', ['filter' => 'jwt']);
+    $routes->post('usuario/direccion', 'UsuariosController::agregarDireccion', ['filter' => 'jwt']);
+    
+    // ================================
+    // CARRITO API
+    // ================================
+    $routes->get('carrito', 'CarritoController::obtener');
+    $routes->post('carrito/agregar', 'CarritoController::agregar');
+    $routes->put('carrito/actualizar', 'CarritoController::actualizar');
+    $routes->delete('carrito/eliminar/(:any)', 'CarritoController::eliminar/$1');
+    $routes->delete('carrito/vaciar', 'CarritoController::vaciar');
+    
+    // ================================
+    // VENTAS API (Requieren autenticación JWT)
+    // ================================
+    $routes->post('ventas/procesar', 'VentasController::procesar', ['filter' => 'jwt']);
+    $routes->get('ventas/historial', 'VentasController::historial', ['filter' => 'jwt']);
+    $routes->get('ventas/(:num)', 'VentasController::detalle/$1', ['filter' => 'jwt']);
+    
+    // ================================
+    // MANEJO DE OPCIONES CORS
+    // ================================
+    $routes->options('(:any)', function() {
+        return service('response')->setStatusCode(200);
+    });
+});
