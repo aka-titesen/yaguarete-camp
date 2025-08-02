@@ -1,0 +1,331 @@
+// ===================================================================
+// COMPONENTE: BOTONES
+// ===================================================================
+
+// Importar mixins y variables
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+// ===================================================================
+// 1. BOTONES BASE
+// ===================================================================
+
+.btn-yaguarete {
+  @include button-base();
+
+  // Tamaños
+  &.btn-sm {
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+  }
+
+  &.btn-lg {
+    padding: $spacing-md $spacing-xl;
+    font-size: 1.125rem;
+  }
+
+  // Estados especiales
+  &.btn-loading {
+    position: relative;
+    color: transparent !important;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// ===================================================================
+// 2. VARIANTES DE COLOR
+// ===================================================================
+
+.btn-primary-yaguarete {
+  @include button-variant($primary, white, $primary-hover);
+}
+
+.btn-secondary-yaguarete {
+  @include button-variant($secondary, white, $secondary-hover);
+}
+
+.btn-success-yaguarete {
+  @include button-variant($success, white, $success-dark);
+}
+
+.btn-warning-yaguarete {
+  @include button-variant($warning, white, $warning-dark);
+}
+
+.btn-danger-yaguarete {
+  @include button-variant($danger, white, $danger-dark);
+}
+
+.btn-info-yaguarete {
+  @include button-variant($info, white, $info-dark);
+}
+
+// ===================================================================
+// 3. VARIANTES DE ESTILO
+// ===================================================================
+
+// 3.1 Botones con gradiente
+.btn-gradient-primary {
+  @include button-base();
+  background: $gradient-primary;
+  color: white;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #{$green-400} 0%, #{$green-800} 100%);
+    transform: translateY(-2px);
+    @include colored-shadow($primary, 0.5);
+  }
+}
+
+.btn-gradient-secondary {
+  @include button-base();
+  background: $gradient-secondary;
+  color: white;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #{$blue-400} 0%, #{$blue-800} 100%);
+    transform: translateY(-2px);
+    @include colored-shadow($secondary, 0.5);
+  }
+}
+
+// 3.2 Botones outline
+.btn-outline-primary-yaguarete {
+  @include button-base();
+  background: transparent;
+  color: $primary;
+  border: 2px solid $primary;
+
+  &:hover:not(:disabled) {
+    background: $primary;
+    color: white;
+    transform: translateY(-1px);
+  }
+}
+
+.btn-outline-secondary-yaguarete {
+  @include button-base();
+  background: transparent;
+  color: $secondary;
+  border: 2px solid $secondary;
+
+  &:hover:not(:disabled) {
+    background: $secondary;
+    color: white;
+    transform: translateY(-1px);
+  }
+}
+
+// 3.3 Botones ghost
+.btn-ghost-primary {
+  @include button-base();
+  background: transparent;
+  color: $primary;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background: rgba($primary, 0.1);
+    color: $primary-hover;
+  }
+}
+
+.btn-ghost-secondary {
+  @include button-base();
+  background: transparent;
+  color: $secondary;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background: rgba($secondary, 0.1);
+    color: $secondary-hover;
+  }
+}
+
+// 3.4 Botones con efecto glass
+.btn-glass {
+  @include button-base();
+  @include glass-morphism(0.1);
+  color: $text-primary;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover:not(:disabled) {
+    @include glass-morphism(0.15);
+    transform: translateY(-1px);
+  }
+}
+
+// ===================================================================
+// 4. BOTONES ESPECIALES
+// ===================================================================
+
+// 4.1 Botón flotante (FAB)
+.btn-fab {
+  @include button-base();
+  @include button-variant($primary);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: 0;
+  position: fixed;
+  bottom: $spacing-xl;
+  right: $spacing-xl;
+  z-index: $z-fixed;
+  @include shadow("lg");
+
+  &:hover:not(:disabled) {
+    transform: scale(1.1);
+    @include shadow("xl");
+  }
+
+  // Versión pequeña
+  &.btn-fab-sm {
+    width: 40px;
+    height: 40px;
+    bottom: $spacing-lg;
+    right: $spacing-lg;
+  }
+}
+
+// 4.2 Botón con icono
+.btn-icon {
+  @include flex-center();
+  gap: $spacing-sm;
+
+  .icon {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  // Solo icono
+  &.btn-icon-only {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+
+    &.btn-sm {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    &.btn-lg {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+}
+
+// 4.3 Grupo de botones
+.btn-group-yaguarete {
+  display: inline-flex;
+  border-radius: $radius-md;
+  overflow: hidden;
+  @include shadow("sm");
+
+  .btn-yaguarete {
+    border-radius: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:first-child {
+      border-radius: $radius-md 0 0 $radius-md;
+    }
+
+    &:last-child {
+      border-radius: 0 $radius-md $radius-md 0;
+      border-right: none;
+    }
+
+    &:only-child {
+      border-radius: $radius-md;
+      border-right: none;
+    }
+  }
+}
+
+// ===================================================================
+// 5. ESTADOS INTERACTIVOS
+// ===================================================================
+
+// 5.1 Loading state keyframes
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 5.2 Pulse effect para llamadas a la acción
+.btn-cta {
+  @include pulse($primary, 1.02);
+
+  &:hover {
+    animation: none; // Detener pulse en hover
+  }
+}
+
+// 5.3 Efecto ripple (para implementación futura con JS)
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:active::before {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+// ===================================================================
+// 6. RESPONSIVE ADJUSTMENTS
+// ===================================================================
+
+@include mobile-only {
+  .btn-yaguarete {
+    padding: $spacing-sm $spacing-md;
+    font-size: 0.9rem;
+  }
+
+  .btn-fab {
+    width: 48px;
+    height: 48px;
+    bottom: $spacing-lg;
+    right: $spacing-lg;
+  }
+}
+
+@include tablet-up {
+  .btn-group-yaguarete {
+    .btn-yaguarete {
+      min-width: 120px;
+    }
+  }
+}

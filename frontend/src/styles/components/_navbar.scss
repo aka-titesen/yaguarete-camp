@@ -1,0 +1,592 @@
+// ===================================================================
+// COMPONENTE: NAVBAR
+// ===================================================================
+
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+// ===================================================================
+// 1. NAVBAR BASE
+// ===================================================================
+
+.navbar-yaguarete {
+  background: $primary; // Mantener el color original #2A5C45
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  @include shadow("sm");
+  @include smooth-transition();
+
+  // Variantes de estilo
+  &.navbar-glass {
+    background: rgba($primary, 0.9);
+    @include glass-morphism(0.1);
+  }
+
+  &.navbar-gradient {
+    background: $gradient-primary;
+  }
+
+  &.navbar-transparent {
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
+
+    &.scrolled {
+      background: rgba($primary, 0.95);
+      @include shadow("md");
+    }
+  }
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// ===================================================================
+// 2. NAVBAR BRAND
+// ===================================================================
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  @include smooth-transition(transform);
+
+  &:hover {
+    color: white;
+    text-decoration: none;
+    transform: scale(1.05);
+  }
+
+  .brand-logo {
+    height: 2.5rem;
+    width: auto;
+  }
+
+  .brand-text {
+    .brand-name {
+      display: block;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      font-weight: 400;
+      line-height: 1;
+    }
+  }
+}
+
+// ===================================================================
+// 3. NAVBAR NAVIGATION
+// ===================================================================
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .nav-item {
+    position: relative;
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-md;
+      font-weight: 500;
+      @include smooth-transition();
+
+      &:hover,
+      &.active {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+      }
+
+      &.active {
+        background: rgba(255, 255, 255, 0.15);
+        font-weight: 600;
+      }
+
+      .nav-icon {
+        font-size: 1.1em;
+      }
+    }
+
+    // Dropdown menu
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 200px;
+      background: white;
+      border-radius: $radius-lg;
+      @include shadow("lg");
+      border: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      @include smooth-transition(opacity, visibility, transform);
+      z-index: $z-dropdown;
+
+      .dropdown-item {
+        display: block;
+        padding: $spacing-sm $spacing-md;
+        color: $text-primary;
+        text-decoration: none;
+        @include smooth-transition();
+
+        &:hover {
+          background: $neutral-50;
+          color: $primary;
+        }
+
+        &:first-child {
+          border-radius: $radius-lg $radius-lg 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 $radius-lg $radius-lg;
+        }
+      }
+
+      .dropdown-divider {
+        height: 1px;
+        background: $border-light;
+        margin: $spacing-xs 0;
+      }
+    }
+
+    &:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+}
+
+// ===================================================================
+// 4. NAVBAR ACTIONS
+// ===================================================================
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  .search-toggle,
+  .theme-toggle,
+  .notification-toggle {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    padding: $spacing-sm;
+    border-radius: $radius-md;
+    cursor: pointer;
+    @include smooth-transition();
+
+    &:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .notification-toggle {
+    position: relative;
+
+    .notification-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background: $danger;
+      border-radius: 50%;
+      border: 2px solid $primary;
+    }
+  }
+
+  .user-menu {
+    position: relative;
+
+    .user-avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      @include smooth-transition();
+
+      &:hover {
+        border-color: white;
+      }
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      min-width: 250px;
+      background: white;
+      border-radius: $radius-lg;
+      @include shadow("xl");
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      @include smooth-transition();
+      z-index: $z-dropdown;
+
+      .user-info {
+        padding: $spacing-md;
+        border-bottom: 1px solid $border-light;
+
+        .user-name {
+          font-weight: 600;
+          color: $text-primary;
+          margin-bottom: $spacing-xs;
+        }
+
+        .user-email {
+          color: $text-secondary;
+          font-size: 0.875rem;
+        }
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        padding: $spacing-sm $spacing-md;
+        color: $text-primary;
+        text-decoration: none;
+        @include smooth-transition();
+
+        &:hover {
+          background: $neutral-50;
+          color: $primary;
+        }
+
+        &.danger {
+          color: $danger;
+
+          &:hover {
+            background: rgba($danger, 0.1);
+            color: $danger;
+          }
+        }
+      }
+    }
+
+    &:hover .user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+}
+
+// ===================================================================
+// 5. MOBILE NAVBAR
+// ===================================================================
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  @include smooth-transition();
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.navbar-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: $z-modal;
+
+  .mobile-menu-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100%;
+    background: white;
+    @include shadow("2xl");
+    transform: translateX(100%);
+    @include smooth-transition(transform);
+    overflow-y: auto;
+
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: $spacing-lg;
+      border-bottom: 1px solid $border-light;
+
+      .mobile-brand {
+        color: $primary;
+        font-weight: 700;
+        font-size: 1.25rem;
+      }
+
+      .mobile-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: $text-secondary;
+        cursor: pointer;
+      }
+    }
+
+    .mobile-nav {
+      padding: $spacing-lg 0;
+
+      .mobile-nav-item {
+        .mobile-nav-link {
+          display: flex;
+          align-items: center;
+          gap: $spacing-sm;
+          padding: $spacing-md $spacing-lg;
+          color: $text-primary;
+          text-decoration: none;
+          @include smooth-transition();
+
+          &:hover,
+          &.active {
+            background: $neutral-50;
+            color: $primary;
+          }
+
+          .nav-icon {
+            font-size: 1.1em;
+          }
+        }
+
+        .mobile-submenu {
+          background: $neutral-50;
+
+          .mobile-nav-link {
+            padding-left: $spacing-3xl;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .mobile-actions {
+      padding: $spacing-lg;
+      border-top: 1px solid $border-light;
+
+      .action-button {
+        width: 100%;
+        margin-bottom: $spacing-sm;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &.show {
+    display: block;
+
+    .mobile-menu-content {
+      transform: translateX(0);
+    }
+  }
+}
+
+// ===================================================================
+// 6. SEARCH BAR
+// ===================================================================
+
+.navbar-search {
+  position: relative;
+
+  .search-input {
+    width: 300px;
+    padding: $spacing-sm $spacing-md;
+    padding-right: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: $radius-full;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    @include smooth-transition();
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .search-button {
+    position: absolute;
+    right: $spacing-xs;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: $radius-lg;
+    @include shadow("lg");
+    margin-top: $spacing-sm;
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    @include smooth-transition();
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .search-result {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding: $spacing-sm $spacing-md;
+      text-decoration: none;
+      color: $text-primary;
+      @include smooth-transition();
+
+      &:hover {
+        background: $neutral-50;
+      }
+
+      .result-icon {
+        color: $text-muted;
+      }
+
+      .result-content {
+        .result-title {
+          font-weight: 500;
+        }
+
+        .result-description {
+          font-size: 0.875rem;
+          color: $text-secondary;
+        }
+      }
+    }
+  }
+}
+
+// ===================================================================
+// 7. RESPONSIVE BREAKPOINTS
+// ===================================================================
+
+@include mobile-only {
+  .navbar-yaguarete {
+    .navbar-nav {
+      display: none;
+    }
+
+    .navbar-toggle {
+      display: block;
+    }
+
+    .navbar-search {
+      display: none;
+    }
+  }
+}
+
+@include tablet-up {
+  .navbar-content {
+    padding: $spacing-md $spacing-xl;
+  }
+
+  .navbar-search .search-input {
+    width: 250px;
+  }
+}
+
+@include desktop-up {
+  .navbar-search .search-input {
+    width: 350px;
+  }
+}
+
+// ===================================================================
+// 8. STICKY NAVBAR
+// ===================================================================
+
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+
+  &.scrolled {
+    @include shadow("md");
+
+    &.navbar-transparent {
+      background: rgba($primary, 0.95);
+    }
+  }
+}
+
+// ===================================================================
+// 9. NAVBAR ANIMATIONS
+// ===================================================================
+
+.navbar-slide-down {
+  transform: translateY(-100%);
+  @include smooth-transition(transform);
+
+  &.visible {
+    transform: translateY(0);
+  }
+}
+
+.navbar-fade-in {
+  opacity: 0;
+  @include smooth-transition(opacity);
+
+  &.visible {
+    opacity: 1;
+  }
+}

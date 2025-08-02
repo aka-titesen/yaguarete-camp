@@ -1,0 +1,281 @@
+// ===================================================================
+// YAGUARETÉ CAMP - ESTILOS PRINCIPALES
+// ===================================================================
+// Archivo principal que importa todos los estilos del sistema
+
+// 1. BOOTSTRAP
+@import "bootstrap/scss/bootstrap";
+
+// 2. ABSTRACTS (Variables y Mixins)
+@import "abstracts/variables";
+@import "abstracts/mixins";
+
+// 3. COMPONENTES BASE
+@import "components/buttons";
+@import "components/cards";
+@import "components/forms";
+@import "components/skeletons";
+@import "components/navbar";
+
+// ===================================================================
+// 4. ESTILOS GLOBALES
+// ===================================================================
+
+// 4.1 Reset y base
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $text-primary;
+  background-color: $surface-secondary;
+  line-height: 1.6;
+}
+
+// 4.2 Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  color: $text-primary;
+  margin-bottom: $spacing-md;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1.25rem;
+}
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  margin-bottom: $spacing-md;
+  color: $text-secondary;
+}
+
+// 4.3 Enlaces
+a {
+  color: $primary;
+  text-decoration: none;
+  @include smooth-transition(color);
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+  }
+}
+
+// 4.4 Utilidades de layout
+.container-fluid {
+  padding-left: $spacing-lg;
+  padding-right: $spacing-lg;
+}
+
+.section-padding {
+  padding-top: $spacing-3xl;
+  padding-bottom: $spacing-3xl;
+}
+
+// ===================================================================
+// 5. CLASES UTILITARIAS PERSONALIZADAS
+// ===================================================================
+
+// 5.1 Gradientes
+.gradient-primary {
+  background: $gradient-primary;
+}
+
+.gradient-secondary {
+  background: $gradient-secondary;
+}
+
+.gradient-hero {
+  background: $gradient-hero;
+}
+
+.gradient-text {
+  @include gradient-text();
+}
+
+// 5.2 Sombras
+.shadow-colored-primary {
+  @include colored-shadow($primary);
+}
+
+.shadow-colored-secondary {
+  @include colored-shadow($secondary);
+}
+
+.shadow-glass {
+  box-shadow: $glass-shadow;
+}
+
+// 5.3 Glass morphism
+.glass {
+  @include glass-morphism();
+}
+
+.glass-dark {
+  @include glass-morphism(0.1);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+// 5.4 Animaciones
+.hover-lift {
+  @include hover-lift();
+}
+
+.pulse {
+  @include pulse();
+}
+
+.fade-in {
+  @include fade-in();
+}
+
+// 5.5 Layout helpers
+.flex-center {
+  @include flex-center();
+}
+
+.grid-responsive {
+  @include grid-responsive();
+}
+
+// 5.6 Text utilities
+.text-truncate {
+  @include truncate();
+}
+
+.text-clamp-2 {
+  @include line-clamp(2);
+}
+
+.text-clamp-3 {
+  @include line-clamp(3);
+}
+
+// ===================================================================
+// 6. RESPONSIVE UTILITIES
+// ===================================================================
+
+// 6.1 Spacing responsive
+@include tablet-up {
+  .section-padding {
+    padding-top: $spacing-3xl * 1.5;
+    padding-bottom: $spacing-3xl * 1.5;
+  }
+}
+
+@include desktop-up {
+  .section-padding {
+    padding-top: $spacing-3xl * 2;
+    padding-bottom: $spacing-3xl * 2;
+  }
+}
+
+// 6.2 Typography responsive
+@include mobile-only {
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.75rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+// ===================================================================
+// 7. OVERRIDE DE BOOTSTRAP
+// ===================================================================
+
+// 7.1 Variables de Bootstrap personalizadas
+:root {
+  --bs-primary: #{$primary};
+  --bs-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+  --bs-secondary: #{$secondary};
+  --bs-secondary-rgb: #{red($secondary)}, #{green($secondary)},
+    #{blue($secondary)};
+  --bs-success: #{$success};
+  --bs-warning: #{$warning};
+  --bs-danger: #{$danger};
+  --bs-info: #{$info};
+  --bs-border-radius: #{$radius-md};
+  --bs-border-radius-sm: #{$radius-sm};
+  --bs-border-radius-lg: #{$radius-lg};
+  --bs-border-radius-xl: #{$radius-xl};
+}
+
+// 7.2 Mejoras en componentes de Bootstrap
+.btn {
+  @include smooth-transition();
+  font-weight: 600;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.card {
+  border: none;
+  @include shadow("sm");
+  @include smooth-transition();
+
+  &:hover {
+    @include shadow("md");
+    transform: translateY(-2px);
+  }
+}
+
+.navbar {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+// ===================================================================
+// 8. DARK MODE SUPPORT (Preparación futura)
+// ===================================================================
+
+@media (prefers-color-scheme: dark) {
+  // Variables para modo oscuro se implementarán en sprint futuro
+}
+
+// ===================================================================
+// 9. PRINT STYLES
+// ===================================================================
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}

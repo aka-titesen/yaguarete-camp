@@ -1,0 +1,426 @@
+// ===================================================================
+// COMPONENTE: SKELETON LOADING
+// ===================================================================
+
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+// ===================================================================
+// 1. SKELETON BASE
+// ===================================================================
+
+.skeleton {
+  @include shimmer();
+  border-radius: $radius-sm;
+
+  // Variantes de altura
+  &.skeleton-text {
+    height: 1rem;
+    margin-bottom: $spacing-xs;
+  }
+
+  &.skeleton-title {
+    height: 1.5rem;
+    margin-bottom: $spacing-sm;
+  }
+
+  &.skeleton-subtitle {
+    height: 1.25rem;
+    margin-bottom: $spacing-sm;
+  }
+
+  &.skeleton-button {
+    height: 2.5rem;
+    border-radius: $radius-md;
+  }
+
+  &.skeleton-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+
+  &.skeleton-image {
+    height: 12rem;
+    border-radius: $radius-lg;
+  }
+
+  &.skeleton-card {
+    height: 8rem;
+    border-radius: $radius-lg;
+  }
+}
+
+// ===================================================================
+// 2. SKELETON LAYOUTS
+// ===================================================================
+
+// 2.1 Skeleton para tarjeta de producto
+.skeleton-product-card {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $surface-primary;
+  @include shadow("sm");
+
+  .skeleton-image {
+    width: 100%;
+    height: 200px;
+    margin-bottom: $spacing-md;
+    border-radius: $radius-md;
+  }
+
+  .skeleton-title {
+    width: 80%;
+    margin-bottom: $spacing-sm;
+  }
+
+  .skeleton-text {
+    width: 60%;
+    margin-bottom: $spacing-xs;
+
+    &:nth-child(3) {
+      width: 90%;
+    }
+
+    &:nth-child(4) {
+      width: 70%;
+    }
+  }
+
+  .skeleton-price {
+    width: 40%;
+    height: 1.5rem;
+    margin: $spacing-md 0 $spacing-sm 0;
+  }
+
+  .skeleton-button {
+    width: 100%;
+    margin-top: $spacing-md;
+  }
+}
+
+// 2.2 Skeleton para lista de artículos
+.skeleton-article-list {
+  .skeleton-article-item {
+    display: flex;
+    gap: $spacing-lg;
+    padding: $spacing-lg;
+    margin-bottom: $spacing-md;
+    background: $surface-primary;
+    border-radius: $radius-lg;
+    @include shadow("sm");
+
+    .skeleton-image {
+      width: 120px;
+      height: 80px;
+      flex-shrink: 0;
+    }
+
+    .skeleton-content {
+      flex: 1;
+
+      .skeleton-title {
+        width: 85%;
+        margin-bottom: $spacing-sm;
+      }
+
+      .skeleton-text {
+        margin-bottom: $spacing-xs;
+
+        &:nth-child(2) {
+          width: 95%;
+        }
+        &:nth-child(3) {
+          width: 75%;
+        }
+        &:nth-child(4) {
+          width: 60%;
+        }
+      }
+
+      .skeleton-meta {
+        display: flex;
+        gap: $spacing-md;
+        margin-top: $spacing-md;
+
+        .skeleton-tag {
+          width: 60px;
+          height: 1.5rem;
+          border-radius: $radius-full;
+        }
+      }
+    }
+  }
+}
+
+// 2.3 Skeleton para perfil de usuario
+.skeleton-user-profile {
+  text-align: center;
+  padding: $spacing-xl;
+  background: $surface-primary;
+  border-radius: $radius-lg;
+  @include shadow("sm");
+
+  .skeleton-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto $spacing-lg auto;
+  }
+
+  .skeleton-name {
+    width: 60%;
+    height: 1.5rem;
+    margin: 0 auto $spacing-sm auto;
+  }
+
+  .skeleton-role {
+    width: 40%;
+    height: 1rem;
+    margin: 0 auto $spacing-lg auto;
+  }
+
+  .skeleton-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: $spacing-lg;
+
+    .skeleton-stat {
+      text-align: center;
+
+      .skeleton-number {
+        width: 40px;
+        height: 1.5rem;
+        margin-bottom: $spacing-xs;
+      }
+
+      .skeleton-label {
+        width: 60px;
+        height: 0.875rem;
+      }
+    }
+  }
+
+  .skeleton-bio {
+    .skeleton-text {
+      margin: 0 auto $spacing-xs auto;
+
+      &:nth-child(1) {
+        width: 90%;
+      }
+      &:nth-child(2) {
+        width: 80%;
+      }
+      &:nth-child(3) {
+        width: 60%;
+      }
+    }
+  }
+}
+
+// 2.4 Skeleton para tabla
+.skeleton-table {
+  .skeleton-table-header {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-bottom: 1px solid $border-light;
+
+    .skeleton-header-cell {
+      height: 1rem;
+    }
+  }
+
+  .skeleton-table-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-bottom: 1px solid $border-light;
+
+    &:nth-child(even) {
+      background: $surface-secondary;
+    }
+
+    .skeleton-cell {
+      height: 1rem;
+
+      &:nth-child(1) {
+        width: 80%;
+      }
+      &:nth-child(2) {
+        width: 60%;
+      }
+      &:nth-child(3) {
+        width: 70%;
+      }
+      &:nth-child(4) {
+        width: 90%;
+      }
+    }
+  }
+}
+
+// ===================================================================
+// 3. SKELETON ESPECIALIZADO
+// ===================================================================
+
+// 3.1 Skeleton para navbar
+.skeleton-navbar {
+  height: 64px;
+  background: $surface-primary;
+  @include shadow("sm");
+
+  .skeleton-nav-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 $spacing-lg;
+
+    .skeleton-logo {
+      width: 120px;
+      height: 2rem;
+    }
+
+    .skeleton-nav-items {
+      display: flex;
+      gap: $spacing-xl;
+
+      .skeleton-nav-item {
+        width: 80px;
+        height: 1rem;
+      }
+    }
+
+    .skeleton-user-menu {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+    }
+  }
+}
+
+// 3.2 Skeleton para footer
+.skeleton-footer {
+  background: $surface-dark;
+  padding: $spacing-3xl $spacing-lg;
+
+  .skeleton-footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: $spacing-xl;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .skeleton-footer-section {
+      .skeleton-footer-title {
+        width: 60%;
+        height: 1.25rem;
+        margin-bottom: $spacing-lg;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .skeleton-footer-link {
+        width: 80%;
+        height: 1rem;
+        margin-bottom: $spacing-sm;
+        background: rgba(255, 255, 255, 0.2);
+
+        &:nth-child(even) {
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+
+// ===================================================================
+// 4. SKELETON VARIATIONS
+// ===================================================================
+
+// 4.1 Variación con colores oscuros
+.skeleton-dark {
+  @include shimmer($neutral-700, $neutral-600);
+}
+
+// 4.2 Variación con bordes redondeados
+.skeleton-rounded {
+  border-radius: $radius-xl;
+}
+
+.skeleton-rounded-full {
+  border-radius: $radius-full;
+}
+
+// 4.3 Variación con animación más lenta
+.skeleton-slow {
+  animation-duration: 2.5s;
+}
+
+// 4.4 Variación con animación más rápida
+.skeleton-fast {
+  animation-duration: 1s;
+}
+
+// ===================================================================
+// 5. RESPONSIVE ADJUSTMENTS
+// ===================================================================
+
+@include mobile-only {
+  .skeleton-article-item {
+    flex-direction: column;
+
+    .skeleton-image {
+      width: 100%;
+      height: 120px;
+    }
+  }
+
+  .skeleton-table-header,
+  .skeleton-table-row {
+    grid-template-columns: 1fr 1fr;
+
+    .skeleton-header-cell:nth-child(n + 3),
+    .skeleton-cell:nth-child(n + 3) {
+      display: none;
+    }
+  }
+
+  .skeleton-nav-items {
+    display: none;
+  }
+}
+
+@include tablet-up {
+  .skeleton-product-card {
+    .skeleton-image {
+      height: 250px;
+    }
+  }
+
+  .skeleton-user-profile {
+    .skeleton-avatar {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
+// ===================================================================
+// 6. ACCESSIBILITY
+// ===================================================================
+
+.skeleton {
+  // Anunciar a lectores de pantalla que el contenido se está cargando
+  &::before {
+    content: "Loading...";
+    @include visually-hidden();
+  }
+
+  // Reducir animación para usuarios con preferencias de movimiento reducido
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background: $neutral-200;
+  }
+}

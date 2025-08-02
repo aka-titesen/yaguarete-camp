@@ -1,0 +1,528 @@
+// ===================================================================
+// COMPONENTE: CARDS
+// ===================================================================
+
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+// ===================================================================
+// 1. CARD BASE
+// ===================================================================
+
+.card-yaguarete {
+  @include card();
+
+  // Variantes de tamaño
+  &.card-sm {
+    padding: $spacing-md;
+  }
+
+  &.card-lg {
+    padding: $spacing-xl;
+  }
+
+  // Estados especiales
+  &.card-interactive {
+    cursor: pointer;
+    @include hover-lift(6px, $shadow-xl);
+  }
+
+  &.card-selected {
+    border: 2px solid $primary;
+    @include colored-shadow($primary, 0.3);
+  }
+}
+
+// ===================================================================
+// 2. CARD LAYOUTS
+// ===================================================================
+
+// 2.1 Card con header
+.card-with-header {
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: $spacing-md;
+    margin-bottom: $spacing-md;
+    border-bottom: 1px solid $border-light;
+
+    .card-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+// 2.2 Card con imagen
+.card-image-top {
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: $radius-lg $radius-lg 0 0;
+    margin: (-$spacing-lg) (-$spacing-lg) $spacing-lg (-$spacing-lg);
+  }
+}
+
+.card-image-left {
+  display: flex;
+  gap: $spacing-lg;
+
+  .card-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: $radius-md;
+    flex-shrink: 0;
+  }
+
+  .card-content {
+    flex: 1;
+  }
+}
+
+// 2.3 Card con footer
+.card-with-footer {
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $spacing-md;
+    margin-top: $spacing-md;
+    border-top: 1px solid $border-light;
+  }
+}
+
+// ===================================================================
+// 3. CARD SPECIALIZATIONS
+// ===================================================================
+
+// 3.1 Product Card
+.product-card {
+  @include card();
+  overflow: hidden;
+
+  .product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    margin: (-$spacing-lg) (-$spacing-lg) $spacing-md (-$spacing-lg);
+    @include smooth-transition(transform);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    background: $gradient-primary;
+    color: white;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-full;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .product-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: $spacing-sm;
+    @include line-clamp(2);
+  }
+
+  .product-description {
+    color: $text-secondary;
+    margin-bottom: $spacing-md;
+    @include line-clamp(3);
+  }
+
+  .product-price {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    .current-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $primary;
+    }
+
+    .original-price {
+      font-size: 1rem;
+      color: $text-muted;
+      text-decoration: line-through;
+    }
+
+    .discount-badge {
+      background: $danger;
+      color: white;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-sm;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  }
+
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-md;
+
+    .stars {
+      color: $amber-400;
+    }
+
+    .rating-text {
+      color: $text-secondary;
+      font-size: 0.875rem;
+    }
+  }
+
+  &:hover {
+    .product-image {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// 3.2 User Card
+.user-card {
+  @include card();
+  text-align: center;
+
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto $spacing-md auto;
+    border: 3px solid $primary;
+  }
+
+  .user-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: $spacing-xs;
+  }
+
+  .user-role {
+    color: $text-secondary;
+    margin-bottom: $spacing-md;
+  }
+
+  .user-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: $spacing-lg;
+
+    .stat {
+      text-align: center;
+
+      .stat-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $primary;
+        display: block;
+      }
+
+      .stat-label {
+        font-size: 0.875rem;
+        color: $text-secondary;
+      }
+    }
+  }
+
+  .user-actions {
+    display: flex;
+    gap: $spacing-sm;
+    justify-content: center;
+  }
+}
+
+// 3.3 Stat Card
+.stat-card {
+  @include card();
+  text-align: center;
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto $spacing-md auto;
+    padding: $spacing-sm;
+    border-radius: 50%;
+    background: $gradient-primary;
+    color: white;
+    @include flex-center();
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  .stat-label {
+    color: $text-secondary;
+    margin-bottom: $spacing-sm;
+  }
+
+  .stat-change {
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    &.positive {
+      color: $success;
+    }
+
+    &.negative {
+      color: $danger;
+    }
+
+    &.neutral {
+      color: $text-muted;
+    }
+  }
+
+  // Variantes de color para el icono
+  &.stat-success .stat-icon {
+    background: $gradient-success;
+  }
+
+  &.stat-warning .stat-icon {
+    background: $gradient-warning;
+  }
+
+  &.stat-danger .stat-icon {
+    background: $gradient-danger;
+  }
+
+  &.stat-info .stat-icon {
+    background: $gradient-secondary;
+  }
+}
+
+// 3.4 Article Card
+.article-card {
+  @include card();
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    font-size: 0.875rem;
+    color: $text-secondary;
+
+    .author-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+  }
+
+  .article-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: $spacing-sm;
+    @include line-clamp(2);
+
+    a {
+      color: $text-primary;
+      text-decoration: none;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .article-excerpt {
+    color: $text-secondary;
+    margin-bottom: $spacing-md;
+    @include line-clamp(3);
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-md;
+
+    .tag {
+      background: $neutral-100;
+      color: $text-secondary;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-full;
+      font-size: 0.75rem;
+      text-decoration: none;
+
+      &:hover {
+        background: $primary;
+        color: white;
+      }
+    }
+  }
+
+  .article-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .read-time {
+      color: $text-muted;
+      font-size: 0.875rem;
+    }
+
+    .article-actions {
+      display: flex;
+      gap: $spacing-sm;
+
+      .action-btn {
+        background: none;
+        border: none;
+        color: $text-muted;
+        cursor: pointer;
+        @include smooth-transition(color);
+
+        &:hover {
+          color: $primary;
+        }
+
+        &.liked {
+          color: $danger;
+        }
+      }
+    }
+  }
+}
+
+// ===================================================================
+// 4. CARD EFFECTS
+// ===================================================================
+
+// 4.1 Glass Card
+.card-glass {
+  @include glass-morphism();
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  &:hover {
+    @include glass-morphism(0.12);
+  }
+}
+
+// 4.2 Gradient Border Card
+.card-gradient-border {
+  position: relative;
+  background: $surface-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    background: $gradient-primary;
+    border-radius: $radius-lg;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+  }
+}
+
+// 4.3 Floating Card
+.card-floating {
+  @include card($shadow: $shadow-lg);
+  transform: translateY(-4px);
+
+  &:hover {
+    transform: translateY(-8px);
+    @include shadow("xl");
+  }
+}
+
+// ===================================================================
+// 5. CARD GRIDS
+// ===================================================================
+
+.cards-grid {
+  @include grid-responsive(280px, $spacing-lg);
+
+  &.cards-grid-sm {
+    @include grid-responsive(240px, $spacing-md);
+  }
+
+  &.cards-grid-lg {
+    @include grid-responsive(320px, $spacing-xl);
+  }
+}
+
+.cards-masonry {
+  columns: 3;
+  column-gap: $spacing-lg;
+
+  .card-yaguarete {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: $spacing-lg;
+    break-inside: avoid;
+  }
+}
+
+// ===================================================================
+// 6. RESPONSIVE ADJUSTMENTS
+// ===================================================================
+
+@include mobile-only {
+  .card-image-left {
+    flex-direction: column;
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+    }
+  }
+
+  .user-card .user-stats {
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  .cards-masonry {
+    columns: 1;
+  }
+}
+
+@include tablet-up {
+  .cards-masonry {
+    columns: 2;
+  }
+}
+
+@include desktop-up {
+  .cards-masonry {
+    columns: 3;
+  }
+}
+
+// ===================================================================
+// 7. DARK MODE VARIATIONS (Preparación)
+// ===================================================================
+
+// Variables para modo oscuro se implementarán en sprint futuro
+// @media (prefers-color-scheme: dark) {
+//   .card-yaguarete {
+//     background: $surface-dark;
+//     color: $text-white;
+//   }
+// }

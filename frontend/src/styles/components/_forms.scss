@@ -1,0 +1,590 @@
+// ===================================================================
+// COMPONENTE: FORMS
+// ===================================================================
+
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+// ===================================================================
+// 1. FORM BASE
+// ===================================================================
+
+.form-yaguarete {
+  .form-group {
+    margin-bottom: $spacing-lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  .form-help {
+    margin-top: $spacing-xs;
+    font-size: 0.875rem;
+    color: $text-muted;
+  }
+
+  .form-error {
+    margin-top: $spacing-xs;
+    font-size: 0.875rem;
+    color: $danger;
+  }
+}
+
+// ===================================================================
+// 2. INPUT FIELDS
+// ===================================================================
+
+.input-yaguarete {
+  @include input-field();
+
+  // Variantes de tamaño
+  &.input-sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: 0.875rem;
+  }
+
+  &.input-lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: 1.125rem;
+  }
+
+  // Estados
+  &.is-valid {
+    border-color: $success;
+
+    &:focus {
+      border-color: $success;
+      box-shadow: 0 0 0 3px rgba($success, 0.1);
+    }
+  }
+
+  &.is-invalid {
+    border-color: $danger;
+
+    &:focus {
+      border-color: $danger;
+      box-shadow: 0 0 0 3px rgba($danger, 0.1);
+    }
+  }
+
+  &:disabled {
+    background-color: $neutral-100;
+    color: $text-muted;
+    cursor: not-allowed;
+  }
+}
+
+// ===================================================================
+// 3. INPUT GROUPS
+// ===================================================================
+
+.input-group {
+  display: flex;
+  width: 100%;
+
+  .input-group-text {
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    background-color: $neutral-100;
+    border: 2px solid $border-light;
+    color: $text-secondary;
+    font-size: 1rem;
+
+    &:first-child {
+      border-right: none;
+      border-radius: $radius-md 0 0 $radius-md;
+    }
+
+    &:last-child {
+      border-left: none;
+      border-radius: 0 $radius-md $radius-md 0;
+    }
+  }
+
+  .input-yaguarete {
+    flex: 1;
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: $radius-md 0 0 $radius-md;
+    }
+
+    &:last-child {
+      border-radius: 0 $radius-md $radius-md 0;
+    }
+
+    &:only-child {
+      border-radius: $radius-md;
+    }
+
+    &:not(:first-child) {
+      border-left: none;
+    }
+
+    &:not(:last-child) {
+      border-right: none;
+    }
+
+    &:focus {
+      z-index: 3;
+      border-left: 2px solid $primary;
+      border-right: 2px solid $primary;
+    }
+  }
+}
+
+// ===================================================================
+// 4. FLOATING LABELS
+// ===================================================================
+
+.form-floating {
+  position: relative;
+
+  .input-yaguarete {
+    height: 3.5rem;
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+
+    &:focus,
+    &:not(:placeholder-shown) {
+      ~ .floating-label {
+        opacity: 0.65;
+        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+      }
+    }
+  }
+
+  .floating-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 1rem $spacing-md;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    @include smooth-transition(opacity, transform);
+    color: $text-muted;
+  }
+}
+
+// ===================================================================
+// 5. CHECKBOXES Y RADIOS
+// ===================================================================
+
+.form-check {
+  position: relative;
+  display: block;
+  margin-bottom: $spacing-sm;
+
+  .form-check-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .form-check-label::before {
+      background-color: $primary;
+      border-color: $primary;
+    }
+
+    &:checked ~ .form-check-label::after {
+      opacity: 1;
+    }
+
+    &:focus ~ .form-check-label::before {
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+  }
+
+  .form-check-label {
+    display: block;
+    position: relative;
+    padding-left: 2rem;
+    cursor: pointer;
+    line-height: 1.5;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.125rem;
+      left: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: $surface-primary;
+      border: 2px solid $border-medium;
+      border-radius: $radius-sm;
+      @include smooth-transition();
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0.375rem;
+      left: 0.25rem;
+      width: 0.75rem;
+      height: 0.375rem;
+      border: solid white;
+      border-width: 0 0 2px 2px;
+      transform: rotate(-45deg);
+      opacity: 0;
+      @include smooth-transition(opacity);
+    }
+  }
+
+  // Radio buttons
+  &.form-check-radio {
+    .form-check-label::before {
+      border-radius: 50%;
+    }
+
+    .form-check-label::after {
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      transform: none;
+    }
+  }
+}
+
+// ===================================================================
+// 6. SELECT FIELDS
+// ===================================================================
+
+.select-yaguarete {
+  position: relative;
+
+  select {
+    @include input-field();
+    appearance: none;
+    padding-right: 2.5rem;
+    cursor: pointer;
+
+    &:focus {
+      ~ .select-arrow {
+        color: $primary;
+      }
+    }
+  }
+
+  .select-arrow {
+    position: absolute;
+    top: 50%;
+    right: $spacing-md;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: $text-muted;
+    @include smooth-transition(color);
+  }
+}
+
+// ===================================================================
+// 7. TEXTAREA
+// ===================================================================
+
+.textarea-yaguarete {
+  @include input-field();
+  min-height: 120px;
+  resize: vertical;
+
+  &.textarea-auto-resize {
+    resize: none;
+    overflow-y: hidden;
+  }
+}
+
+// ===================================================================
+// 8. FILE UPLOAD
+// ===================================================================
+
+.file-upload {
+  position: relative;
+  display: inline-block;
+
+  .file-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .file-label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-lg;
+    background: $gradient-primary;
+    color: white;
+    border-radius: $radius-md;
+    cursor: pointer;
+    @include smooth-transition();
+
+    &:hover {
+      background: linear-gradient(135deg, #{$green-400} 0%, #{$green-800} 100%);
+      transform: translateY(-1px);
+    }
+  }
+
+  // Drag and drop zone
+  &.file-dropzone {
+    width: 100%;
+    padding: $spacing-3xl;
+    border: 2px dashed $border-medium;
+    border-radius: $radius-lg;
+    text-align: center;
+    @include smooth-transition();
+
+    .file-label {
+      background: none;
+      color: $text-secondary;
+      flex-direction: column;
+      gap: $spacing-md;
+
+      .upload-icon {
+        font-size: 3rem;
+        color: $text-muted;
+      }
+
+      .upload-text {
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+
+      .upload-hint {
+        font-size: 0.875rem;
+        color: $text-muted;
+      }
+    }
+
+    &:hover,
+    &.dragover {
+      border-color: $primary;
+      background-color: rgba($primary, 0.05);
+
+      .file-label {
+        color: $primary;
+
+        .upload-icon {
+          color: $primary;
+        }
+      }
+    }
+  }
+}
+
+// ===================================================================
+// 9. FORM VALIDATION
+// ===================================================================
+
+.form-validation {
+  .field-valid {
+    .input-yaguarete,
+    .textarea-yaguarete,
+    .select-yaguarete select {
+      border-color: $success;
+
+      &:focus {
+        border-color: $success;
+        box-shadow: 0 0 0 3px rgba($success, 0.1);
+      }
+    }
+
+    .validation-message {
+      color: $success;
+      font-size: 0.875rem;
+      margin-top: $spacing-xs;
+
+      &::before {
+        content: "✓ ";
+      }
+    }
+  }
+
+  .field-invalid {
+    .input-yaguarete,
+    .textarea-yaguarete,
+    .select-yaguarete select {
+      border-color: $danger;
+
+      &:focus {
+        border-color: $danger;
+        box-shadow: 0 0 0 3px rgba($danger, 0.1);
+      }
+    }
+
+    .validation-message {
+      color: $danger;
+      font-size: 0.875rem;
+      margin-top: $spacing-xs;
+
+      &::before {
+        content: "⚠ ";
+      }
+    }
+  }
+}
+
+// ===================================================================
+// 10. FORM LAYOUTS
+// ===================================================================
+
+.form-grid {
+  display: grid;
+  gap: $spacing-lg;
+
+  &.form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &.form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .form-group-full {
+    grid-column: 1 / -1;
+  }
+}
+
+.form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: $spacing-md;
+
+  .form-group {
+    margin-bottom: 0;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .form-actions {
+    flex-shrink: 0;
+  }
+}
+
+// ===================================================================
+// 11. FORM SECTIONS
+// ===================================================================
+
+.form-section {
+  margin-bottom: $spacing-3xl;
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-sm;
+    border-bottom: 2px solid $border-light;
+  }
+
+  .section-description {
+    color: $text-secondary;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.form-card {
+  @include card();
+
+  .form-header {
+    margin-bottom: $spacing-xl;
+    text-align: center;
+
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: $spacing-sm;
+    }
+
+    .form-subtitle {
+      color: $text-secondary;
+    }
+  }
+
+  .form-footer {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-lg;
+    border-top: 1px solid $border-light;
+    text-align: center;
+  }
+}
+
+// ===================================================================
+// 12. RESPONSIVE ADJUSTMENTS
+// ===================================================================
+
+@include mobile-only {
+  .form-grid-2,
+  .form-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-inline {
+    flex-direction: column;
+
+    .form-group {
+      width: 100%;
+      min-width: auto;
+    }
+  }
+
+  .input-group {
+    flex-direction: column;
+
+    .input-group-text,
+    .input-yaguarete {
+      border-radius: $radius-md;
+      border: 2px solid $border-light;
+    }
+
+    .input-group-text:not(:first-child),
+    .input-yaguarete:not(:first-child) {
+      margin-top: -2px;
+    }
+  }
+}
+
+@include tablet-up {
+  .form-grid-3 {
+    &.form-responsive {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+// ===================================================================
+// 13. ACCESSIBILITY ENHANCEMENTS
+// ===================================================================
+
+.form-yaguarete {
+  // Asegurar que los labels estén asociados correctamente
+  .form-label[for] {
+    cursor: pointer;
+  }
+
+  // Mejorar el contraste para usuarios con problemas de visión
+  .form-check-input:focus ~ .form-check-label::before {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+
+  // Reducir animaciones para usuarios con preferencias de movimiento reducido
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+    }
+  }
+}
